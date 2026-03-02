@@ -283,7 +283,7 @@
 
     <script>
         const rawData = {
-    "timestamp": "02/03/2569 10:44:31",
+    "timestamp": "02/03/2569 11:51:30",
     "sections": [
         {
             "id": 1,
@@ -390,23 +390,23 @@
             "details": [
                 {
                     "Service Team": "Branch",
-                    "Y": 0,
-                    "N": 325
+                    "Y": 2989,
+                    "N": 1606
                 },
                 {
                     "Service Team": "DC",
-                    "Y": 0,
-                    "N": 34
+                    "Y": 798,
+                    "N": 121
                 },
                 {
                     "Service Team": "HO",
-                    "Y": 0,
-                    "N": 265
+                    "Y": 1190,
+                    "N": 256
                 },
                 {
                     "Service Team": "Unknown",
-                    "Y": 0,
-                    "N": 9
+                    "Y": 6,
+                    "N": 7
                 }
             ]
         },
@@ -502,16 +502,16 @@
             const urgentContainer = document.getElementById('urgent-actions-container'); urgentContainer.innerHTML = '';
             const roadmapGrid = document.getElementById('roadmap-grid'); roadmapGrid.innerHTML = '';
             
-            // Warm Color Palette for Cards
+            // Warm Pastel Gradient Palette for Cards
             const cardStyles = [
-                { bg: 'bg-amber-50', border: 'border-amber-200', text: 'text-amber-700', icon: 'bg-amber-100', accent: 'text-amber-500' },
-                { bg: 'bg-rose-50', border: 'border-rose-200', text: 'text-rose-700', icon: 'bg-rose-100', accent: 'text-rose-500' },
-                { bg: 'bg-indigo-50', border: 'border-indigo-200', text: 'text-indigo-700', icon: 'bg-indigo-100', accent: 'text-indigo-500' },
-                { bg: 'bg-teal-50', border: 'border-teal-200', text: 'text-teal-700', icon: 'bg-teal-100', accent: 'text-teal-500' },
-                { bg: 'bg-orange-50', border: 'border-orange-200', text: 'text-orange-700', icon: 'bg-orange-100', accent: 'text-orange-500' },
-                { bg: 'bg-sky-50', border: 'border-sky-200', text: 'text-sky-700', icon: 'bg-sky-100', accent: 'text-sky-500' },
-                { bg: 'bg-fuchsia-50', border: 'border-fuchsia-200', text: 'text-fuchsia-700', icon: 'bg-fuchsia-100', accent: 'text-fuchsia-500' },
-                { bg: 'bg-emerald-50', border: 'border-emerald-200', text: 'text-emerald-700', icon: 'bg-emerald-100', accent: 'text-emerald-500' }
+                { bg: 'bg-gradient-to-br from-amber-50 to-orange-100', border: 'border-amber-200', text: 'text-amber-700', icon: 'bg-white/50 text-amber-600', accent: 'text-amber-500' },
+                { bg: 'bg-gradient-to-br from-rose-50 to-pink-100', border: 'border-rose-200', text: 'text-rose-700', icon: 'bg-white/50 text-rose-600', accent: 'text-rose-500' },
+                { bg: 'bg-gradient-to-br from-indigo-50 to-blue-100', border: 'border-indigo-200', text: 'text-indigo-700', icon: 'bg-white/50 text-indigo-600', accent: 'text-indigo-500' },
+                { bg: 'bg-gradient-to-br from-teal-50 to-emerald-100', border: 'border-teal-200', text: 'text-teal-700', icon: 'bg-white/50 text-teal-600', accent: 'text-teal-500' },
+                { bg: 'bg-gradient-to-br from-orange-50 to-yellow-100', border: 'border-orange-200', text: 'text-orange-700', icon: 'bg-white/50 text-orange-600', accent: 'text-orange-500' },
+                { bg: 'bg-gradient-to-br from-sky-50 to-cyan-100', border: 'border-sky-200', text: 'text-sky-700', icon: 'bg-white/50 text-sky-600', accent: 'text-sky-500' },
+                { bg: 'bg-gradient-to-br from-fuchsia-50 to-purple-100', border: 'border-fuchsia-200', text: 'text-fuchsia-700', icon: 'bg-white/50 text-fuchsia-600', accent: 'text-fuchsia-500' },
+                { bg: 'bg-gradient-to-br from-emerald-50 to-teal-100', border: 'border-emerald-200', text: 'text-emerald-700', icon: 'bg-white/50 text-emerald-600', accent: 'text-emerald-500' }
             ];
 
             let globalY = 0, globalN = 0, globalTotal = 0;
@@ -541,34 +541,34 @@
                 labels.push(sec.title); percentages.push(compliancePct);
                 if (teamN > 0) urgentItems.push({ title: sec.title, pending: teamN, pct: compliancePct, id: sec.id });
 
-                const color = compliancePct > 80 ? 'text-emerald-500' : compliancePct > 50 ? 'text-orange-500' : 'text-rose-500';
-                const shareColor = sharePct > 80 ? 'text-emerald-600' : sharePct > 50 ? 'text-orange-600' : 'text-rose-600';
+                const color = compliancePct > 80 ? 'text-emerald-600' : compliancePct > 50 ? 'text-orange-600' : 'text-rose-600';
+                const shareColor = sharePct > 80 ? 'text-emerald-700' : sharePct > 50 ? 'text-orange-700' : 'text-rose-700';
 
                 grid.innerHTML += `<a href="#section-${sec.id}" class="summary-card ${style.bg} p-6 rounded-3xl shadow-sm block border ${style.border}">
                     <div class="flex justify-between items-start mb-4">
-                        <span class="text-[10px] font-black px-2 py-1 ${style.icon} ${style.text} rounded uppercase">Topic ${sec.id}</span>
+                        <span class="text-[10px] font-black px-2 py-1 ${style.icon} rounded uppercase">Topic ${sec.id}</span>
                         <div class="text-right">
                             <span class="block text-xl font-black ${color}">${compliancePct}%</span>
-                            <span class="text-[10px] font-bold ${shareColor}">Share: ${sharePct}%</span>
+                            <span class="text-[10px] font-bold ${shareColor} opacity-70">Share: ${sharePct}%</span>
                         </div>
                     </div>
-                    <h3 class="font-bold text-sm text-slate-700 mb-4 h-10 overflow-hidden leading-tight">${sec.title}</h3>
-                    <div class="progress-bar mb-3"><div class="progress-fill ${compliancePct > 80 ? 'bg-emerald-500' : compliancePct > 50 ? 'bg-orange-500' : 'bg-rose-500'}" style="width:${compliancePct}%"></div></div>
-                    <div class="flex justify-between text-[10px] font-bold text-slate-400 uppercase tracking-tighter">
+                    <h3 class="font-bold text-sm text-slate-800 mb-4 h-10 overflow-hidden leading-tight">${sec.title}</h3>
+                    <div class="progress-bar mb-3 bg-white/50"><div class="progress-fill ${compliancePct > 80 ? 'bg-emerald-500' : compliancePct > 50 ? 'bg-orange-500' : 'bg-rose-500'}" style="width:${compliancePct}%"></div></div>
+                    <div class="flex justify-between text-[10px] font-bold text-slate-500 uppercase tracking-tighter">
                         <span>Success: ${teamY.toLocaleString()}</span>
                         <span>Pending: ${teamN.toLocaleString()}</span>
                     </div>
                 </a>`;
 
-                roadmapGrid.innerHTML += `<div class="text-center p-4 border rounded-2xl hover:border-blue-500 transition-all bg-slate-50/50">
+                roadmapGrid.innerHTML += `<div class="text-center p-4 border rounded-2xl hover:border-blue-500 transition-all ${style.bg} ${style.border}">
                     <div class="relative inline-flex items-center justify-center mb-3">
                         <svg class="w-14 h-14 transform -rotate-90">
-                            <circle cx="28" cy="28" r="24" stroke="currentColor" stroke-width="4" fill="transparent" class="text-slate-200" />
+                            <circle cx="28" cy="28" r="24" stroke="currentColor" stroke-width="4" fill="transparent" class="text-white/50" />
                             <circle cx="28" cy="28" r="24" stroke="currentColor" stroke-width="4" fill="transparent" stroke-dasharray="150.8" stroke-dashoffset="${150.8 - (150.8 * (compliancePct / 100))}" class="${color.replace('text-', 'stroke-')}" />
                         </svg>
-                        <span class="absolute text-[10px] font-black">${compliancePct}%</span>
+                        <span class="absolute text-[10px] font-black ${style.text}">${compliancePct}%</span>
                     </div>
-                    <p class="text-[8px] font-black uppercase text-slate-400 tracking-widest">Topic ${sec.id}</p>
+                    <p class="text-[8px] font-black uppercase ${style.text} opacity-70 tracking-widest">Topic ${sec.id}</p>
                 </div>`;
 
                 container.innerHTML += `<section id="section-${sec.id}" class="bg-white rounded-3xl shadow-xl border overflow-hidden">
