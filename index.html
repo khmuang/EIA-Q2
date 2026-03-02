@@ -115,14 +115,6 @@
 </head>
 <body class="text-slate-800">
 
-    <!-- Back to Top Button (Fixed outside main-content) -->
-    <button id="backToTop" title="Go to top" onclick="scrollToTop()">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-        </svg>
-    </button>
-
-    <!-- LOGIN POP-UP -->
     <div id="login-modal">
         <div class="modal-box">
             <div class="relative z-10">
@@ -138,10 +130,15 @@
             </div>
         </div>
     </div>
-<!-- MAIN DASHBOARD CONTENT -->
-<div id="main-content">
 
-    <header class="tech-bg text-white p-16 text-center shadow-2xl relative">
+    <div id="main-content">
+        <button id="backToTop" title="Go to top" onclick="scrollToTop()">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+            </svg>
+        </button>
+
+        <header class="tech-bg text-white p-16 text-center shadow-2xl relative">
             <div class="glow-blob bg-blue-600 opacity-20 top-10 -left-20 float"></div>
             <div class="glow-blob bg-emerald-600 opacity-20 bottom-10 -right-20 float" style="animation-delay: 3s;"></div>
 
@@ -271,7 +268,7 @@
         </main>
 
         <footer class="bg-slate-900 text-slate-400 py-12 px-8 text-center mt-20">
-            <p class="font-bold text-white mb-2 text-lg">EIA Performance Dashboard &copy; 2026</p>
+            <p class="font-bold text-white mb-2 text-lg">EIA Performance Report Dashboard &copy; 2026</p>
             <div class="flex justify-center items-center space-x-4 mb-4">
                 <p class="text-sm">จัดทำขึ้นเพื่อรายงานผลสรุปด้านความปลอดภัย Endpoint</p>
                 <span class="text-slate-700">|</span>
@@ -283,7 +280,7 @@
 
     <script>
         const rawData = {
-    "timestamp": "02/03/2569 12:00:43",
+    "timestamp": "02/03/2569 13:28:31",
     "sections": [
         {
             "id": 1,
@@ -502,16 +499,15 @@
             const urgentContainer = document.getElementById('urgent-actions-container'); urgentContainer.innerHTML = '';
             const roadmapGrid = document.getElementById('roadmap-grid'); roadmapGrid.innerHTML = '';
             
-            // Warm Pastel Gradient Palette for Cards
             const cardStyles = [
-                { bg: 'bg-gradient-to-br from-amber-50 to-orange-100', border: 'border-amber-200', text: 'text-amber-700', icon: 'bg-white/50 text-amber-600', accent: 'text-amber-500' },
-                { bg: 'bg-gradient-to-br from-rose-50 to-pink-100', border: 'border-rose-200', text: 'text-rose-700', icon: 'bg-white/50 text-rose-600', accent: 'text-rose-500' },
-                { bg: 'bg-gradient-to-br from-indigo-50 to-blue-100', border: 'border-indigo-200', text: 'text-indigo-700', icon: 'bg-white/50 text-indigo-600', accent: 'text-indigo-500' },
-                { bg: 'bg-gradient-to-br from-teal-50 to-emerald-100', border: 'border-teal-200', text: 'text-teal-700', icon: 'bg-white/50 text-teal-600', accent: 'text-teal-500' },
-                { bg: 'bg-gradient-to-br from-orange-50 to-yellow-100', border: 'border-orange-200', text: 'text-orange-700', icon: 'bg-white/50 text-orange-600', accent: 'text-orange-500' },
-                { bg: 'bg-gradient-to-br from-sky-50 to-cyan-100', border: 'border-sky-200', text: 'text-sky-700', icon: 'bg-white/50 text-sky-600', accent: 'text-sky-500' },
-                { bg: 'bg-gradient-to-br from-fuchsia-50 to-purple-100', border: 'border-fuchsia-200', text: 'text-fuchsia-700', icon: 'bg-white/50 text-fuchsia-600', accent: 'text-fuchsia-500' },
-                { bg: 'bg-gradient-to-br from-emerald-50 to-teal-100', border: 'border-emerald-200', text: 'text-emerald-700', icon: 'bg-white/50 text-emerald-600', accent: 'text-emerald-500' }
+                { bg: 'bg-gradient-to-br from-amber-50 to-orange-100', border: 'border-amber-200', text: 'text-amber-700', icon: 'bg-white/50 text-amber-600' },
+                { bg: 'bg-gradient-to-br from-rose-50 to-pink-100', border: 'border-rose-200', text: 'text-rose-700', icon: 'bg-white/50 text-rose-600' },
+                { bg: 'bg-gradient-to-br from-indigo-50 to-blue-100', border: 'border-indigo-200', text: 'text-indigo-700', icon: 'bg-white/50 text-indigo-600' },
+                { bg: 'bg-gradient-to-br from-teal-50 to-emerald-100', border: 'border-teal-200', text: 'text-teal-700', icon: 'bg-white/50 text-teal-600' },
+                { bg: 'bg-gradient-to-br from-orange-50 to-yellow-100', border: 'border-orange-200', text: 'text-orange-700', icon: 'bg-white/50 text-orange-600' },
+                { bg: 'bg-gradient-to-br from-sky-50 to-cyan-100', border: 'border-sky-200', text: 'text-sky-700', icon: 'bg-white/50 text-sky-600' },
+                { bg: 'bg-gradient-to-br from-fuchsia-50 to-purple-100', border: 'border-fuchsia-200', text: 'text-fuchsia-700', icon: 'bg-white/50 text-fuchsia-600' },
+                { bg: 'bg-gradient-to-br from-emerald-50 to-teal-100', border: 'border-emerald-200', text: 'text-emerald-700', icon: 'bg-white/50 text-emerald-600' }
             ];
 
             let globalY = 0, globalN = 0, globalTotal = 0;
@@ -619,7 +615,7 @@
                                             <div class="flex flex-col items-center justify-center space-y-1">
                                                 <span class="px-3 py-1 rounded-full text-xs font-black ${shareStyle}">${share}%</span>
                                                 <div class="w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
-                                                    <div class="h-full ${shareStyle.split(' ')[0].replace('text-', 'bg-')}" style="width: ${share}%"></div>
+                                                    <div class="h-full ${compStyle.split(' ')[0].replace('text-', 'bg-')}" style="width: ${share}%"></div>
                                                 </div>
                                             </div>
                                         </td>
@@ -722,7 +718,13 @@
 
         function exportSummary() {
             const filter = document.getElementById('teamFilter').value;
-            let csv = "\uFEFFTopic ID,Topic Name,Service Team,Success (Y),Pending (N),Total,Compliance %\n";
+            let csv = "\uFEFFEIA PERFORMANCE DASHBOARD - FULL REPORT\n";
+            csv += `Export Date: ${new Date().toLocaleString('th-TH')}\n`;
+            csv += `Active Filter: ${filter}\n\n`;
+            
+            csv += "--- SUMMARY BY TOPIC ---\n";
+            csv += "Topic ID,Topic Name,Service Team Filter,Success (Y),Pending (N),Total Units,Compliance %\n";
+            
             rawData.sections.forEach(sec => {
                 const filtered = filter === 'All' ? sec.details : sec.details.filter(d => d['Service Team'] === filter);
                 const teamY = filtered.reduce((s, d) => s + d.Y, 0);
@@ -731,10 +733,26 @@
                 const compliancePct = teamTotal > 0 ? Math.round((teamY / teamTotal) * 100) : 0;
                 csv += `${sec.id},"${sec.title.replace(/"/g, '""')}",${filter},${teamY},${teamN},${teamTotal},${compliancePct}%\n`;
             });
+
+            csv += "\n--- DETAILED BREAKDOWN BY TEAM ---\n";
+            csv += "Topic ID,Topic Name,Service Team,Success (Y),Pending (N),Total Units,Compliance %,Responsibility Share %\n";
+            
+            rawData.sections.forEach(sec => {
+                const totalUnitsInTopic = sec.details.reduce((s, d) => s + (d.Y + d.N), 0);
+                sec.details.forEach(d => {
+                    if (filter === 'All' || d['Service Team'] === filter) {
+                        const units = d.Y + d.N;
+                        const pct = units > 0 ? Math.round((d.Y / units) * 100) : 0;
+                        const share = totalUnitsInTopic > 0 ? Math.round((units / totalUnitsInTopic) * 100) : 0;
+                        csv += `${sec.id},"${sec.title.replace(/"/g, '""')}",${d['Service Team']},${d.Y},${d.N},${units},${pct}%,${share}%\n`;
+                    }
+                });
+            });
+
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement("a");
             link.setAttribute("href", URL.createObjectURL(blob));
-            link.setAttribute("download", `EIA_Summary_${filter}_${new Date().getTime()}.csv`);
+            link.setAttribute("download", `EIA_Full_Report_${filter}_${new Date().getTime()}.csv`);
             link.click();
         }
 
