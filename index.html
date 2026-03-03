@@ -6,6 +6,7 @@
     <title>EIA Performance Dashboard - Visual Analysis</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.1.0/dist/chartjs-plugin-annotation.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         body { 
@@ -113,6 +114,12 @@
         
         @keyframes pulse-soft { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
         .animate-pulse-soft { animation: pulse-soft 2s infinite; }
+
+        @keyframes pulse-red-bg {
+            0%, 100% { background-color: rgba(225, 29, 72, 1); }
+            50% { background-color: rgba(225, 29, 72, 0.6); }
+        }
+        .badge-critical { animation: pulse-red-bg 1.5s infinite; }
 
         .glass { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
 
@@ -271,6 +278,35 @@
                 </div>
             </div>
 
+            <!-- URGENT TEAM LEADERBOARD -->
+            <div class="mb-16 bg-white p-8 rounded-[2rem] shadow-xl border border-rose-50 overflow-hidden">
+                <div class="flex justify-between items-center mb-8">
+                    <div>
+                        <h2 class="text-2xl font-black text-slate-800 flex items-center">
+                            <span class="w-2 h-6 bg-rose-600 rounded mr-3"></span>
+                            Urgent Team Leaderboard
+                        </h2>
+                        <p class="text-xs text-slate-400 font-bold uppercase mt-1">อันดับทีมที่มียอดงานค้าง (Pending) สะสมสูงสุดในทุกหัวข้อ</p>
+                    </div>
+                    <span class="px-4 py-1 bg-rose-50 text-rose-600 rounded-full text-[10px] font-black uppercase tracking-widest border border-rose-100">Action Required</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="bg-slate-50">
+                            <tr class="text-[10px] font-black text-slate-400 uppercase tracking-widest border-b">
+                                <th class="px-6 py-4">Rank</th>
+                                <th class="px-6 py-4">Service Team</th>
+                                <th class="px-6 py-4 text-center">Total Pending (N)</th>
+                                <th class="px-6 py-4 text-right">Risk Level</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100" id="team-leaderboard-body">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <div id="detailed-roadmap" class="mb-20 bg-white p-10 rounded-[2.5rem] shadow-xl border border-blue-50">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl font-black text-slate-800 mb-3">Q1 Performance Roadmap</h2>
@@ -304,7 +340,7 @@
 
     <script>
         const rawData = {
-    "timestamp": "03/03/2569 10:11:21",
+    "timestamp": "03/03/2569 16:05:15",
     "sections": [
         {
             "id": 1,
@@ -529,14 +565,38 @@
             const roadmapGrid = document.getElementById('roadmap-grid'); roadmapGrid.innerHTML = '';
             
             const cardStyles = [
-                { bg: 'bg-gradient-to-br from-amber-50 to-orange-100', border: 'border-amber-200', text: 'text-amber-700', icon: 'bg-white/50 text-amber-600' },
-                { bg: 'bg-gradient-to-br from-rose-50 to-pink-100', border: 'border-rose-200', text: 'text-rose-700', icon: 'bg-white/50 text-rose-600' },
-                { bg: 'bg-gradient-to-br from-indigo-50 to-blue-100', border: 'border-indigo-200', text: 'text-indigo-700', icon: 'bg-white/50 text-indigo-600' },
-                { bg: 'bg-gradient-to-br from-teal-50 to-emerald-100', border: 'border-teal-200', text: 'text-teal-700', icon: 'bg-white/50 text-teal-600' },
-                { bg: 'bg-gradient-to-br from-orange-50 to-yellow-100', border: 'border-orange-200', text: 'text-orange-700', icon: 'bg-white/50 text-orange-600' },
-                { bg: 'bg-gradient-to-br from-sky-50 to-cyan-100', border: 'border-sky-200', text: 'text-sky-700', icon: 'bg-white/50 text-sky-600' },
-                { bg: 'bg-gradient-to-br from-fuchsia-50 to-purple-100', border: 'border-fuchsia-200', text: 'text-fuchsia-700', icon: 'bg-white/50 text-fuchsia-600' },
-                { bg: 'bg-gradient-to-br from-emerald-50 to-teal-100', border: 'border-emerald-200', text: 'text-emerald-700', icon: 'bg-white/50 text-emerald-600' }
+                { 
+                    bg: 'bg-gradient-to-br from-amber-50 to-orange-100', border: 'border-amber-200', text: 'text-amber-700', icon: 'bg-white/50 text-amber-600',
+                    svg: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>'
+                },
+                { 
+                    bg: 'bg-gradient-to-br from-rose-50 to-pink-100', border: 'border-rose-200', text: 'text-rose-700', icon: 'bg-white/50 text-rose-600',
+                    svg: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>'
+                },
+                { 
+                    bg: 'bg-gradient-to-br from-indigo-50 to-blue-100', border: 'border-indigo-200', text: 'text-indigo-700', icon: 'bg-white/50 text-indigo-600',
+                    svg: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>'
+                },
+                { 
+                    bg: 'bg-gradient-to-br from-teal-50 to-emerald-100', border: 'border-teal-200', text: 'text-teal-700', icon: 'bg-white/50 text-teal-600',
+                    svg: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>'
+                },
+                { 
+                    bg: 'bg-gradient-to-br from-orange-50 to-yellow-100', border: 'border-orange-200', text: 'text-orange-700', icon: 'bg-white/50 text-orange-600',
+                    svg: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>'
+                },
+                { 
+                    bg: 'bg-gradient-to-br from-sky-50 to-cyan-100', border: 'border-sky-200', text: 'text-sky-700', icon: 'bg-white/50 text-sky-600',
+                    svg: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>'
+                },
+                { 
+                    bg: 'bg-gradient-to-br from-fuchsia-50 to-purple-100', border: 'border-fuchsia-200', text: 'text-fuchsia-700', icon: 'bg-white/50 text-fuchsia-600',
+                    svg: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>'
+                },
+                { 
+                    bg: 'bg-gradient-to-br from-emerald-50 to-teal-100', border: 'border-emerald-200', text: 'text-emerald-700', icon: 'bg-white/50 text-emerald-600',
+                    svg: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>'
+                }
             ];
 
             let globalY = 0, globalN = 0, globalTotal = 0;
@@ -571,10 +631,12 @@
 
                 grid.innerHTML += `<a href="#section-${sec.id}" class="summary-card ${style.bg} p-6 rounded-3xl shadow-sm block border ${style.border}">
                     <div class="flex justify-between items-start mb-4">
-                        <span class="text-[10px] font-black px-2 py-1 ${style.icon} rounded uppercase">Topic ${sec.id}</span>
+                        <div class="w-10 h-10 ${style.icon} rounded-xl flex items-center justify-center shadow-inner">
+                            ${style.svg}
+                        </div>
                         <div class="text-right">
                             <span class="block text-xl font-black ${color}">${compliancePct}%</span>
-                            <span class="text-[10px] font-bold ${shareColor} opacity-70">Share: ${sharePct}%</span>
+                            <span class="text-[10px] font-bold ${shareColor} opacity-70 uppercase tracking-widest">Share: ${sharePct}%</span>
                         </div>
                     </div>
                     <h3 class="font-bold text-sm text-slate-800 mb-4 h-10 overflow-hidden leading-tight">${sec.title}</h3>
@@ -598,9 +660,14 @@
 
                 container.innerHTML += `<section id="section-${sec.id}" class="bg-white rounded-3xl shadow-xl border overflow-hidden">
                     <div class="p-8 bg-slate-50 border-b flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-                        <div>
-                            <h2 class="text-xl font-black text-slate-800">${sec.title}</h2>
-                            <p class="text-xs text-slate-400 font-bold uppercase mt-1">Total items in this topic: ${grandTotalSec.toLocaleString()}</p>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 ${style.icon} rounded-2xl flex items-center justify-center shadow-sm">
+                                ${style.svg.replace('w-5 h-5', 'w-6 h-6')}
+                            </div>
+                            <div>
+                                <h2 class="text-xl font-black text-slate-800">${sec.title}</h2>
+                                <p class="text-xs text-slate-400 font-bold uppercase mt-1">Total items in this topic: ${grandTotalSec.toLocaleString()}</p>
+                            </div>
                         </div>
                         <div class="flex items-center space-x-4">
                             <div class="relative">
@@ -696,6 +763,40 @@
 
             updateCharts(labels, percentages, globalY, globalN, teamWorkload);
             document.getElementById('grand-total').innerText = `${globalPct}% Overall Compliance`;
+
+            // Populate Team Leaderboard
+            const leaderboardBody = document.getElementById('team-leaderboard-body');
+            leaderboardBody.innerHTML = '';
+            
+            // Calculate total pending per team across all sections
+            const teamPendingTotal = {};
+            rawData.sections.forEach(sec => {
+                sec.details.forEach(d => {
+                    const team = d['Service Team'];
+                    teamPendingTotal[team] = (teamPendingTotal[team] || 0) + d.N;
+                });
+            });
+
+            // Sort teams by pending count
+            const sortedTeams = Object.entries(teamPendingTotal)
+                .filter(([team]) => team !== 'Unknown' && team !== 'Service Team')
+                .sort((a, b) => b[1] - a[1]);
+
+            sortedTeams.slice(0, 5).forEach(([team, pending], index) => {
+                const riskLevel = pending > 5000 ? 'Extreme Risk' : pending > 1000 ? 'High Risk' : 'Warning';
+                const riskClass = pending > 5000 ? 'badge-critical' : pending > 1000 ? 'bg-orange-500' : 'bg-amber-500';
+                
+                leaderboardBody.innerHTML += `
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="px-6 py-5 font-black text-slate-400">#${index + 1}</td>
+                        <td class="px-6 py-5 font-bold text-slate-700">${team}</td>
+                        <td class="px-6 py-5 text-center text-rose-600 font-black">${pending.toLocaleString()}</td>
+                        <td class="px-6 py-5 text-right">
+                            <span class="${riskClass} px-3 py-1 text-white text-[10px] font-black rounded-full uppercase shadow-sm">${riskLevel}</span>
+                        </td>
+                    </tr>
+                `;
+            });
         }
 
         function updateCharts(l, p, y, n, tw) {
@@ -711,7 +812,29 @@
                 },
                 options: { 
                     maintainAspectRatio: false, 
-                    plugins: { legend: { display: false } }, 
+                    plugins: { 
+                        legend: { display: false },
+                        annotation: {
+                            annotations: {
+                                line1: {
+                                    type: 'line',
+                                    yMin: 95,
+                                    yMax: 95,
+                                    borderColor: 'rgba(225, 29, 72, 0.8)',
+                                    borderWidth: 3,
+                                    borderDash: [6, 6],
+                                    label: {
+                                        display: true,
+                                        content: 'Target 95%',
+                                        position: 'start',
+                                        backgroundColor: 'rgba(225, 29, 72, 0.8)',
+                                        color: 'white',
+                                        font: { size: 10, weight: 'bold' }
+                                    }
+                                }
+                            }
+                        }
+                    }, 
                     scales: { y: { beginAtZero: true, max: 100, grid: { display: false } }, x: { grid: { display: false } } } 
                 }
             });
