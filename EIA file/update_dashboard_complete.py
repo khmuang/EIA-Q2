@@ -2,15 +2,32 @@ import pandas as pd
 import json
 import re
 import os
+import shutil
 import subprocess
 from datetime import datetime
 
 # CONFIGURATION
 EXCEL_FOLDER = 'EIA file'
+BACKUP_FOLDER = os.path.join(EXCEL_FOLDER, 'backup file')
 HTML_FILE = 'index.html'
 
 def get_path(filename):
     return os.path.join(EXCEL_FOLDER, filename)
+
+def backup_excel_files():
+    print(f"--- Backing up Excel files to '{BACKUP_FOLDER}' ---")
+    try:
+        if not os.path.exists(BACKUP_FOLDER):
+            os.makedirs(BACKUP_FOLDER)
+        
+        for filename in os.listdir(EXCEL_FOLDER):
+            if filename.endswith('.xlsx'):
+                src = os.path.join(EXCEL_FOLDER, filename)
+                dst = os.path.join(BACKUP_FOLDER, filename)
+                shutil.copy2(src, dst)
+        print("Backup completed successfully.")
+    except Exception as e:
+        print(f"Warning: Backup failed: {e}")
 
 def process_it_asset():
     file_path = get_path('1- IT Asset incomplete information.xlsx')
@@ -91,6 +108,7 @@ def sync_to_github():
     except Exception as e: print(f"Error during GitHub sync: {e}")
 
 if __name__ == "__main__":
+    backup_excel_files()
     print(f"Reading files from '{EXCEL_FOLDER}'...")
     it_d, it_s = process_it_asset()
     
