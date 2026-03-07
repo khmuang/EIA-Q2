@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPM Command Center - Infrastructure Monitor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;700;900&family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #020617;
+            --bg-card: #0f172a;
+            --accent: #22c55e; /* Emerald Green */
+            --accent-glow: rgba(34, 197, 94, 0.2);
+            --border: #1e293b;
+        }
+        body { font-family: 'Inter', 'Sarabun', sans-serif; background: var(--bg-deep); color: #f8fafc; margin: 0; }
+        .mono { font-family: 'Fira Code', monospace; }
+        
+        #main-content { transition: filter 0.6s ease; filter: blur(15px); min-height: 100vh; }
+        #main-content.active { filter: blur(0); }
+        
+        /* Command Center Cards */
+        .cmd-card { 
+            background: var(--bg-card); 
+            border: 1px solid var(--border); 
+            border-radius: 4px; 
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .cmd-card:hover { border-color: var(--accent); box-shadow: 0 0 20px var(--accent-glow); }
+        .cmd-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: transparent; transition: 0.3s;
+        }
+        .cmd-card:hover::before { background: var(--accent); }
+
+        .progress-track { height: 2px; background: #1e293b; width: 100%; border-radius: 1px; margin-top: 8px; }
+        .progress-bar { height: 100%; background: var(--accent); box-shadow: 0 0 10px var(--accent); transition: width 1s; }
+
+        #login-modal { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; background: var(--bg-deep); }
+        .terminal-box { 
+            background: #000; border: 1px solid var(--accent); padding: 3rem; width: 90%; max-width: 450px; 
+            box-shadow: 0 0 40px var(--accent-glow); position: relative;
+        }
+        .terminal-header { background: var(--accent); color: #000; padding: 4px 12px; font-weight: 900; font-size: 10px; text-transform: uppercase; margin-bottom: 2rem; display: inline-block; }
+
+        .scanline {
+            width: 100%; height: 100px; z-index: 99; background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(34, 197, 94, 0.05) 50%, rgba(0, 0, 0, 0) 100%);
+            opacity: 0.1; position: absolute; bottom: 100%; animation: scan 8s linear infinite; pointer-events: none;
+        }
+        @keyframes scan { 0% { bottom: 100%; } 100% { bottom: -100%; } }
+
+        .sticky-header { background: rgba(2, 6, 23, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; }
+        select { background: #000; border: 1px solid var(--border); color: var(--accent); padding: 4px 12px; font-size: 11px; outline: none; border-radius: 2px; }
+        
+        @media print { .no-print, #login-modal, select, button { display: none !important; } body { background: white; color: black; } .cmd-card { border: 1px solid #ccc; color: black; background: white; } }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="scanline"></div>
+
+    <div id="login-modal">
+        <div class="terminal-box">
+            <div class="terminal-header">Restricted Access</div>
+            <h2 class="text-2xl font-black mb-4 mono uppercase tracking-tighter text-emerald-500">Initialize Command System?</h2>
+            <p class="text-slate-500 text-xs mb-10 mono uppercase">System identity verification required for global monitoring.</p>
+            <button onclick="dismissModal()" class="w-full border-2 border-emerald-500 text-emerald-500 hover:bg-emerald-500 hover:text-black font-black py-4 transition-all mono uppercase tracking-widest text-xs">Run System Boot &rarr;</button>
+        </div>
+    </div>
+
+    <div id="main-content">
+        <header class="p-8 md:p-12 border-b border-slate-800 bg-slate-950/50">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-end">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <span class="px-2 py-0.5 bg-emerald-500 text-black text-[10px] font-black uppercase">Live System</span>
+                        <span class="text-emerald-500 mono text-[10px] animate-pulse">● FEED ACTIVE</span>
+                    </div>
+                    <h1 class="text-4xl md:text-6xl font-black tracking-tighter uppercase italic leading-none mb-2">EPM <span class="text-emerald-500">Command Center</span></h1>
+                    <p class="text-slate-500 mono text-[10px] uppercase tracking-[0.2em]">Enterprise Fleet Governance & Monitoring Matrix 2026</p>
+                </div>
+                <div class="mt-8 md:mt-0 flex items-center space-x-10 text-right border-l border-slate-800 pl-10">
+                    <div>
+                        <p class="text-[10px] text-slate-500 uppercase font-black mono mb-1">Health Metric</p>
+                        <div class="text-6xl font-black text-white italic leading-none"><span id="hero-pct">0</span><span class="text-2xl text-emerald-500 ml-1">%</span></div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <nav class="sticky-header py-4 px-8">
+            <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
+                <div class="flex items-center space-x-6">
+                    <div class="flex items-center space-x-3">
+                        <span class="text-[10px] font-black text-slate-500 uppercase mono">Filter Team:</span>
+                        <select id="teamFilter" onchange="renderDashboard()"><option value="All">All Strategic Units</option></select>
+                    </div>
+                    <button onclick="window.print()" class="text-[9px] font-black border border-slate-700 px-4 py-1 hover:border-emerald-500 transition-all uppercase mono">Export Data</button>
+                </div>
+                <div class="text-[10px] font-black text-slate-500 uppercase mono tracking-widest">
+                    Last Global Sync: <span id="last-update" class="text-emerald-500">--/--/----</span>
+                </div>
+            </div>
+        </nav>
+
+        <main class="max-w-7xl mx-auto p-6 md:p-10">
+            <!-- OVERVIEW RADAR -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
+                <div class="lg:col-span-2 cmd-card p-8">
+                    <div class="flex justify-between items-center mb-8">
+                        <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mono">System Performance Matrix</h3>
+                        <span class="text-[10px] text-emerald-500 mono">DATASET_Q1_2026</span>
+                    </div>
+                    <div class="h-80 w-full"><canvas id="infraChart"></canvas></div>
+                </div>
+                <div class="cmd-card p-8 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-8 mono">Operational Radar</h3>
+                        <div class="h-64 w-full"><canvas id="radarChart"></canvas></div>
+                    </div>
+                    <p class="text-[9px] text-emerald-500 uppercase font-black mono mt-4" id="total-label"></p>
+                </div>
+            </div>
+
+            <!-- NODE GRID -->
+            <div class="mb-12">
+                <h2 class="text-[10px] font-black text-emerald-500 uppercase tracking-[0.4em] mb-6 flex items-center">
+                    <span class="w-10 h-[1px] bg-emerald-500 mr-4"></span> Asset Monitoring Nodes
+                </h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3" id="cmd-grid"></div>
+            </div>
+
+            <!-- DETAILED DATA TERMINAL -->
+            <div id="detailed-reports" class="space-y-6"></div>
+        </main>
+
+        <footer class="p-12 text-center border-t border-slate-800 bg-slate-950 mt-20">
+            <p class="text-[9px] font-black text-slate-600 uppercase tracking-[0.5em] mono mb-4">Command Center OS v4.0.2 &copy; 2026</p>
+            <div class="flex justify-center opacity-30 invert hue-rotate-180"><img src="https://api.visitorbadge.io/api/visitors?path=EPM-Command-Center&style=flat" alt="Terminal Logs"/></div>
+        </footer>
+    </div>
+    <script id="dashboard-logic">
+        const rawData = {
+            "timestamp": "06/03/2569 14:15:30",
+            "sections": [
+                { "id": 1, "title": "OS End of Support Status", "details": [{ "Service Team": "Branch", "Y": 3116, "N": 4786 }, { "Service Team": "DC", "Y": 297, "N": 593 }, { "Service Team": "HO", "Y": 1256, "N": 1224 }] },
+                { "id": 2, "title": "Patch Healthy", "details": [{ "Service Team": "Branch", "Y": 7846, "N": 56 }, { "Service Team": "DC", "Y": 883, "N": 7 }, { "Service Team": "HO", "Y": 2480, "N": 0 }] },
+                { "id": 3, "title": "Missing Critical Patches", "details": [{ "Service Team": "Branch", "Y": 7846, "N": 56 }, { "Service Team": "DC", "Y": 883, "N": 7 }, { "Service Team": "HO", "Y": 2480, "N": 0 }] },
+                { "id": 4, "title": "Antivirus Installation", "details": [{ "Service Team": "Branch", "Y": 7596, "N": 306 }, { "Service Team": "DC", "Y": 870, "N": 20 }, { "Service Team": "HO", "Y": 2448, "N": 32 }] },
+                { "id": 5, "title": "Antivirus Compliant", "details": [{ "Service Team": "Branch", "Y": 7596, "N": 306 }, { "Service Team": "DC", "Y": 870, "N": 20 }, { "Service Team": "HO", "Y": 2448, "N": 32 }] },
+                { "id": 6, "title": "Firewall Compliant", "details": [{ "Service Team": "Branch", "Y": 6310, "N": 1592 }, { "Service Team": "DC", "Y": 772, "N": 118 }, { "Service Team": "HO", "Y": 2238, "N": 242 }] },
+                { "id": 7, "title": "Standard Admin Only", "details": [{ "Service Team": "Branch", "Y": 161, "N": 7741 }, { "Service Team": "DC", "Y": 11, "N": 879 }, { "Service Team": "HO", "Y": 134, "N": 2346 }] },
+                { "id": 8, "title": "Pending Restart", "details": [{ "Service Team": "Branch", "Y": 7833, "N": 69 }, { "Service Team": "DC", "Y": 852, "N": 38 }, { "Service Team": "HO", "Y": 2237, "N": 243 }] },
+                { "id": 9, "title": "GLPI Agent Status", "details": [{ "Service Team": "Branch", "Y": 7786, "N": 116 }, { "Service Team": "DC", "Y": 883, "N": 7 }, { "Service Team": "HO", "Y": 2375, "N": 105 }] },
+                { "id": 10, "title": "Days Since Last Reboot", "details": [{ "Service Team": "Branch", "Y": 719, "N": 7183 }, { "Service Team": "DC", "Y": 191, "N": 699 }, { "Service Team": "HO", "Y": 1124, "N": 1356 }] },
+                { "id": 11, "title": "Inactive 30+ Days", "details": [{ "Service Team": "Branch", "Y": 6171, "N": 1731 }, { "Service Team": "DC", "Y": 531, "N": 359 }, { "Service Team": "HO", "Y": 1660, "N": 820 }] }
+            ]
+        };
+
+        let myInfraChart, myRadarChart;
+        let finalPct = 0;
+
+        function renderDashboard() {
+            const filter = document.getElementById('teamFilter').value;
+            const grid = document.getElementById('cmd-grid'); grid.innerHTML = '';
+            const container = document.getElementById('detailed-reports'); container.innerHTML = '';
+            document.getElementById('last-update').innerText = rawData.timestamp;
+
+            if (document.getElementById('teamFilter').options.length <= 1) {
+                const teams = [...new Set(rawData.sections[0].details.map(d => d['Service Team']))];
+                teams.sort().forEach(t => { document.getElementById('teamFilter').add(new Option(t, t)); });
+            }
+
+            let gY = 0, gTotal = 0;
+            const labels = [], pcts = [];
+
+            rawData.sections.forEach(sec => {
+                const f = filter === 'All' ? sec.details : sec.details.filter(d => d['Service Team'] === filter);
+                const ty = f.reduce((s, d) => s + d.Y, 0), tn = f.reduce((s, d) => s + d.N, 0);
+                const tt = ty + tn, p = tt > 0 ? Math.round((ty/tt)*100) : 0;
+                gY += ty; gTotal += tt; labels.push(sec.title); pcts.push(p);
+
+                grid.innerHTML += `<div class="cmd-card p-4 cursor-pointer group" onclick="location.href='#section-${sec.id}'">
+                    <div class="flex justify-between items-center mb-2"><span class="text-[10px] font-black text-slate-500 uppercase mono">NODE_${sec.id.toString().padStart(2,'0')}</span><span class="text-sm font-black text-white">${p}%</span></div>
+                    <h3 class="text-[12px] font-bold text-slate-400 mb-2 h-8 overflow-hidden leading-tight uppercase mono group-hover:text-emerald-400 transition-colors">${sec.title}</h3>
+                    <div class="progress-track"><div class="progress-bar" style="width:${p}%"></div></div>
+                </div>`;
+
+                container.innerHTML += `<section id="section-${sec.id}" class="cmd-card overflow-hidden">
+                    <div class="p-5 bg-slate-900/50 flex justify-between items-center border-b border-slate-800">
+                        <h2 class="text-xs font-black text-emerald-500 uppercase mono tracking-widest">${sec.title}</h2>
+                        <span class="text-[10px] font-black px-2.5 py-1 bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 uppercase mono">${filter}</span>
+                    </div>
+                    <div class="overflow-x-auto"><table class="w-full text-left text-xs mono">
+                        <thead><tr class="text-slate-500 uppercase border-b border-slate-800 bg-slate-950/30 font-black"><th class="p-4 px-8">Unit ID</th><th class="p-4 text-center">Passed</th><th class="p-4 text-center">Failed</th><th class="p-4 text-right px-8">Reliability</th></tr></thead>
+                        <tbody class="divide-y divide-slate-800/50">${f.map(d => {
+                            const t = d.Y + d.N, sc = t > 0 ? Math.round((d.Y/t)*100) : 0;
+                            const color = sc >= 90 ? 'text-emerald-400' : sc >= 70 ? 'text-amber-400' : 'text-rose-500';
+                            return `<tr class="hover:bg-emerald-500/5 transition-colors"><td class="p-4 px-8 font-bold text-slate-400">${d['Service Team']}</td><td class="p-4 text-center text-emerald-500 font-bold">${d.Y.toLocaleString()}</td><td class="p-4 text-center text-slate-600">${d.N.toLocaleString()}</td><td class="p-4 text-right px-8 font-black ${color} text-sm">${sc}%</td></tr>`;
+                        }).join('')}</tbody>
+                    </table></div>
+                </section>`;
+            });
+
+            finalPct = gTotal > 0 ? Math.round((gY/gTotal)*100) : 0;
+            document.getElementById('total-label').innerText = `>> SYSTEM_CAPACITY: ${gTotal.toLocaleString()} UNITS`;
+            updateCharts(labels, pcts);
+        }
+
+        function updateCharts(l, p) {
+            if (myInfraChart) myInfraChart.destroy();
+            if (myRadarChart) myRadarChart.destroy();
+            
+            const shortLabels = l.map(x => x.substring(0, 10) + '...');
+
+            myInfraChart = new Chart(document.getElementById('infraChart'), {
+                type: 'bar',
+                data: { labels: shortLabels, datasets: [{ data: p, backgroundColor: '#10b981', borderRadius: 0, barThickness: 25 }] },
+                options: { 
+                    maintainAspectRatio: false, 
+                    plugins: { legend: { display: false } }, 
+                    scales: { 
+                        y: { beginAtZero: true, max: 100, grid: { color: '#1e293b' }, ticks: { color: '#475569', font: { size: 9, family: 'Fira Code' } } }, 
+                        x: { grid: { display: false }, ticks: { color: '#475569', font: { size: 8, family: 'Fira Code' } } } 
+                    } 
+                }
+            });
+
+            myRadarChart = new Chart(document.getElementById('radarChart'), {
+                type: 'radar',
+                data: { labels: shortLabels, datasets: [{ data: p, backgroundColor: 'rgba(16, 185, 129, 0.2)', borderColor: '#10b981', borderWidth: 2, pointRadius: 0 }] },
+                options: { 
+                    maintainAspectRatio: false, 
+                    plugins: { legend: { display: false } },
+                    scales: { 
+                        r: { angleLines: { color: '#1e293b' }, grid: { color: '#1e293b' }, pointLabels: { color: '#475569', font: { size: 7, family: 'Fira Code' } }, ticks: { display: false }, min: 0, max: 100 } 
+                    } 
+                }
+            });
+        }
+
+        function dismissModal() {
+            document.getElementById("login-modal").style.opacity = "0";
+            setTimeout(() => {
+                document.getElementById("login-modal").style.display = "none";
+                document.getElementById("main-content").classList.add("active");
+                animateValue(document.getElementById("hero-pct"), 0, finalPct, 2000);
+            }, 500);
+        }
+
+        function animateValue(obj, start, end, duration) {
+            let startT = null;
+            const step = (t) => {
+                if (!startT) startT = t;
+                const progress = Math.min((t - startT) / duration, 1);
+                obj.innerHTML = Math.floor(progress * (end - start) + start);
+                if (progress < 1) window.requestAnimationFrame(step);
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        window.onload = renderDashboard;
+    </script>
+</body>
+</html>

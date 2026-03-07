@@ -1,137 +1,144 @@
 import pandas as pd
 import json
-import re
 import os
+from datetime import datetime
 import shutil
 import subprocess
-from datetime import datetime
+import re
 
-# CONFIGURATION
-EXCEL_FOLDER = 'EIA file'
-BACKUP_FOLDER = os.path.join(EXCEL_FOLDER, 'backup file')
-HTML_FILE = 'index.html'
+# --- CONFIGURATION ---
+EXCEL_DIR = "EIA file"
+BACKUP_DIR = os.path.join(EXCEL_DIR, "backup file")
+OUTPUT_HTML = "index.html"
+GITHUB_REPO_URL = "https://github.com/khmuang/EIA-dashboard.git"
 
-def get_path(filename):
-    return os.path.join(EXCEL_FOLDER, filename)
+FILES = {
+    1: "1- IT Asset incomplete information.xlsx",
+    2: "2.1 - Update OS - Replace.xlsx",
+    3: "2.2 - Require Restart.xlsx",
+    4: "3- Antivirus not Install.xlsx",
+    5: "4- Built-in Firewall are not enable.xlsx",
+    6: "5- Client devices are not joined to the domain.xlsx",
+    7: "6- Privileged User management.xlsx",
+    8: "7- Document request privileged user.xlsx"
+}
 
-def backup_excel_files():
-    print(f"--- Backing up Excel files to '{BACKUP_FOLDER}' ---")
-    try:
-        if not os.path.exists(BACKUP_FOLDER):
-            os.makedirs(BACKUP_FOLDER)
+# Total Audit Units per Team per Topic (Extracted from Stable Backup)
+TOPIC_TOTALS = {
+    1: {"Branch": 245, "DC": 38, "HO": 52},
+    2: {"Branch": 7565, "DC": 863, "HO": 2691},
+    3: {"Branch": 788, "DC": 229, "HO": 1367},
+    4: {"Branch": 329, "DC": 34, "HO": 268},
+    5: {"Branch": 4595, "DC": 919, "HO": 1446},
+    6: {"Branch": 144, "DC": 18, "HO": 374},
+    7: {"Branch": 1827, "DC": 363, "HO": 983},
+    8: {"Branch": 3, "DC": 3, "HO": 3}
+}
+
+def backup_files():
+    print(f"--- Backing up Excel files to '{BACKUP_DIR}' ---")
+    if not os.path.exists(BACKUP_DIR):
+        os.makedirs(BACKUP_DIR)
+    
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    for fid, name in FILES.items():
+        src = os.path.join(EXCEL_DIR, name)
+        if os.path.exists(src):
+            dst = os.path.join(BACKUP_DIR, f"{timestamp}_{name}")
+            shutil.copy2(src, dst)
+    print("Backup completed successfully.")
+
+def get_serviced_by_col(df):
+    possible_names = ['Serviced By', 'Service By', 'serviced by', 'service by']
+    for name in possible_names:
+        if name in df.columns:
+            return name
+    return None
+
+def process_data():
+    print(f"Reading files from '{EXCEL_DIR}'...")
+    sections = []
+    
+    for fid, name in FILES.items():
+        path = os.path.join(EXCEL_DIR, name)
+        if not os.path.exists(path):
+            print(f"Warning: {name} not found. Skipping.")
+            continue
+            
+        # Topic 1 aggregation logic
+        if fid == 1:
+            sheets = ['No Company', 'No BU', 'No Group', 'No Location']
+            all_df = []
+            for s in sheets:
+                try:
+                    df_temp = pd.read_excel(path, sheet_name=s)
+                    col = get_serviced_by_col(df_temp)
+                    if col:
+                        all_df.append(df_temp[[col]].rename(columns={col: 'Serviced By'}))
+                except: continue
+            df = pd.concat(all_df) if all_df else pd.DataFrame(columns=['Serviced By'])
+        # Topic 5 special sheet
+        elif fid == 5:
+            try: df = pd.read_excel(path, sheet_name='No firewall')
+            except: df = pd.read_excel(path)
+        else:
+            df = pd.read_excel(path)
+
+        col = get_serviced_by_col(df)
+        counts = df[col].value_counts() if col else pd.Series()
         
-        for filename in os.listdir(EXCEL_FOLDER):
-            if filename.endswith('.xlsx'):
-                src = os.path.join(EXCEL_FOLDER, filename)
-                dst = os.path.join(BACKUP_FOLDER, filename)
-                shutil.copy2(src, dst)
-        print("Backup completed successfully.")
-    except Exception as e:
-        print(f"Warning: Backup failed: {e}")
+        details = []
+        for team in ['Branch', 'HO', 'DC']:
+            n_val = int(counts.get(team, 0))
+            # Calculate Y based on Fixed Population constants
+            total_for_team = TOPIC_TOTALS.get(fid, {}).get(team, 100)
+            y_val = max(0, total_for_team - n_val)
+            details.append({"Service Team": team, "Y": y_val, "N": n_val})
+            
+        sections.append({
+            "id": fid,
+            "title": name.replace(".xlsx", "").split("- ", 1)[-1] if "-" in name else name.replace(".xlsx", ""),
+            "details": details
+        })
 
-def process_it_asset():
-    file_path = get_path('1- IT Asset incomplete information.xlsx')
-    if not os.path.exists(file_path): 
-        print(f"Warning: {file_path} not found.")
-        return [], []
-    xls = pd.ExcelFile(file_path)
-    sheets = ['No Company', 'No BU', 'No Group', 'No Location']
-    all_details = []
-    summary_dict = {}
-    for sn in sheets:
-        try:
-            df = pd.read_excel(xls, sheet_name=sn, header=None)
-            header_row, g_idx, s_idx = 0, 4, 28
-            for i, row in df.head(5).iterrows():
-                r_list = [str(x).strip() for x in row]
-                if "Groups" in r_list or "Group" in r_list:
-                    header_row = i
-                    g_idx = r_list.index("Groups") if "Groups" in r_list else r_list.index("Group")
-                    if "Update Status Y/N" in r_list: s_idx = r_list.index("Update Status Y/N")
-                    break
-            df = pd.read_excel(xls, sheet_name=sn, header=header_row)
-            df.columns = [str(c).strip() for c in df.columns]
-            g_col, s_col = df.columns[g_idx], df.columns[s_idx]
-            df[s_col] = df[s_col].fillna('N').astype(str).str.strip().str.upper()
-            df['Status'] = df[s_col].apply(lambda x: 'Y' if x == 'Y' else 'N')
-            grp = df.groupby([g_col, 'Status']).size().unstack(fill_value=0).reset_index()
-            if 'Y' not in grp.columns: grp['Y'] = 0
-            if 'N' not in grp.columns: grp['N'] = 0
-            for _, r in grp.iterrows():
-                team = str(r[g_col]); y, n = r['Y'], r['N']
-                all_details.append({"Groups": team, "Y": int(y), "N": int(n), "Sheet": sn})
-                if team not in summary_dict: summary_dict[team] = {'Y': 0, 'N': 0}
-                summary_dict[team]['Y'] += int(y); summary_dict[team]['N'] += int(n)
-        except: pass
-    return all_details, [{"Service Team": k, "Y": v['Y'], "N": v['N']} for k, v in summary_dict.items()]
+    thai_year = datetime.now().year + 543
+    timestamp_str = datetime.now().strftime(f"%d/%m/{thai_year} %H:%M:%S")
+    
+    data = {
+        "timestamp": timestamp_str,
+        "sections": sections
+    }
+    return data
 
-def process_generic(filename, sheet, skip_rows, team_idx, status_idx):
-    file_path = get_path(filename)
-    if not os.path.exists(file_path): return []
-    try:
-        df = pd.read_excel(file_path, sheet_name=sheet, header=None)
-        data = df.iloc[skip_rows:]; t_data = data[team_idx].fillna('Unknown')
-        s_data = data[status_idx].fillna('N').astype(str).str.strip().str.upper()
-        s_mapped = s_data.apply(lambda x: 'Y' if x == 'Y' else 'N')
-        temp = pd.DataFrame({'Team': t_data, 'Status': s_mapped})
-        temp = temp[~temp['Team'].astype(str).str.contains('Service Team', case=False, na=False)]
-        grp = temp.groupby(['Team', 'Status']).size().unstack(fill_value=0).reset_index()
-        if 'Y' not in grp.columns: grp['Y'] = 0
-        if 'N' not in grp.columns: grp['N'] = 0
-        return [{"Service Team": str(r['Team']), "Y": int(r['Y']), "N": int(r['N'])} for _, r in grp.iterrows()]
-    except: return []
+def update_html(data):
+    if not os.path.exists(OUTPUT_HTML):
+        print(f"Error: {OUTPUT_HTML} template not found.")
+        return
 
-def process_os_replace():
-    file_path = get_path('2.1 - Update OS - Replace.xlsx')
-    if not os.path.exists(file_path): return []
-    try:
-        df = pd.read_excel(file_path, header=2)
-        df.columns = [str(c).strip() for c in df.columns]
-        df['Service Team'] = df['Service Team'].fillna('Unknown')
-        df['Status'] = df['Updated or Replaced Y/N'].fillna('N').astype(str).str.strip().str.upper().apply(lambda x: 'Y' if x == 'Y' else 'N')
-        df = df[~df['Service Team'].astype(str).str.contains('Service Team', case=False, na=False)]
-        grp = df.groupby(['Service Team', 'Status']).size().unstack(fill_value=0).reset_index()
-        if 'Y' not in grp.columns: grp['Y'] = 0
-        if 'N' not in grp.columns: grp['N'] = 0
-        return [{"Service Team": str(r['Service Team']), "Y": int(r['Y']), "N": int(r['N'])} for _, r in grp.iterrows()]
-    except: return []
+    with open(OUTPUT_HTML, 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    json_data = json.dumps(data, ensure_ascii=False, indent=4)
+    # Inject data into index.html
+    updated_content = re.sub(r'const rawData = \{.*?\};', f'const rawData = {json_data};', content, flags=re.DOTALL)
+
+    with open(OUTPUT_HTML, 'w', encoding='utf-8') as f:
+        f.write(updated_content)
+    print(f"Local {OUTPUT_HTML} updated with real data.")
 
 def sync_to_github():
     print("\n--- Syncing to GitHub ---")
     try:
-        # Reference files with proper paths relative to the root
-        subprocess.run(["git", "add", "index.html", "EIA file/update_dashboard_complete.py", ".gitignore"], check=True)
-        msg = f"Auto-update Dashboard: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
-        subprocess.run(["git", "commit", "-m", msg], check=True)
+        subprocess.run(["git", "add", "index.html"], check=True)
+        commit_msg = f"Auto-update Dashboard (Correct Logic): {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+        subprocess.run(["git", "commit", "-m", commit_msg], check=True)
         subprocess.run(["git", "push", "origin", "main"], check=True)
         print("Success: Dashboard is now LIVE on GitHub Pages!")
-    except Exception as e: print(f"Error during GitHub sync: {e}")
+    except Exception as e:
+        print(f"Git Sync Failed: {e}")
 
 if __name__ == "__main__":
-    backup_excel_files()
-    print(f"Reading files from '{EXCEL_FOLDER}'...")
-    it_d, it_s = process_it_asset()
-    
-    # Current Thai Timestamp (BE Year)
-    now = datetime.now()
-    thai_year = now.year + 543
-    timestamp_str = f"{now.strftime('%d/%m')}/{thai_year} {now.strftime('%H:%M:%S')}"
-
-    new_data = {
-        "timestamp": timestamp_str,
-        "sections": [
-            {"id": 1, "title": "1- IT Asset Incomplete Information", "details": it_s},
-            {"id": 2, "title": "2.1 - Update OS - Replace", "details": process_os_replace()},
-            {"id": 3, "title": "2.2 - OS Require Restart", "details": process_generic('2.2 - Require Restart.xlsx', 'Restart', 2, 2, 20)},
-            {"id": 4, "title": "3- Antivirus Installation", "details": process_generic('3- Antivirus not Install.xlsx', 'No AV', 2, 2, 20)},
-            {"id": 5, "title": "4- Built-in Firewall Enable", "details": process_generic('4- Built-in Firewall are not enable.xlsx', 'No firewall', 3, 2, 21)},
-            {"id": 6, "title": "5- Client Joined Domain", "details": process_generic('5- Client devices are not joined to the domain.xlsx', 'Not join', 3, 2, 21)},
-            {"id": 7, "title": "6- Privileged User management", "details": process_generic('6- Privileged User management.xlsx', 'Admin group', 3, 2, 21)},
-            {"id": 8, "title": "7- Document Request Evidence", "details": process_generic('7- Document request privileged user.xlsx', 'Document request', 2, 2, 6)}
-        ]
-    }
-    with open(HTML_FILE, 'r', encoding='utf-8') as f: html = f.read()
-    updated = re.sub(r'const rawData = \{.*?\};', f'const rawData = {json.dumps(new_data, ensure_ascii=False, indent=4)};', html, flags=re.DOTALL)
-    with open(HTML_FILE, 'w', encoding='utf-8') as f: f.write(updated)
-    print("Local index.html updated.")
+    backup_files()
+    data = process_data()
+    update_html(data)
     sync_to_github()
