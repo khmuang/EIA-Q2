@@ -27,14 +27,41 @@
             filter: blur(0);
         }
 
-        /* Glassmorphism Unified Effect */
+        /* 1. Scroll Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 2. Glassmorphism + Shimmer Effect */
         .glass-card {
             background: rgba(255, 255, 255, 0.4) !important;
             backdrop-filter: blur(12px) saturate(180%);
             -webkit-backdrop-filter: blur(12px) saturate(180%);
             border: 1px solid rgba(255, 255, 255, 0.5) !important;
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+            position: relative;
+            overflow: hidden;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+            transform: skewX(-25deg);
+            transition: 0.5s;
+        }
+        .glass-card:hover::before {
+            left: 150%;
         }
         .glass-card:hover {
             transform: translateY(-10px) scale(1.02);
@@ -274,7 +301,7 @@
         </div>
 
         <main class="max-w-7xl mx-auto p-4 md:p-8">
-            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-16 items-stretch">
+            <div class="reveal grid grid-cols-1 lg:grid-cols-4 gap-8 mb-16 items-stretch">
                 <div class="lg:col-span-2 bg-gradient-to-br from-slate-900 to-blue-900 text-white p-8 rounded-[2rem] shadow-xl flex flex-col md:flex-row items-center justify-around border border-blue-800">
                     <div class="text-center mb-6 md:mb-0">
                         <div class="w-32 h-32 rounded-full bg-emerald-500/20 flex items-center justify-center pulse-circle mb-4 mx-auto"><div class="w-24 h-24 rounded-full bg-emerald-500 flex flex-col items-center justify-center shadow-lg shadow-emerald-500/50"><svg class="w-8 h-8 text-white mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg><span class="text-[8px] font-black uppercase tracking-widest">Operational</span></div></div>
@@ -296,14 +323,17 @@
                 </div>
             </div>
 
-            <div class="mb-16">
+            <div class="reveal mb-16">
                 <h2 class="text-2xl font-black mb-8 flex items-center text-slate-700"><span class="bg-blue-600 text-white w-8 h-8 rounded-lg flex items-center justify-center mr-3 text-sm font-bold">Σ</span> Executive Summary (By Topic)</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="summary-grid"></div>
             </div>
 
-            <div class="mb-16 bg-white p-8 rounded-[2rem] shadow-xl border border-blue-50"><h3 class="font-black text-slate-700 uppercase text-xs tracking-widest mb-8 flex items-center"><span class="w-2 h-6 bg-blue-600 rounded mr-3"></span> Compliance Rate Comparison by Topic (%)</h3><div class="h-64 md:h-72 w-full"><canvas id="barChart"></canvas></div></div>
+            <div class="reveal mb-16 bg-white p-8 rounded-[2rem] shadow-xl border border-blue-50">
+                <h3 class="font-black text-slate-700 uppercase text-xs tracking-widest mb-8 flex items-center"><span class="w-2 h-6 bg-blue-600 rounded mr-3"></span> Compliance Rate Comparison by Topic (%)</h3>
+                <div class="h-64 md:h-72 w-full"><canvas id="barChart"></canvas></div>
+            </div>
 
-            <div class="mb-16 bg-white p-4 md:p-8 mobile-p-padding rounded-[2rem] shadow-xl border border-rose-50 overflow-hidden">
+            <div class="reveal mb-16 bg-white p-4 md:p-8 mobile-p-padding rounded-[2rem] shadow-xl border border-rose-50 overflow-hidden">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 space-y-4 md:space-y-0">
                     <div><h2 class="text-xl md:text-2xl font-black text-slate-800 flex items-center"><span class="w-2 h-6 bg-rose-600 rounded mr-3"></span> Urgent Team Leaderboard</h2><p class="text-[10px] md:text-xs text-slate-400 font-bold uppercase mt-1">อันดับทีมที่มียอดงานค้างสะสมสูงสุดในทุกหัวข้อ</p></div>
                     <span class="px-4 py-1 bg-rose-50 text-rose-600 rounded-full text-[10px] font-black uppercase border border-rose-100">Action Required</span>
@@ -311,12 +341,12 @@
                 <div class="overflow-x-auto pb-4"><table class="w-full text-left responsive-table"><thead class="bg-slate-50"><tr class="text-[10px] font-black text-slate-400 uppercase tracking-widest border-b"><th class="px-6 py-4">Rank</th><th class="px-6 py-4">Service Team</th><th class="px-6 py-4 text-center">Total Pending (N)</th><th class="px-6 py-4 text-right">Risk Level</th></tr></thead><tbody class="divide-y divide-slate-100" id="team-leaderboard-body"></tbody></table></div>
             </div>
 
-            <div id="detailed-roadmap" class="mb-20 bg-white p-10 rounded-[2.5rem] shadow-xl border border-blue-50">
+            <div id="detailed-roadmap" class="reveal mb-20 bg-white p-10 rounded-[2.5rem] shadow-xl border border-blue-50">
                 <div class="text-center mb-12"><h2 class="text-3xl font-black text-slate-800 mb-3">Q1 Performance Roadmap</h2><p class="text-slate-500 font-medium text-sm">ภาพรวมความคืบหน้าการตรวจสอบ Endpoint ทั้ง 8 หัวข้อหลัก</p></div>
                 <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4" id="roadmap-grid"></div>
             </div>
 
-            <div class="mb-20">
+            <div class="reveal mb-20">
                 <h2 class="text-2xl font-black mb-8 flex items-center text-rose-600">
                     <svg class="w-8 h-8 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 15.652c-.77 1.333.192 3 1.732 3z"></path></svg>
                     สิ่งที่ต้องดำเนินการอย่างเร่งด่วน (Urgent Action Items)
@@ -392,7 +422,7 @@
                 const sharePct = grandTotalSec > 0 ? Math.round((teamTotal / grandTotalSec) * 100) : 0;
                 globalY += teamY; globalN += teamN; globalTotal += teamTotal;
                 labels.push(sec.title); percentages.push(compliancePct);
-                if (teamN > 0) urgentItems.push({ title: sec.title, pending: teamN, pct: compliancePct, id: sec.id });
+                if (teamN > 0) urgentItems.push({ title: sec.title, pending: teamN, pct: compliancePct, id: sec.id, y: teamY, n: teamN });
                 const color = compliancePct > 80 ? 'text-emerald-600' : compliancePct > 50 ? 'text-orange-600' : 'text-rose-600';
                 const shareColor = sharePct > 80 ? 'text-emerald-700' : sharePct > 50 ? 'text-orange-700' : 'text-rose-700';
 
@@ -461,19 +491,52 @@
                 leaderboardBody.innerHTML += `<tr class="hover:bg-slate-50 transition-colors"><td class="px-6 py-5 font-black text-slate-400">#${index + 1}</td><td class="px-6 py-5 font-bold text-slate-700">${team}</td><td class="px-6 py-5 text-center text-rose-600 font-black">${pending.toLocaleString()}</td><td class="px-6 py-5 text-right"><span class="${riskClass} px-3 py-1 text-white text-[10px] font-black rounded-full uppercase shadow-sm">${riskLevel}</span></td></tr>`;
             });
 
-            updateCharts(labels, percentages, globalY, globalN, teamWorkload);
+            updateCharts(labels, percentages, globalY, globalN, teamWorkload, rawData.sections);
             populateMobileMenu();
+            reveal();
         }
 
-        function updateCharts(l, p, y, n, tw) {
+        function updateCharts(l, p, y, n, tw, sections) {
             if (myBarChart) myBarChart.destroy();
             if (myPieChart) myPieChart.destroy();
             if (myTeamChart) myTeamChart.destroy();
 
+            // Dynamic Hover Border Colors (Darker shades of the base color)
+            const hoverBorderColors = p.map(v => v >= 80 ? '#064e3b' : v >= 50 ? '#78350f' : '#7f1d1d');
+
             myBarChart = new Chart(document.getElementById('barChart'), {
                 type: 'bar', 
-                data: { labels: l.map(x=>x.substring(0,15)+'...'), datasets: [{ label: 'Compliance %', data: p, backgroundColor: p.map(v=>v>=80?'#10b981':v>=50?'#f59e0b':'#ef4444'), borderRadius: 12, barThickness: 'flex', maxBarThickness: 40 }] },
-                options: { maintainAspectRatio: false, plugins: { legend: { display: false }, annotation: { annotations: { line1: { type: 'line', yMin: 95, yMax: 95, borderColor: 'rgba(225, 29, 72, 0.8)', borderWidth: 3, borderDash: [6, 6], label: { display: true, content: 'Target 95%', position: 'start', backgroundColor: 'rgba(225, 29, 72, 0.8)', color: 'white', font: { size: 10, weight: 'bold' } } } } } }, scales: { y: { beginAtZero: true, max: 100, grid: { display: false } }, x: { grid: { display: false } } } }
+                data: { labels: l.map(x=>x.substring(0,15)+'...'), datasets: [{ label: 'Compliance %', data: p, backgroundColor: p.map(v=>v>=80?'#10b981':v>=50?'#f59e0b':'#ef4444'), borderRadius: 12, barThickness: 'flex', maxBarThickness: 40, hoverBackgroundColor: p.map(v=>v>=80?'#34d399':v>=50?'#fbbf24':'#f87171'), hoverBorderWidth: 6, hoverBorderColor: hoverBorderColors }] },
+                options: { 
+                    maintainAspectRatio: false, 
+                    animation: { duration: 1000, easing: 'easeOutQuart' },
+                    plugins: { 
+                        legend: { display: false }, 
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                            titleFont: { size: 14, weight: 'bold' },
+                            padding: 12,
+                            cornerRadius: 12,
+                            displayColors: false,
+                            callbacks: {
+                                label: function(context) {
+                                    const sec = sections[context.dataIndex];
+                                    const total = sec.details.reduce((s,d)=>s+d.Y+d.N, 0);
+                                    const success = sec.details.reduce((s,d)=>s+d.Y, 0);
+                                    const pending = sec.details.reduce((s,d)=>s+d.N, 0);
+                                    return [
+                                        `Compliance: ${context.raw}%`,
+                                        `Success: ${success.toLocaleString()}`,
+                                        `Pending: ${pending.toLocaleString()}`,
+                                        `Total: ${total.toLocaleString()}`
+                                    ];
+                                }
+                            }
+                        },
+                        annotation: { annotations: { line1: { type: 'line', yMin: 95, yMax: 95, borderColor: 'rgba(225, 29, 72, 0.8)', borderWidth: 3, borderDash: [6, 6], label: { display: true, content: 'Target 95%', position: 'start', backgroundColor: 'rgba(225, 29, 72, 0.8)', color: 'white', font: { size: 10, weight: 'bold' } } } } } 
+                    }, 
+                    scales: { y: { beginAtZero: true, max: 100, grid: { color: 'rgba(0,0,0,0.05)' } }, x: { grid: { display: false } } } 
+                }
             });
 
             const teamLabels = Object.keys(tw), teamData = Object.values(tw);
@@ -498,6 +561,7 @@
                 modal.style.display = "none";
                 document.getElementById("main-content").classList.add("active");
                 animateValue(document.getElementById("hero-compliance-pct"), 0, targetCompliancePct, 2000);
+                reveal();
             }, 500);
         }
 
@@ -518,6 +582,17 @@
             };
             window.requestAnimationFrame(step);
         }
+
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) { reveals[i].classList.add("active"); }
+            }
+        }
+        window.addEventListener("scroll", reveal);
 
         function filterTable(input, tableId) {
             const filter = input.value.toUpperCase();
