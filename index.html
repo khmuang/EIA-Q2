@@ -405,7 +405,7 @@
 
     <script id="dashboard-logic">
         const rawData = {
-    "timestamp": "10/03/2569 10:13:11",
+    "timestamp": "10/03/2569 11:40:06",
     "sections": [
         {
             "id": 1,
@@ -444,8 +444,8 @@
                 },
                 {
                     "Service Team": "DC",
-                    "Y": 59,
-                    "N": 804
+                    "Y": 63,
+                    "N": 800
                 }
             ]
         },
@@ -455,8 +455,8 @@
             "details": [
                 {
                     "Service Team": "Branch",
-                    "Y": 718,
-                    "N": 70
+                    "Y": 721,
+                    "N": 67
                 },
                 {
                     "Service Team": "HO",
@@ -465,8 +465,8 @@
                 },
                 {
                     "Service Team": "DC",
-                    "Y": 191,
-                    "N": 38
+                    "Y": 197,
+                    "N": 32
                 }
             ]
         },
@@ -497,18 +497,18 @@
             "details": [
                 {
                     "Service Team": "Branch",
-                    "Y": 3003,
-                    "N": 1596
+                    "Y": 3017,
+                    "N": 1582
                 },
                 {
                     "Service Team": "HO",
-                    "Y": 1204,
-                    "N": 251
+                    "Y": 1210,
+                    "N": 245
                 },
                 {
                     "Service Team": "DC",
-                    "Y": 810,
-                    "N": 109
+                    "Y": 816,
+                    "N": 103
                 }
             ]
         },
@@ -628,71 +628,89 @@
             const roadmapGrid = document.getElementById('roadmap-grid'); roadmapGrid.innerHTML = '';
             
             const cardStyles = [
-                { bg: 'rgba(251, 191, 36, 0.1)', border: 'rgba(251, 191, 36, 0.3)', text: 'text-amber-700', icon: 'bg-amber-500/20 text-amber-600', svg: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>' },
-                { bg: 'rgba(244, 63, 94, 0.1)', border: 'rgba(244, 63, 94, 0.3)', text: 'text-rose-700', icon: 'bg-rose-500/20 text-rose-600', svg: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>' },
-                { bg: 'rgba(79, 70, 229, 0.1)', border: 'rgba(79, 70, 229, 0.3)', text: 'text-indigo-700', icon: 'bg-indigo-500/20 text-indigo-600', svg: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>' },
-                { bg: 'rgba(16, 185, 129, 0.1)', border: 'rgba(16, 185, 129, 0.3)', text: 'text-teal-700', icon: 'bg-teal-500/20 text-teal-600', svg: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>' },
-                { bg: 'rgba(249, 115, 22, 0.1)', border: 'rgba(249, 115, 22, 0.3)', text: 'text-orange-700', icon: 'bg-orange-500/20 text-orange-600', svg: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>' },
-                { bg: 'rgba(6, 182, 212, 0.1)', border: 'rgba(6, 182, 212, 0.3)', text: 'text-sky-700', icon: 'bg-sky-500/20 text-sky-600', svg: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>' },
-                { bg: 'rgba(217, 70, 239, 0.1)', border: 'rgba(217, 70, 239, 0.3)', text: 'text-fuchsia-700', icon: 'bg-fuchsia-500/20 text-fuchsia-600', svg: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>' },
-                { bg: 'rgba(16, 185, 129, 0.1)', border: 'rgba(16, 185, 129, 0.3)', text: 'text-emerald-700', icon: 'bg-emerald-500/20 text-emerald-600', svg: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>' }
+                { bg: 'rgba(251, 191, 36, 0.1)', border: 'rgba(251, 191, 36, 0.3)', text: 'text-amber-700', icon: 'bg-amber-500/20 text-amber-600', svg: '<svg class=\"w-5 h-5\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z\"></path></svg>' },
+                { bg: 'rgba(244, 63, 94, 0.1)', border: 'rgba(244, 63, 94, 0.3)', text: 'text-rose-700', icon: 'bg-rose-500/20 text-rose-600', svg: '<svg class=\"w-5 h-5\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4\"></path></svg>' },
+                { bg: 'rgba(79, 70, 229, 0.1)', border: 'rgba(79, 70, 229, 0.3)', text: 'text-indigo-700', icon: 'bg-indigo-500/20 text-indigo-600', svg: '<svg class=\"w-5 h-5\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15\"></path></svg>' },
+                { bg: 'rgba(16, 185, 129, 0.1)', border: 'rgba(16, 185, 129, 0.3)', text: 'text-teal-700', icon: 'bg-teal-500/20 text-teal-600', svg: '<svg class=\"w-5 h-5\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z\"></path></svg>' },
+                { bg: 'rgba(249, 115, 22, 0.1)', border: 'rgba(249, 115, 22, 0.3)', text: 'text-orange-700', icon: 'bg-orange-500/20 text-orange-600', svg: '<svg class=\"w-5 h-5\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M19 11H5m14 0a2 2 0 012v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10\"></path></svg>' },
+                { bg: 'rgba(6, 182, 212, 0.1)', border: 'rgba(6, 182, 212, 0.3)', text: 'text-sky-700', icon: 'bg-sky-500/20 text-sky-600', svg: '<svg class=\"w-5 h-5\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9\"></path></svg>' },
+                { bg: 'rgba(217, 70, 239, 0.1)', border: 'rgba(217, 70, 239, 0.3)', text: 'text-fuchsia-700', icon: 'bg-fuchsia-500/20 text-fuchsia-600', svg: '<svg class=\"w-5 h-5\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z\"></path></svg>' },
+                { bg: 'rgba(16, 185, 129, 0.1)', border: 'rgba(16, 185, 129, 0.3)', text: 'text-emerald-700', icon: 'bg-emerald-500/20 text-emerald-600', svg: '<svg class=\"w-5 h-5\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z\"></path></svg>' }
             ];
 
             let globalY = 0, globalN = 0, globalTotal = 0;
+            let corpY = 0, corpN = 0, corpTotal = 0;
             const labels = [], percentages = [], urgentItems = [];
             const teamWorkload = {};
 
             rawData.sections.forEach((sec, index) => {
                 const style = cardStyles[index % cardStyles.length];
-                const totalYAll = sec.details.reduce((s, d) => s + d.Y, 0), totalNAll = sec.details.reduce((s, d) => s + d.N, 0);
-                const grandTotalSec = totalYAll + totalNAll;
-                sec.details.forEach(d => { const team = d['Service Team']; const units = d.Y + d.N; teamWorkload[team] = (teamWorkload[team] || 0) + units; });
+                
+                // 1. Calculate Corporate Grand Totals (Always All Teams)
+                const secYAll = sec.details.reduce((s, d) => s + d.Y, 0);
+                const secNAll = sec.details.reduce((s, d) => s + d.N, 0);
+                corpY += secYAll; corpN += secNAll; corpTotal += (secYAll + secNAll);
+
+                // 2. Filter data for the current team selection
                 const filtered = filter === 'All' ? sec.details : sec.details.filter(d => d['Service Team'] === filter);
                 const teamY = filtered.reduce((s, d) => s + d.Y, 0), teamN = filtered.reduce((s, d) => s + d.N, 0);
                 const teamTotal = teamY + teamN, compliancePct = teamTotal > 0 ? Math.round((teamY / teamTotal) * 100) : 0;
-                const sharePct = grandTotalSec > 0 ? Math.round((teamTotal / grandTotalSec) * 100) : 0;
+                const sharePct = (secYAll + secNAll) > 0 ? Math.round((teamTotal / (secYAll + secNAll)) * 100) : 0;
+                
                 globalY += teamY; globalN += teamN; globalTotal += teamTotal;
                 labels.push(sec.title); percentages.push(compliancePct);
                 if (teamN > 0) urgentItems.push({ title: sec.title, pending: teamN, pct: compliancePct, id: sec.id, y: teamY, n: teamN });
+                
                 const color = compliancePct > 80 ? 'text-emerald-600' : compliancePct > 50 ? 'text-orange-600' : 'text-rose-600';
                 const shareColor = sharePct > 80 ? 'text-emerald-700' : sharePct > 50 ? 'text-orange-700' : 'text-rose-700';
 
-                grid.innerHTML += `<a href="#section-${sec.id}" class="glass-card p-6 rounded-3xl block border" style="border-color: ${style.border}; background: ${style.bg}">
-                    <div class="flex justify-between items-start mb-4">
-                        <div class="flex items-center space-x-3"><div class="w-10 h-10 ${style.icon} rounded-xl flex items-center justify-center shadow-inner">${style.svg}</div><span class="text-[10px] font-black px-2 py-1 bg-white/40 text-slate-500 rounded uppercase">Topic ${sec.id}</span></div>
-                        <div class="text-right"><span class="block text-xl font-black ${color}">${compliancePct}%</span><span class="text-[10px] font-bold ${shareColor} opacity-70">Share: ${sharePct}%</span></div>
+                // Update workloads for charts (all teams)
+                sec.details.forEach(d => { 
+                    const team = d['Service Team']; 
+                    teamWorkload[team] = (teamWorkload[team] || 0) + (d.Y + d.N); 
+                });
+
+                grid.innerHTML += `<a href=\"#section-${sec.id}\" class=\"glass-card p-6 rounded-3xl block border\" style=\"border-color: ${style.border}; background: ${style.bg}\">
+                    <div class=\"flex justify-between items-start mb-4\">
+                        <div class=\"flex items-center space-x-3\"><div class=\"w-10 h-10 ${style.icon} rounded-xl flex items-center justify-center shadow-inner\">${style.svg}</div><span class=\"text-[10px] font-black px-2 py-1 bg-white/40 text-slate-500 rounded uppercase\">Topic ${sec.id}</span></div>
+                        <div class=\"text-right\"><span class=\"block text-xl font-black ${color}\">${compliancePct}%</span><span class=\"text-[10px] font-bold ${shareColor} opacity-70\">Share: ${sharePct}%</span></div>
                     </div>
-                    <h3 class="font-bold text-sm text-slate-800 mb-4 h-10 overflow-hidden leading-tight">${sec.title}</h3>
-                    <div class="progress-bar mb-3 bg-black/5"><div class="progress-fill ${compliancePct > 80 ? 'bg-emerald-500' : compliancePct > 50 ? 'bg-orange-500' : 'bg-rose-500'}" style="width:${compliancePct}%"></div></div>
-                    <div class="flex justify-between text-[10px] font-bold text-slate-500 uppercase tracking-tighter"><span>Success: ${teamY.toLocaleString()}</span><span>Pending: ${teamN.toLocaleString()}</span></div>
+                    <h3 class=\"font-bold text-sm text-slate-800 mb-4 h-10 overflow-hidden leading-tight\">${sec.title}</h3>
+                    <div class=\"progress-bar mb-3 bg-black/5\"><div class=\"progress-fill ${compliancePct > 80 ? 'bg-emerald-500' : compliancePct > 50 ? 'bg-orange-500' : 'bg-rose-500'}\" style=\"width:${compliancePct}%\"></div></div>
+                    <div class=\"flex justify-between text-[10px] font-bold text-slate-500 uppercase tracking-tighter\"><span>Success: ${teamY.toLocaleString()}</span><span>Pending: ${teamN.toLocaleString()}</span></div>
                 </a>`;
 
-                roadmapGrid.innerHTML += `<a href="#section-${sec.id}" class="glass-card text-center p-4 border rounded-2xl block shadow-sm" style="border-color: ${style.border}; background: ${style.bg}">
-                    <div class="relative inline-flex items-center justify-center mb-3"><svg class="w-14 h-14 transform -rotate-90"><circle cx="28" cy="28" r="24" stroke="currentColor" stroke-width="4" fill="transparent" class="text-black/5" /><circle cx="28" cy="28" r="24" stroke="currentColor" stroke-width="4" fill="transparent" stroke-dasharray="150.8" stroke-dashoffset="${150.8 - (150.8 * (compliancePct / 100))}" class="${color.replace('text-', 'stroke-')}" /></svg><span class="absolute text-[10px] font-black text-slate-700">${compliancePct}%</span></div>
-                    <p class="text-[8px] font-black uppercase text-slate-400 mb-1">Topic ${sec.id}</p><p class="text-[9px] font-bold text-slate-600 leading-tight h-6 overflow-hidden">${sec.title}</p>
+                roadmapGrid.innerHTML += `<a href=\"#section-${sec.id}\" class=\"glass-card text-center p-4 border rounded-2xl block shadow-sm\" style=\"border-color: ${style.border}; background: ${style.bg}\">
+                    <div class=\"relative inline-flex items-center justify-center mb-3\"><svg class=\"w-14 h-14 transform -rotate-90\"><circle cx=\"28\" cy=\"28\" r=\"24\" stroke=\"currentColor\" stroke-width=\"4\" fill=\"transparent\" class=\"text-black/5\" /><circle cx=\"28\" cy=\"28\" r=\"24\" stroke=\"currentColor\" stroke-width=\"4\" fill=\"transparent\" stroke-dasharray=\"150.8\" stroke-dashoffset=\"${150.8 - (150.8 * (compliancePct / 100))}\" class=\"${color.replace('text-', 'stroke-')}\" /></svg><span class=\"absolute text-[10px] font-black text-slate-700\">${compliancePct}%</span></div>
+                    <p class=\"text-[8px] font-black uppercase text-slate-400 mb-1\">Topic ${sec.id}</p><p class=\"text-[9px] font-bold text-slate-600 leading-tight h-6 overflow-hidden\">${sec.title}</p>
                 </a>`;
 
-                container.innerHTML += `<section id="section-${sec.id}" class="bg-white rounded-3xl shadow-xl border overflow-hidden">
-                    <div class="p-4 md:p-8 bg-slate-50 border-b flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-                        <div class="flex items-center space-x-4"><div class="w-12 h-12 ${style.icon} rounded-2xl flex items-center justify-center shadow-sm">${style.svg.replace('w-5 h-5', 'w-6 h-6')}</div><div><h2 class="text-lg md:text-xl font-black text-slate-800">${sec.title}</h2><p class="text-[10px] md:text-xs text-slate-400 font-bold uppercase mt-1">Total items in this topic: ${grandTotalSec.toLocaleString()}</p></div></div>
-                        <div class="flex items-center space-x-4 w-full md:w-auto"><div class="relative flex-1 md:flex-none"><input type="text" placeholder="Search team..." onkeyup="filterTable(this, 'table-${sec.id}')" class="w-full pl-10 pr-4 py-2 border rounded-full text-xs font-bold focus:ring-2 focus:ring-blue-500 outline-none shadow-sm"><svg class="w-4 h-4 absolute left-3 top-2.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-width="2"></path></svg></div><span class="px-4 py-1 bg-blue-100 text-blue-700 rounded-full text-[10px] font-black uppercase">TEAM: ${filter}</span></div>
+                container.innerHTML += `<section id=\"section-${sec.id}\" class=\"bg-white rounded-3xl shadow-xl border overflow-hidden\">
+                    <div class=\"p-4 md:p-8 bg-slate-50 border-b flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0\">
+                        <div class=\"flex items-center space-x-4\"><div class=\"w-12 h-12 ${style.icon} rounded-2xl flex items-center justify-center shadow-sm\">${style.svg.replace('w-5 h-5', 'w-6 h-6')}</div><div><h2 class=\"text-lg md:text-xl font-black text-slate-800\">${sec.title}</h2><p class=\"text-[10px] md:text-xs text-slate-400 font-bold uppercase mt-1\">Total items in this topic: ${(secYAll + secNAll).toLocaleString()}</p></div></div>
+                        <div class=\"flex items-center space-x-4 w-full md:w-auto\"><div class=\"relative flex-1 md:flex-none\"><input type=\"text\" placeholder=\"Search team...\" onkeyup=\"filterTable(this, 'table-${sec.id}')\" class=\"w-full pl-10 pr-4 py-2 border rounded-full text-xs font-bold focus:ring-2 focus:ring-blue-500 outline-none shadow-sm\"><svg class=\"w-4 h-4 absolute left-3 top-2.5 text-slate-400\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path d=\"M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z\" stroke-width=\"2\"></path></svg></div><span class=\"px-4 py-1 bg-blue-100 text-blue-700 rounded-full text-[10px] font-black uppercase\">TEAM: ${filter}</span></div>
                     </div>
-                    <div class="p-4 md:p-8 overflow-x-auto pb-6"><table class="w-full text-left responsive-table" id="table-${sec.id}"><thead><tr class="text-slate-400 text-[10px] font-black uppercase border-b tracking-widest"><th class="pb-4 px-4">Service Team</th><th class="pb-4 px-4 text-center">Y (Success)</th><th class="pb-4 px-4 text-center">N (Pending)</th><th class="pb-4 px-4 text-center">Compliance Rate</th><th class="pb-4 px-4 text-center">Responsibility Share</th></tr></thead><tbody class="divide-y divide-slate-50">
+                    <div class=\"p-4 md:p-8 overflow-x-auto pb-6\"><table class=\"w-full text-left responsive-table\" id=\"table-${sec.id}\"><thead><tr class=\"text-slate-400 text-[10px] font-black uppercase border-b tracking-widest\"><th class=\"pb-4 px-4\">Service Team</th><th class=\"pb-4 px-4 text-center\">Y (Success)</th><th class=\"pb-4 px-4 text-center\">N (Pending)</th><th class=\"pb-4 px-4 text-center\">Compliance Rate</th><th class=\"pb-4 px-4 text-center\">Responsibility Share</th></tr></thead><tbody class=\"divide-y divide-slate-50\">
                         ${filtered.map(d => {
-                            const rowTotal = d.Y + d.N, comp = rowTotal > 0 ? Math.round((d.Y / rowTotal) * 100) : 0, share = grandTotalSec > 0 ? Math.round((rowTotal / grandTotalSec) * 100) : 0;
+                            const rowTotal = d.Y + d.N, comp = rowTotal > 0 ? Math.round((d.Y / rowTotal) * 100) : 0, share = (secYAll + secNAll) > 0 ? Math.round((rowTotal / (secYAll + secNAll)) * 100) : 0;
                             const compStyle = getColorClass(comp), shareStyle = getColorClass(share), gap = 95 - comp;
-                            let gapHtml = gap > 0 ? `<div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden flex border border-slate-200 mt-2"><div class="h-full ${compStyle.split(' ')[0].replace('text-', 'bg-')}" style="width: ${comp}%"></div><div class="bg-rose-400/50 h-full animate-pulse-soft" style="width: ${gap}%"></div></div><p class="text-[8px] font-bold text-rose-500 mt-1 uppercase tracking-tighter">Need ${gap}% more to reach 95% Goal</p>` : `<div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden flex border border-slate-200 mt-2"><div class="h-full ${compStyle.split(' ')[0].replace('text-', 'bg-')}" style="width: 100%"></div></div><p class="text-[8px] font-bold text-emerald-500 mt-1 uppercase tracking-tighter">✨ Goal Reached</p>`;
-                            return `<tr><td class="py-5 px-4 font-bold text-slate-700">${d['Service Team']}</td><td class="py-5 px-4 text-center text-emerald-600 font-black">${d.Y.toLocaleString()}</td><td class="py-5 px-4 text-center text-rose-600 font-black">${d.N.toLocaleString()}</td><td class="py-5 px-4 text-center w-48"><div class="flex flex-col items-center justify-center"><span class="px-3 py-1 rounded-full text-xs font-black ${compStyle} mb-1">${comp}%</span>${gapHtml}</div></td><td class="py-5 px-4 text-center"><div class="flex flex-col items-center justify-center space-y-1"><span class="px-3 py-1 rounded-full text-xs font-black ${shareStyle}">${share}%</span><div class="w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200"><div class="h-full ${shareStyle.split(' ')[0].replace('text-', 'bg-')}" style="width: ${share}%"></div></div></div></td></tr>`;
+                            let gapHtml = gap > 0 ? `<div class=\"w-full h-1.5 bg-slate-100 rounded-full overflow-hidden flex border border-slate-200 mt-2\"><div class=\"h-full ${compStyle.split(' ')[0].replace('text-', 'bg-')}\" style=\"width: ${comp}%\"></div><div class=\"bg-rose-400/50 h-full animate-pulse-soft\" style=\"width: ${gap}%\"></div></div><p class=\"text-[8px] font-bold text-rose-500 mt-1 uppercase tracking-tighter\">Need ${gap}% more to reach 95% Goal</p>` : `<div class=\"w-full h-1.5 bg-slate-100 rounded-full overflow-hidden flex border border-slate-200 mt-2\"><div class=\"h-full ${compStyle.split(' ')[0].replace('text-', 'bg-')}\" style=\"width: 100%\"></div></div><p class=\"text-[8px] font-bold text-emerald-500 mt-1 uppercase tracking-tighter\">✨ Goal Reached</p>`;
+                            return `<tr><td class=\"py-5 px-4 font-bold text-slate-700\">${d['Service Team']}</td><td class=\"py-5 px-4 text-center text-emerald-600 font-black\">${d.Y.toLocaleString()}</td><td class=\"py-5 px-4 text-center text-rose-600 font-black\">${d.N.toLocaleString()}</td><td class=\"py-5 px-4 text-center w-48\"><div class=\"flex flex-col items-center justify-center\"><span class=\"px-3 py-1 rounded-full text-xs font-black ${compStyle} mb-1\">${comp}%</span>${gapHtml}</div></td><td class=\"py-5 px-4 text-center\"><div class=\"flex flex-col items-center justify-center space-y-1\"><span class=\"px-3 py-1 rounded-full text-xs font-black ${shareStyle}\">${share}%</span><div class=\"w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200\"><div class=\"h-full ${shareStyle.split(' ')[0].replace('text-', 'bg-')}\" style=\"width: ${share}%\"></div></div></div></td></tr>`;
                         }).join('')}</tbody></table></div></section>`;
             });
 
+            // FINAL UI UPDATES
+            const corpPct = corpTotal > 0 ? Math.round((corpY / corpTotal) * 100) : 0;
             const globalPct = globalTotal > 0 ? Math.round((globalY / globalTotal) * 100) : 0;
-            targetCompliancePct = globalPct;
-            document.getElementById('hero-total-units').innerText = globalTotal.toLocaleString();
+            
+            targetCompliancePct = corpPct; // Hero % always Corporate
+            document.getElementById('hero-total-units').innerText = corpTotal.toLocaleString(); // Always 25,169
             document.getElementById('hero-last-update').innerText = rawData.timestamp;
+            
+            // SYSTEM HEALTH (Reactive to Filter)
             document.getElementById('health-resolved').innerText = globalY.toLocaleString();
             document.getElementById('health-pending').innerText = globalN.toLocaleString();
-            document.getElementById('grand-total').innerText = `${globalPct}% Overall Compliance`;
+            document.getElementById('grand-total').innerText = `${globalPct}% Compliance (${filter})`;
 
             updateSystemHealthUI(globalPct);
 
