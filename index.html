@@ -405,174 +405,78 @@
 
     <script id="dashboard-logic">
         const rawData = {
-    "timestamp": "10/03/2569 15:16:51",
+    "timestamp": "10/03/2569 14:30:00",
     "sections": [
         {
             "id": 1,
             "title": "IT Asset incomplete information",
             "details": [
-                {
-                    "Service Team": "Branch",
-                    "Y": 193,
-                    "N": 49
-                },
-                {
-                    "Service Team": "HO",
-                    "Y": 55,
-                    "N": 0
-                },
-                {
-                    "Service Team": "DC",
-                    "Y": 33,
-                    "N": 14
-                }
+                { "Service Team": "Branch", "Y": 187, "N": 58 },
+                { "Service Team": "HO", "Y": 51, "N": 1 },
+                { "Service Team": "DC", "Y": 42, "N": 5 }
             ]
         },
         {
             "id": 2,
             "title": "Update OS - Replace",
             "details": [
-                {
-                    "Service Team": "Branch",
-                    "Y": 20,
-                    "N": 7545
-                },
-                {
-                    "Service Team": "HO",
-                    "Y": 55,
-                    "N": 2636
-                },
-                {
-                    "Service Team": "DC",
-                    "Y": 63,
-                    "N": 800
-                }
+                { "Service Team": "Branch", "Y": 20, "N": 7545 },
+                { "Service Team": "HO", "Y": 55, "N": 2636 },
+                { "Service Team": "DC", "Y": 60, "N": 803 }
             ]
         },
         {
             "id": 3,
             "title": "Require Restart",
             "details": [
-                {
-                    "Service Team": "Branch",
-                    "Y": 721,
-                    "N": 67
-                },
-                {
-                    "Service Team": "HO",
-                    "Y": 1124,
-                    "N": 243
-                },
-                {
-                    "Service Team": "DC",
-                    "Y": 197,
-                    "N": 32
-                }
+                { "Service Team": "Branch", "Y": 721, "N": 67 },
+                { "Service Team": "HO", "Y": 1124, "N": 243 },
+                { "Service Team": "DC", "Y": 200, "N": 29 }
             ]
         },
         {
             "id": 4,
             "title": "Antivirus not Install",
             "details": [
-                {
-                    "Service Team": "Branch",
-                    "Y": 23,
-                    "N": 306
-                },
-                {
-                    "Service Team": "HO",
-                    "Y": 236,
-                    "N": 32
-                },
-                {
-                    "Service Team": "DC",
-                    "Y": 14,
-                    "N": 20
-                }
+                { "Service Team": "Branch", "Y": 23, "N": 306 },
+                { "Service Team": "HO", "Y": 236, "N": 32 },
+                { "Service Team": "DC", "Y": 15, "N": 19 }
             ]
         },
         {
             "id": 5,
             "title": "Built-in Firewall are not enable",
             "details": [
-                {
-                    "Service Team": "Branch",
-                    "Y": 3017,
-                    "N": 1582
-                },
-                {
-                    "Service Team": "HO",
-                    "Y": 1210,
-                    "N": 245
-                },
-                {
-                    "Service Team": "DC",
-                    "Y": 816,
-                    "N": 103
-                }
+                { "Service Team": "Branch", "Y": 3017, "N": 1582 },
+                { "Service Team": "HO", "Y": 1210, "N": 245 },
+                { "Service Team": "DC", "Y": 816, "N": 103 }
             ]
         },
         {
             "id": 6,
             "title": "Client devices are not joined to the domain",
             "details": [
-                {
-                    "Service Team": "Branch",
-                    "Y": 29,
-                    "N": 115
-                },
-                {
-                    "Service Team": "HO",
-                    "Y": 269,
-                    "N": 105
-                },
-                {
-                    "Service Team": "DC",
-                    "Y": 13,
-                    "N": 5
-                }
+                { "Service Team": "Branch", "Y": 29, "N": 115 },
+                { "Service Team": "HO", "Y": 269, "N": 105 },
+                { "Service Team": "DC", "Y": 15, "N": 3 }
             ]
         },
         {
             "id": 7,
             "title": "Privileged User management",
             "details": [
-                {
-                    "Service Team": "Branch",
-                    "Y": 96,
-                    "N": 1731
-                },
-                {
-                    "Service Team": "HO",
-                    "Y": 163,
-                    "N": 820
-                },
-                {
-                    "Service Team": "DC",
-                    "Y": 74,
-                    "N": 289
-                }
+                { "Service Team": "Branch", "Y": 96, "N": 1731 },
+                { "Service Team": "HO", "Y": 163, "N": 820 },
+                { "Service Team": "DC", "Y": 74, "N": 289 }
             ]
         },
         {
             "id": 8,
             "title": "Document request privileged user",
             "details": [
-                {
-                    "Service Team": "Branch",
-                    "Y": 0,
-                    "N": 3
-                },
-                {
-                    "Service Team": "HO",
-                    "Y": 2,
-                    "N": 1
-                },
-                {
-                    "Service Team": "DC",
-                    "Y": 0,
-                    "N": 3
-                }
+                { "Service Team": "Branch", "Y": 0, "N": 3 },
+                { "Service Team": "HO", "Y": 3, "N": 0 },
+                { "Service Team": "DC", "Y": 0, "N": 3 }
             ]
         }
     ]
@@ -601,22 +505,22 @@
                 ring.classList.add('bg-emerald-500/20', 'pulse-emerald');
                 circle.classList.add('bg-emerald-500', 'shadow-emerald-500/50');
                 text.innerText = "Excellent";
-                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>';
+                icon.innerHTML = '<path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z\"></path>';
             } else if (pct >= 70) {
                 ring.classList.add('bg-blue-500/20', 'pulse-blue');
                 circle.classList.add('bg-blue-500', 'shadow-blue-500/50');
                 text.innerText = "Stable";
-                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>';
+                icon.innerHTML = '<path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M13 10V3L4 14h7v7l9-11h-7z\"></path>';
             } else if (pct >= 50) {
                 ring.classList.add('bg-amber-500/20', 'pulse-amber');
                 circle.classList.add('bg-amber-500', 'shadow-amber-500/50');
                 text.innerText = "Warning";
-                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 15.652c-.77 1.333.192 3 1.732 3z"></path>';
+                icon.innerHTML = '<path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 15.652c-.77 1.333.192 3 1.732 3z\"></path>';
             } else {
                 ring.classList.add('bg-rose-500/20', 'pulse-rose');
                 circle.classList.add('bg-rose-500', 'shadow-rose-500/50');
                 text.innerText = "Critical";
-                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>';
+                icon.innerHTML = '<path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z\"></path>';
             }
         }
 
@@ -631,7 +535,7 @@
                 { bg: 'rgba(251, 191, 36, 0.1)', border: 'rgba(251, 191, 36, 0.3)', text: 'text-amber-700', icon: 'bg-amber-500/20 text-amber-600', svg: '<svg class=\"w-5 h-5\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z\"></path></svg>' },
                 { bg: 'rgba(244, 63, 94, 0.1)', border: 'rgba(244, 63, 94, 0.3)', text: 'text-rose-700', icon: 'bg-rose-500/20 text-rose-600', svg: '<svg class=\"w-5 h-5\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4\"></path></svg>' },
                 { bg: 'rgba(79, 70, 229, 0.1)', border: 'rgba(79, 70, 229, 0.3)', text: 'text-indigo-700', icon: 'bg-indigo-500/20 text-indigo-600', svg: '<svg class=\"w-5 h-5\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15\"></path></svg>' },
-                { bg: 'rgba(16, 185, 129, 0.1)', border: 'rgba(16, 185, 129, 0.3)', text: 'text-teal-700', icon: 'bg-teal-500/20 text-teal-600', svg: '<svg class=\"w-5 h-5\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z\"></path></svg>' },
+                { bg: 'rgba(16, 185, 129, 0.1)', border: 'rgba(16, 185, 129, 0.3)', text: 'text-teal-700', icon: 'bg-teal-500/20 text-teal-600', svg: '<svg class=\"w-5 h-5\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z\"></path></svg>' },
                 { bg: 'rgba(249, 115, 22, 0.1)', border: 'rgba(249, 115, 22, 0.3)', text: 'text-orange-700', icon: 'bg-orange-500/20 text-orange-600', svg: '<svg class=\"w-5 h-5\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M19 11H5m14 0a2 2 0 012v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10\"></path></svg>' },
                 { bg: 'rgba(6, 182, 212, 0.1)', border: 'rgba(6, 182, 212, 0.3)', text: 'text-sky-700', icon: 'bg-sky-500/20 text-sky-600', svg: '<svg class=\"w-5 h-5\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9\"></path></svg>' },
                 { bg: 'rgba(217, 70, 239, 0.1)', border: 'rgba(217, 70, 239, 0.3)', text: 'text-fuchsia-700', icon: 'bg-fuchsia-500/20 text-fuchsia-600', svg: '<svg class=\"w-5 h-5\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z\"></path></svg>' },
@@ -649,13 +553,14 @@
                 // 1. Calculate Corporate Grand Totals (Always All Teams)
                 const secYAll = sec.details.reduce((s, d) => s + d.Y, 0);
                 const secNAll = sec.details.reduce((s, d) => s + d.N, 0);
-                corpY += secYAll; corpN += secNAll; corpTotal += (secYAll + secNAll);
+                const secTotalAll = secYAll + secNAll;
+                corpY += secYAll; corpN += secNAll; corpTotal += secTotalAll;
 
                 // 2. Filter data for the current team selection
                 const filtered = filter === 'All' ? sec.details : sec.details.filter(d => d['Service Team'] === filter);
                 const teamY = filtered.reduce((s, d) => s + d.Y, 0), teamN = filtered.reduce((s, d) => s + d.N, 0);
                 const teamTotal = teamY + teamN, compliancePct = teamTotal > 0 ? Math.round((teamY / teamTotal) * 100) : 0;
-                const sharePct = (secYAll + secNAll) > 0 ? Math.round((teamTotal / (secYAll + secNAll)) * 100) : 0;
+                const sharePct = secTotalAll > 0 ? Math.round((teamTotal / secTotalAll) * 100) : 0;
                 
                 globalY += teamY; globalN += teamN; globalTotal += teamTotal;
                 labels.push(sec.title); percentages.push(compliancePct);
@@ -687,12 +592,12 @@
 
                 container.innerHTML += `<section id=\"section-${sec.id}\" class=\"bg-white rounded-3xl shadow-xl border overflow-hidden\">
                     <div class=\"p-4 md:p-8 bg-slate-50 border-b flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0\">
-                        <div class=\"flex items-center space-x-4\"><div class=\"w-12 h-12 ${style.icon} rounded-2xl flex items-center justify-center shadow-sm\">${style.svg.replace('w-5 h-5', 'w-6 h-6')}</div><div><h2 class=\"text-lg md:text-xl font-black text-slate-800\">${sec.title}</h2><p class=\"text-[10px] md:text-xs text-slate-400 font-bold uppercase mt-1\">Total items in this topic: ${(secYAll + secNAll).toLocaleString()}</p></div></div>
+                        <div class=\"flex items-center space-x-4\"><div class=\"w-12 h-12 ${style.icon} rounded-2xl flex items-center justify-center shadow-sm\">${style.svg.replace('w-5 h-5', 'w-6 h-6')}</div><div><h2 class=\"text-lg md:text-xl font-black text-slate-800\">${sec.title}</h2><p class=\"text-[10px] md:text-xs text-slate-400 font-bold uppercase mt-1\">Total items in this topic: ${secTotalAll.toLocaleString()}</p></div></div>
                         <div class=\"flex items-center space-x-4 w-full md:w-auto\"><div class=\"relative flex-1 md:flex-none\"><input type=\"text\" placeholder=\"Search team...\" onkeyup=\"filterTable(this, 'table-${sec.id}')\" class=\"w-full pl-10 pr-4 py-2 border rounded-full text-xs font-bold focus:ring-2 focus:ring-blue-500 outline-none shadow-sm\"><svg class=\"w-4 h-4 absolute left-3 top-2.5 text-slate-400\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path d=\"M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z\" stroke-width=\"2\"></path></svg></div><span class=\"px-4 py-1 bg-blue-100 text-blue-700 rounded-full text-[10px] font-black uppercase\">TEAM: ${filter}</span></div>
                     </div>
                     <div class=\"p-4 md:p-8 overflow-x-auto pb-6\"><table class=\"w-full text-left responsive-table\" id=\"table-${sec.id}\"><thead><tr class=\"text-slate-400 text-[10px] font-black uppercase border-b tracking-widest\"><th class=\"pb-4 px-4\">Service Team</th><th class=\"pb-4 px-4 text-center\">Y (Success)</th><th class=\"pb-4 px-4 text-center\">N (Pending)</th><th class=\"pb-4 px-4 text-center\">Compliance Rate</th><th class=\"pb-4 px-4 text-center\">Responsibility Share</th></tr></thead><tbody class=\"divide-y divide-slate-50\">
                         ${filtered.map(d => {
-                            const rowTotal = d.Y + d.N, comp = rowTotal > 0 ? Math.round((d.Y / rowTotal) * 100) : 0, share = (secYAll + secNAll) > 0 ? Math.round((rowTotal / (secYAll + secNAll)) * 100) : 0;
+                            const rowTotal = d.Y + d.N, comp = rowTotal > 0 ? Math.round((d.Y / rowTotal) * 100) : 0, share = secTotalAll > 0 ? Math.round((rowTotal / secTotalAll) * 100) : 0;
                             const compStyle = getColorClass(comp), shareStyle = getColorClass(share), gap = 95 - comp;
                             let gapHtml = gap > 0 ? `<div class=\"w-full h-1.5 bg-slate-100 rounded-full overflow-hidden flex border border-slate-200 mt-2\"><div class=\"h-full ${compStyle.split(' ')[0].replace('text-', 'bg-')}\" style=\"width: ${comp}%\"></div><div class=\"bg-rose-400/50 h-full animate-pulse-soft\" style=\"width: ${gap}%\"></div></div><p class=\"text-[8px] font-bold text-rose-500 mt-1 uppercase tracking-tighter\">Need ${gap}% more to reach 95% Goal</p>` : `<div class=\"w-full h-1.5 bg-slate-100 rounded-full overflow-hidden flex border border-slate-200 mt-2\"><div class=\"h-full ${compStyle.split(' ')[0].replace('text-', 'bg-')}\" style=\"width: 100%\"></div></div><p class=\"text-[8px] font-bold text-emerald-500 mt-1 uppercase tracking-tighter\">✨ Goal Reached</p>`;
                             return `<tr><td class=\"py-5 px-4 font-bold text-slate-700\">${d['Service Team']}</td><td class=\"py-5 px-4 text-center text-emerald-600 font-black\">${d.Y.toLocaleString()}</td><td class=\"py-5 px-4 text-center text-rose-600 font-black\">${d.N.toLocaleString()}</td><td class=\"py-5 px-4 text-center w-48\"><div class=\"flex flex-col items-center justify-center\"><span class=\"px-3 py-1 rounded-full text-xs font-black ${compStyle} mb-1\">${comp}%</span>${gapHtml}</div></td><td class=\"py-5 px-4 text-center\"><div class=\"flex flex-col items-center justify-center space-y-1\"><span class=\"px-3 py-1 rounded-full text-xs font-black ${shareStyle}\">${share}%</span><div class=\"w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200\"><div class=\"h-full ${shareStyle.split(' ')[0].replace('text-', 'bg-')}\" style=\"width: ${share}%\"></div></div></div></td></tr>`;
@@ -703,13 +608,14 @@
             const corpPct = corpTotal > 0 ? Math.round((corpY / corpTotal) * 100) : 0;
             const globalPct = globalTotal > 0 ? Math.round((globalY / globalTotal) * 100) : 0;
             
-            targetCompliancePct = corpPct; // Hero % always Corporate
-            document.getElementById('hero-total-units').innerText = corpTotal.toLocaleString(); // Always 25,169
+            targetCompliancePct = corpPct; // Hero % always Corporate for consistency
+            document.getElementById('hero-total-units').innerText = corpTotal.toLocaleString(); 
             document.getElementById('hero-last-update').innerText = rawData.timestamp;
             
-            // SYSTEM HEALTH (Reactive to Filter)
+            // SYSTEM HEALTH (NOW REACTIVE TO FILTER)
             document.getElementById('health-resolved').innerText = globalY.toLocaleString();
             document.getElementById('health-pending').innerText = globalN.toLocaleString();
+            
             document.getElementById('grand-total').innerText = `${globalPct}% Compliance (${filter})`;
 
             updateSystemHealthUI(globalPct);
@@ -724,9 +630,9 @@
                         <h4 class="font-black text-slate-800 mb-3 text-lg leading-tight">${item.title}</h4>
                         <p class="text-sm text-slate-500 leading-relaxed mb-6 font-medium">พบรายการที่รอดำเนินการสะสม <span class="font-black text-rose-600 border-b-2 border-rose-200 pb-0.5">${item.pending.toLocaleString()} Units</span></p>
                     </div>
-                    <a href="#section-${item.id}" class="inline-flex items-center text-[10px] font-black text-rose-600 uppercase hover:text-rose-800 transition-all group">
+                    <a href=\"#section-${item.id}\" class=\"inline-flex items-center text-[10px] font-black text-rose-600 uppercase hover:text-rose-800 transition-all group\">
                         Analyze Topic Detail 
-                        <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                        <svg class=\"w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"3\" d=\"M13 7l5 5m0 0l-5 5m5-5H6\"></path></svg>
                     </a>
                 </div>`;
             });
@@ -739,7 +645,7 @@
             sortedTeams.slice(0, 5).forEach(([team, pending], index) => {
                 const riskLevel = pending > 5000 ? 'Extreme Risk' : pending > 1000 ? 'High Risk' : 'Warning';
                 const riskClass = pending > 5000 ? 'badge-critical' : pending > 1000 ? 'bg-orange-500' : 'bg-amber-500';
-                leaderboardBody.innerHTML += `<tr class="hover:bg-slate-50 transition-colors"><td class="px-6 py-5 font-black text-slate-400">#${index + 1}</td><td class="px-6 py-5 font-bold text-slate-700">${team}</td><td class="px-6 py-5 text-center text-rose-600 font-black">${pending.toLocaleString()}</td><td class="px-6 py-5 text-right"><span class="${riskClass} px-3 py-1 text-white text-[10px] font-black rounded-full uppercase shadow-sm">${riskLevel}</span></td></tr>`;
+                leaderboardBody.innerHTML += `<tr class=\"hover:bg-slate-50 transition-colors\"><td class=\"px-6 py-5 font-black text-slate-400\">#${index + 1}</td><td class=\"px-6 py-5 font-bold text-slate-700\">${team}</td><td class=\"px-6 py-5 text-center text-rose-600 font-black\">${pending.toLocaleString()}</td><td class=\"px-6 py-5 text-right\"><span class=\"${riskClass} px-3 py-1 text-white text-[10px] font-black rounded-full uppercase shadow-sm\">${riskLevel}</span></td></tr>`;
             });
 
             updateCharts(labels, percentages, globalY, globalN, teamWorkload, rawData.sections);
