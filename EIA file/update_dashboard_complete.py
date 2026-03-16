@@ -44,18 +44,18 @@ def backup_files():
             shutil.copy2(src, os.path.join(BACKUP_DIR, f"{timestamp}_{name}"))
 
 def process_data():
-    print(f"Applying Final Verified Logic V22 (Standard Release)...")
+    print(f"Applying Final Verified Logic V23 (Standard Release)...")
     sections = []
     
-    # FINAL VERIFIED SUCCESS (Y) MAPPING - V22 Latest Verified
+    # FINAL VERIFIED SUCCESS (Y) MAPPING - V23 Latest Verified (Mar 16, 2026)
     VERIFIED_Y = {
-        1: {"Branch": 194, "DC": 33, "HO": 60},      # results in 57 Pending
-        2: {"Branch": 20, "DC": 64, "HO": 55},       # Total Y 139
-        3: {"Branch": 757, "DC": 216, "HO": 1232},   # Total Y 2205 (Latest V21)
-        4: {"Branch": 77, "DC": 16, "HO": 244},      # Total Y 337 (Latest V21)
-        5: {"Branch": 3036, "DC": 822, "HO": 1217},  # Total Y 5075
-        6: {"Branch": 47, "DC": 15, "HO": 276},      # Total Y 338
-        7: {"Branch": 135, "DC": 118, "HO": 169},    # Total Y 422 (Latest V21)
+        1: {"Branch": 194, "DC": 33, "HO": 60},      # Total Y 287
+        2: {"Branch": 20, "DC": 69, "HO": 55},       # Total Y 144
+        3: {"Branch": 757, "DC": 217, "HO": 1239},   # Total Y 2213
+        4: {"Branch": 78, "DC": 16, "HO": 265},      # Total Y 359
+        5: {"Branch": 3030, "DC": 822, "HO": 1217},  # Total Y 5069
+        6: {"Branch": 61, "DC": 16, "HO": 278},      # Total Y 355
+        7: {"Branch": 137, "DC": 118, "HO": 181},    # Total Y 436
         8: {"Branch": 0, "DC": 0, "HO": 3}           # Total Y 3
     }
     
@@ -83,7 +83,7 @@ def update_html(data):
     json_data = json.dumps(data, ensure_ascii=False, indent=4)
     updated = re.sub(r'const rawData = \{.*?\};', f'const rawData = {json_data};', content, flags=re.DOTALL)
     with open(OUTPUT_HTML, 'w', encoding='utf-8') as f: f.write(updated)
-    print(f"\nSUCCESS: Local index.html updated with V22 Logic and Today's Timestamp.")
+    print(f"\nSUCCESS: Local index.html updated with V23 Logic and Today's Timestamp.")
 
 def sync_to_github():
     print("\n" + "="*30)
@@ -91,7 +91,7 @@ def sync_to_github():
     print("="*30)
     if confirm == 'y':
         try:
-            subprocess.run(["git", "add", "index.html" "EIA file/update_dashboard_complete.py"], check=True)
+            subprocess.run(["git", "add", "index.html", "EIA file/update_dashboard_complete.py"], check=True)
             commit_msg = f"Dashboard Refresh: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}"
             subprocess.run(["git", "commit", "-m", commit_msg], check=True)
             subprocess.run(["git", "push", "origin", "main"], check=True)
