@@ -131,11 +131,107 @@ def update_html(data):
     with open(OUTPUT_HTML, 'w', encoding='utf-8') as f: f.write(updated)
     print(f"\nSUCCESS: Local index.html updated with LIVE Excel data.")
 
+def export_csv_summary(data):
+    all_rows = []
+    
+    # Trackers for aggregation
+    team_summary = {"Branch": {"Y": 0, "N": 0}, "HO": {"Y": 0, "N": 0}, "DC": {"Y": 0, "N": 0}}
+    topic_summary = []
+    
+    # 1. Detailed Rows (Topic + Team)
+    all_rows.append({"Category": "--- DETAILED BREAKDOWN (TOPIC + TEAM) ---"})
+    for sec in data['sections']:
+        t_y = 0; t_n = 0
+        for d in sec['details']:
+            y = d['Y']; n = d['N']; total = y + n
+            pct = (y / total * 100) if total > 0 else 0
+            
+            all_rows.append({
+                "Category": "Detailed",
+                "Topic ID": sec['id'],
+                "Topic Title": sec['title'],
+                "Service Team": d['Service Team'],
+                "Success (Y)": y,
+                "Pending (N)": n,
+                "Total": total,
+                "Compliance %": f"{pct:.2f}%"
+            })
+            # Aggregate for team
+            team_summary[d['Service Team']]["Y"] += y
+            team_summary[d['Service Team']]["N"] += n
+            # Aggregate for topic
+            t_y += y; t_n += n
+        
+        topic_summary.append({
+            "Topic ID": sec['id'],
+            "Topic Title": sec['title'],
+            "Y": t_y, "N": t_n
+        })
+
+    all_rows.append({}) # Spacer
+    
+    # 2. Summary by Topic
+    all_rows.append({"Category": "--- SUMMARY BY TOPIC ---"})
+    for ts in topic_summary:
+        total = ts['Y'] + ts['N']
+        pct = (ts['Y'] / total * 100) if total > 0 else 0
+        all_rows.append({
+            "Category": "Topic Summary",
+            "Topic ID": ts['Topic ID'],
+            "Topic Title": ts['Topic Title'],
+            "Success (Y)": ts['Y'],
+            "Pending (N)": ts['N'],
+            "Total": total,
+            "Compliance %": f"{pct:.2f}%"
+        })
+
+    all_rows.append({}) # Spacer
+
+    # 3. Summary by Service Team
+    all_rows.append({"Category": "--- SUMMARY BY SERVICE TEAM ---"})
+    for team, vals in team_summary.items():
+        total = vals['Y'] + vals['N']
+        pct = (vals['Y'] / total * 100) if total > 0 else 0
+        all_rows.append({
+            "Category": "Team Summary",
+            "Service Team": team,
+            "Success (Y)": vals['Y'],
+            "Pending (N)": vals['N'],
+            "Total": total,
+            "Compliance %": f"{pct:.2f}%"
+        })
+
+    all_rows.append({}) # Spacer
+
+    # 4. Grand Total
+    g_y = sum(v['Y'] for v in team_summary.values())
+    g_n = sum(v['N'] for v in team_summary.values())
+    g_total = g_y + g_n
+    g_pct = (g_y / g_total * 100) if g_total > 0 else 0
+    
+    all_rows.append({"Category": "--- GRAND TOTAL PROJECT ---"})
+    all_rows.append({
+        "Category": "GRAND TOTAL",
+        "Success (Y)": g_y,
+        "Pending (N)": g_n,
+        "Total": g_total,
+        "Compliance %": f"{g_pct:.2f}%"
+    })
+
+    df = pd.DataFrame(all_rows)
+    output_path = "dashboard_summary_complete.csv"
+    # Reorder columns for clarity
+    cols = ["Category", "Topic ID", "Topic Title", "Service Team", "Success (Y)", "Pending (N)", "Total", "Compliance %"]
+    df = df[cols]
+    df.to_csv(output_path, index=False, encoding='utf-8-sig')
+    print(f"SUCCESS: Comprehensive CSV Summary exported to {output_path}")
+
 if __name__ == "__main__":
     data = process_data()
     g_total = sum(sum(d['Y']+d['N'] for d in s['details']) for s in data['sections'])
     print(f"\n>>> FINAL SYSTEM CHECK: GRAND TOTAL = {g_total} (Target: 25169) <<<")
     if g_total == 25169:
         update_html(data)
+        export_csv_summary(data)
     else:
         print(f"ERROR: Integrity Check Failed ({g_total} != 25169). Aborting.")
