@@ -28,7 +28,7 @@ TOPIC_TOTALS = {
     2: {"Branch": 7565, "DC": 863, "HO": 2691},  # Total 11119
     3: {"Branch": 788, "DC": 229, "HO": 1367},   # Total 2384
     4: {"Branch": 329, "DC": 34, "HO": 268},     # Total 631
-    5: {"Branch": 4599, "DC": 919, "HO": 1455},  # Total 6973
+    5: {"Branch": 4651, "DC": 922, "HO": 1400},  # Total 6973
     6: {"Branch": 144, "DC": 18, "HO": 374},     # Total 536
     7: {"Branch": 1859, "DC": 365, "HO": 949},   # Total 3173
     8: {"Branch": 3, "DC": 3, "HO": 3}           # Total 9
