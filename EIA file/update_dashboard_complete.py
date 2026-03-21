@@ -229,10 +229,52 @@ def export_csv_summary(data):
 
 if __name__ == "__main__":
     data = process_data()
-    g_total = sum(sum(d['Y']+d['N'] for d in s['details']) for s in data['sections'])
-    print(f"\n>>> FINAL SYSTEM CHECK: GRAND TOTAL = {g_total} (Target: 25169) <<<")
+    
+    # --- DETAILED PREVIEW TABLE (TOPIC + TEAM) ---
+    print("\n" + "="*100)
+    print(f"{'TOPIC TITLE':<45} | {'TEAM':<10} | {'SUCCESS':<10} | {'PENDING':<10} | {'TOTAL':<10} | {'% COMP'}")
+    print("-" * 100)
+    
+    for sec in data['sections']:
+        for i, d in enumerate(sec['details']):
+            title = sec['title'] if i == 0 else ""
+            y = d['Y']; n = d['N']; total = y + n
+            pct = (y / total * 100) if total > 0 else 0
+            print(f"{title:<45} | {d['Service Team']:<10} | {y:<10,} | {n:<10,} | {total:<10,} | {pct:.1f}%")
+        print("-" * 100)
+
+    # --- SUMMARY TABLE BY TEAM ---
+    print("\n" + "="*80)
+    print(f"{'SERVICE TEAM SUMMARY':<20} | {'SUCCESS (Y)':<15} | {'PENDING (N)':<15} | {'TOTAL':<15} | {'COMPLIANCE'}")
+    print("-" * 80)
+    
+    team_totals = {"Branch": {"Y": 0, "N": 0}, "HO": {"Y": 0, "N": 0}, "DC": {"Y": 0, "N": 0}}
+    for sec in data['sections']:
+        for d in sec['details']:
+            team_totals[d['Service Team']]["Y"] += d['Y']
+            team_totals[d['Service Team']]["N"] += d['N']
+            
+    for team, vals in team_totals.items():
+        y = vals['Y']; n = vals['N']; total = y + n
+        pct = (y / total * 100) if total > 0 else 0
+        print(f"{team:<20} | {y:<15,} | {n:<15,} | {total:<15,} | {pct:.2f}%")
+    
+    g_y = sum(v['Y'] for v in team_totals.values())
+    g_n = sum(v['N'] for v in team_totals.values())
+    g_total = g_y + g_n
+    g_pct = (g_y / g_total * 100) if g_total > 0 else 0
+    print("-" * 80)
+    print(f"{'PROJECT GRAND TOTAL':<20} | {g_y:<15,} | {g_n:<15,} | {g_total:<15,} | {g_pct:.2f}%")
+    print("="*80)
+
+    print(f"\n>>> SYSTEM INTEGRITY CHECK: {g_total:,} / 25,169 <<<")
+    
     if g_total == 25169:
-        update_html(data)
-        export_csv_summary(data)
+        confirm = input("\nData is correct? Do you want to update index.html and export CSV? (y/n): ")
+        if confirm.lower() == 'y':
+            update_html(data)
+            export_csv_summary(data)
+        else:
+            print("Update cancelled by user.")
     else:
         print(f"ERROR: Integrity Check Failed ({g_total} != 25169). Aborting.")
