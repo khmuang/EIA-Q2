@@ -1,15 +1,20 @@
-# Large data files
-*.csv
-*.xlsx
-*.json
-!dashboard_data.json
-
-# Local Gemini CLI files
-chats/
-logs.json
-.project_root
-
-# Other
-APIupdate/
-node_modules/
+# Security & PDPA
 .env
+*.xlsx
+prepared_data.json
+extract_data.py
+local_sync.py
+setup_db.sql
+update_dashboard.bat
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+.env
+
+# OS
+.DS_Store
+Thumbs.db
