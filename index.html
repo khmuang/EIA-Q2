@@ -3,77 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EIA Performance Report Dashboard © 2026</title>
+    <title>EIA Q2 Strategic Analytics © 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Sarabun:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Sarabun:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Sarabun', sans-serif; background: #0f172a; color: white; overflow-x: hidden; }
-        .font-montserrat { font-family: 'Montserrat', sans-serif; }
-        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .shimmer { position: relative; overflow: hidden; }
-        .shimmer::after {
-            content: ""; position: absolute; top: 0; left: -150%; width: 50%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transform: skewX(-25deg); animation: shimmer 3s infinite;
-        }
-        @keyframes shimmer { 100% { left: 150%; } }
-        .pulse-emerald { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); animation: pulse-emerald 2s infinite; }
-        @keyframes pulse-emerald { 70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
-        .bar-hover:hover { border-width: 6px; }
+        body { font-family: 'Inter', 'Sarabun', sans-serif; background: #f8fafc; color: #1e293b; scroll-behavior: smooth; }
+        .card { background: white; border-radius: 1.5rem; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); transition: all 0.3s ease; }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        .progress-ring { transform: rotate(-90deg); transform-origin: 50% 50%; }
+        .success-text { color: #10b981; }
+        .warning-text { color: #f59e0b; }
+        .critical-text { color: #ef4444; }
+        .header-bg { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="min-h-screen">
 
-    <!-- Header & Stats -->
-    <header class="max-w-7xl mx-auto mb-10 text-center md:text-left flex flex-col md:flex-row justify-between items-end gap-6">
-        <div>
-            <h1 class="font-montserrat font-black text-4xl md:text-5xl tracking-tighter uppercase text-emerald-400">EIA Performance</h1>
-            <p class="text-gray-400 mt-2 font-bold uppercase tracking-widest text-xs">Endpoint Management Team Dashboard © 2026</p>
-        </div>
-        <div class="flex gap-4 items-center">
-             <a href="#" class="px-4 py-2 glass rounded-full text-xs font-black hover:bg-white/10 transition-all uppercase shimmer">SharePoint Link</a>
-             <div class="text-right">
-                <p class="text-[10px] font-black uppercase text-rose-400">Deadline: 20 May 2026</p>
-                <p class="text-[10px] font-black uppercase text-gray-400" id="last-refresh">Data Last Refresh: --:--</p>
-             </div>
+    <!-- Top Header -->
+    <header class="header-bg text-white py-12 px-6 shadow-xl">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+            <div>
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 text-[10px] font-black uppercase tracking-widest rounded-full border border-emerald-500/30">Live Sync Active</span>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-extrabold tracking-tighter">EIA Q2 Strategic Analytics</h1>
+                <p class="text-slate-400 mt-2 font-medium">จัดทำขึ้นเพื่อรายงานผลสรุปด้านความปลอดภัย Endpoint © 2026</p>
+            </div>
+            <div class="flex flex-col items-end text-right">
+                <p class="text-[10px] font-black text-rose-400 uppercase mb-1">Audit Deadline: 20 May 2026</p>
+                <p class="text-[10px] font-bold text-slate-500" id="last-refresh">Last Sync Data: --:--</p>
+            </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto space-y-10" id="app">
+    <main class="max-w-7xl mx-auto px-6 -mt-10 pb-20 space-y-10">
         
-        <!-- Overall Stats Section -->
-        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="md:col-span-2 glass p-10 rounded-3xl shimmer relative flex flex-col justify-center items-center">
-                <div id="health-ring" class="absolute -z-10 w-48 h-48 rounded-full blur-3xl opacity-20 transition-all duration-1000"></div>
-                <p class="text-[10px] font-black uppercase tracking-widest text-emerald-400 mb-2">Overall Compliance Performance Score</p>
-                <h2 class="font-montserrat font-black text-8xl md:text-9xl tracking-tighter" id="overall-score">0.0%</h2>
+        <!-- Global Metrics Bar (4.1 - 4.3) -->
+        <section class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div class="card p-8 flex flex-col items-center justify-center text-center border-t-4 border-indigo-500">
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Overall Compliance</p>
+                <div class="text-5xl font-extrabold tracking-tighter" id="overall-score">0%</div>
             </div>
-            <div class="glass p-8 rounded-3xl flex flex-col justify-between">
-                <div>
-                    <p class="text-[10px] font-black uppercase text-gray-400">Total Audited Units</p>
-                    <p class="text-4xl md:text-5xl font-black font-montserrat" id="total-units">0</p>
-                </div>
-                <div>
-                    <p class="text-[10px] font-black uppercase text-gray-400 mb-2">View by Service Team</p>
-                    <select id="team-filter" class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-sm font-bold focus:outline-none">
-                        <option value="all">ALL TEAMS</option>
-                    </select>
-                </div>
-                <button class="w-full py-4 bg-emerald-600 rounded-2xl font-black uppercase text-xs hover:bg-emerald-500 transition-all shimmer">Export CSV Summary</button>
+            <div class="card p-8">
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Total Audited Units</p>
+                <div class="text-4xl font-extrabold tracking-tighter" id="total-units">0</div>
+                <div class="w-full bg-slate-100 h-1.5 rounded-full mt-4 overflow-hidden"><div class="bg-indigo-500 h-full w-full"></div></div>
+            </div>
+            <div class="card p-8">
+                <p class="text-[10px] font-black text-emerald-500 uppercase tracking-widest mb-2">Success (Y)</p>
+                <div class="text-4xl font-extrabold tracking-tighter text-emerald-600" id="success-units">0</div>
+                <div class="w-full bg-slate-100 h-1.5 rounded-full mt-4 overflow-hidden"><div id="success-bar" class="bg-emerald-500 h-full"></div></div>
+            </div>
+            <div class="card p-8">
+                <p class="text-[10px] font-black text-rose-500 uppercase tracking-widest mb-2">Pending (N)</p>
+                <div class="text-4xl font-extrabold tracking-tighter text-rose-600" id="pending-units">0</div>
+                <div class="w-full bg-slate-100 h-1.5 rounded-full mt-4 overflow-hidden"><div id="pending-bar" class="bg-rose-500 h-full"></div></div>
             </div>
         </section>
 
-        <!-- Topic Cards Grid -->
+        <!-- Team Segment Breakdown (4.6) -->
+        <section class="card p-10">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
+                <h3 class="text-xl font-extrabold tracking-tight uppercase">Team Performance Distribution</h3>
+                <div class="flex items-center gap-4">
+                    <select id="team-filter" class="bg-slate-50 border border-slate-200 text-xs font-bold py-2 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
+                        <option value="all">View All Global Teams</option>
+                    </select>
+                    <button onclick="window.print()" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 transition-all uppercase">Export Report</button>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10" id="team-grid">
+                <!-- Teams injected here -->
+            </div>
+        </section>
+
+        <!-- Topic Compliance Grid (9 Topics) -->
+        <div class="flex items-center gap-4 mb-6">
+            <h3 class="text-xl font-extrabold tracking-tight uppercase">Topic Status Monitor</h3>
+            <div class="h-px bg-slate-200 flex-grow"></div>
+        </div>
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6" id="topic-grid">
-            <!-- Cards will be injected here -->
+            <!-- Topics injected here -->
         </section>
 
     </main>
 
-    <footer class="max-w-7xl mx-auto mt-20 pt-10 border-t border-white/5 text-center text-[10px] font-black uppercase tracking-widest text-gray-500">
-        <p>EIA Performance Report Dashboard © 2026 | Visitor Counter: 1,248</p>
-        <p class="mt-2">Prepared by Endpoint Management Team</p>
-        <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="mt-8 text-emerald-400 hover:text-white transition-all underline">Go to Top</button>
+    <!-- Footer (4.7) -->
+    <footer class="bg-white border-t border-slate-200 py-16 px-6 text-center">
+        <div class="max-w-4xl mx-auto space-y-4">
+            <p class="text-xs font-black text-slate-400 uppercase tracking-[0.3em]">Prepared by Endpoint Management Team</p>
+            <h4 class="text-lg font-extrabold text-slate-800 uppercase">EIA Performance Report Dashboard © 2026</h4>
+            <div class="flex justify-center items-center gap-6 mt-6">
+                <div class="text-[10px] font-bold text-slate-500">Visitor: 001,248</div>
+                <div class="h-4 w-px bg-slate-200"></div>
+                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="text-[10px] font-black text-indigo-600 hover:underline uppercase tracking-widest">Back to top</button>
+            </div>
+        </div>
     </footer>
 
     <script>
@@ -81,107 +106,106 @@
             try {
                 const response = await fetch('dashboard_data.json');
                 const data = await response.json();
-                render(data, 'all');
-
-                // Fill team filter
+                
+                // Populate Team Filter
                 const select = document.getElementById('team-filter');
                 Object.keys(data.teams).sort().forEach(team => {
                     const opt = document.createElement('option');
-                    opt.value = team;
-                    opt.textContent = team;
+                    opt.value = team; opt.textContent = team;
                     select.appendChild(opt);
                 });
 
                 select.addEventListener('change', (e) => render(data, e.target.value));
-            } catch (err) {
-                console.error("Failed to load dashboard data", err);
-            }
+                render(data, 'all');
+            } catch (err) { console.error("Sync Data Error:", err); }
         }
 
         function render(data, filter) {
-            let score, units, topics;
-
+            let score, units, success, topics;
             if (filter === 'all') {
-                score = data.overall_score;
-                units = data.total_units;
-                topics = data.topics;
+                score = data.overall_score; units = data.total_units; topics = data.topics;
+                success = topics.reduce((acc, t) => acc + t.success, 0);
             } else {
                 const team = data.teams[filter];
                 score = team.overall;
                 units = Object.values(team.topics).reduce((a, b) => a + b.total, 0);
-                topics = data.topics.map(t => ({
-                    ...t,
-                    ...team.topics[t.id]
-                }));
+                success = Object.values(team.topics).reduce((a, b) => a + b.success, 0);
+                topics = data.topics.map(t => ({ ...t, ...team.topics[t.id] }));
             }
+            let pending = units - success;
 
-            // Update UI
+            // Update UI Stats
             document.getElementById('overall-score').textContent = score.toFixed(1) + '%';
             document.getElementById('total-units').textContent = units.toLocaleString();
-            document.getElementById('last-refresh').textContent = 'Data Last Refresh: ' + data.last_refresh;
+            document.getElementById('success-units').textContent = success.toLocaleString();
+            document.getElementById('pending-units').textContent = pending.toLocaleString();
+            document.getElementById('last-refresh').textContent = 'Last Sync Data: ' + data.last_refresh;
 
-            // Health Dynamic Color
-            const scoreNum = parseFloat(score);
-            let color = 'rose';
-            if (scoreNum >= 90) color = 'emerald';
-            else if (scoreNum >= 70) color = 'blue';
-            else if (scoreNum >= 50) color = 'amber';
+            const successPct = units > 0 ? (success / units * 100) : 0;
+            document.getElementById('success-bar').style.width = successPct + '%';
+            document.getElementById('pending-bar').style.width = (100 - successPct) + '%';
 
-            const scoreEl = document.getElementById('overall-score');
-            scoreEl.className = `font-montserrat font-black text-8xl md:text-9xl tracking-tighter text-${color}-400`;
-            document.getElementById('health-ring').className = `absolute -z-10 w-64 h-64 rounded-full blur-3xl opacity-30 transition-all duration-1000 bg-${color}-500`;
+            // Render Teams Summary
+            const teamGrid = document.getElementById('team-grid');
+            teamGrid.innerHTML = '';
+            Object.entries(data.teams).sort((a,b) => b[1].overall - a[1].overall).forEach(([name, info]) => {
+                const tColor = info.overall >= 90 ? 'text-emerald-500' : info.overall >= 70 ? 'text-indigo-500' : 'text-rose-500';
+                
+                // Generate Topic Bars for this team
+                let topicBarsHtml = '';
+                data.topics.forEach(topicRef => {
+                    const tData = info.topics[topicRef.id] || { compliance: 0 };
+                    const barColor = tData.compliance >= 90 ? 'bg-emerald-500' : tData.compliance >= 70 ? 'bg-indigo-500' : 'bg-rose-500';
+                    topicBarsHtml += `
+                        <div class="mb-3">
+                            <div class="flex justify-between text-[9px] font-bold mb-1 uppercase text-slate-500">
+                                <span class="truncate pr-4">${topicRef.id} ${topicRef.name}</span>
+                                <span>${tData.compliance}%</span>
+                            </div>
+                            <div class="w-full bg-slate-100 h-1 rounded-full overflow-hidden">
+                                <div class="h-full ${barColor} transition-all duration-1000" style="width: ${tData.compliance}%"></div>
+                            </div>
+                        </div>
+                    `;
+                });
 
-            // Render Service Team Summary Table
-            const tableBody = document.getElementById('team-summary-body');
-            tableBody.innerHTML = '';
-            
-            const grandTotal = Object.values(data.teams).reduce((sum, team) => {
-                return sum + Object.values(team.topics).reduce((tSum, t) => tSum + t.total, 0);
-            }, 0);
-
-            Object.entries(data.teams).sort((a, b) => b[1].overall - a[1].overall).forEach(([teamName, teamInfo]) => {
-                const teamTotal = Object.values(teamInfo.topics).reduce((sum, t) => sum + t.total, 0);
-                const teamSuccess = Object.values(teamInfo.topics).reduce((sum, t) => sum + t.success, 0);
-                const teamPending = teamTotal - teamSuccess;
-                const share = ((teamTotal / grandTotal) * 100).toFixed(1);
-                const tColor = teamInfo.overall >= 90 ? 'emerald' : teamInfo.overall >= 50 ? 'amber' : 'rose';
-
-                const row = `
-                    <tr class="border-b border-white/5 hover:bg-white/5 transition-all">
-                        <td class="py-4 text-xs font-black uppercase tracking-tighter">${teamName}</td>
-                        <td class="py-4 text-center font-montserrat text-emerald-400">${teamSuccess.toLocaleString()}</td>
-                        <td class="py-4 text-center font-montserrat text-rose-400">${teamPending.toLocaleString()}</td>
-                        <td class="py-4 text-center">
-                            <span class="px-3 py-1 rounded-full bg-${tColor}-500/10 text-${tColor}-400 font-montserrat">${teamInfo.overall.toFixed(1)}%</span>
-                        </td>
-                        <td class="py-4 text-right font-montserrat text-gray-400">${share}%</td>
-                    </tr>
-                `;
-                tableBody.innerHTML += row;
+                teamGrid.innerHTML += `
+                    <div class="p-8 border border-slate-100 rounded-[2rem] bg-slate-50/30 flex flex-col h-full">
+                        <div class="flex justify-between items-end mb-6 border-b border-slate-100 pb-4">
+                            <div>
+                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">${name} SEGMENT</p>
+                                <div class="text-3xl font-extrabold tracking-tighter ${tColor}">${info.overall.toFixed(1)}%</div>
+                            </div>
+                            <div class="text-[9px] font-black text-slate-400 uppercase mb-1">Breakdown</div>
+                        </div>
+                        <div class="flex-grow">
+                            ${topicBarsHtml}
+                        </div>
+                    </div>`;
             });
 
-            // Render Topic Cards
-            const grid = document.getElementById('topic-grid');
-            grid.innerHTML = '';
-            
+            // Render Topics
+            const topicGrid = document.getElementById('topic-grid');
+            topicGrid.innerHTML = '';
             topics.forEach(t => {
-                const cardColor = t.compliance >= 90 ? 'emerald' : t.compliance >= 50 ? 'amber' : 'rose';
-                const card = `
-                    <div class="glass p-6 rounded-3xl shimmer group transition-all duration-500 hover:-translate-y-2">
-                        <div class="flex justify-between items-start mb-4">
-                            <h3 class="text-xs font-black uppercase text-gray-400 tracking-tighter leading-tight w-2/3">${t.id} ${t.name}</h3>
-                            <span class="text-2xl font-black font-montserrat text-${cardColor}-400">${t.compliance}%</span>
+                const tColor = t.compliance >= 90 ? 'emerald' : t.compliance >= 70 ? 'indigo' : 'rose';
+                topicGrid.innerHTML += `
+                    <div class="card p-8 group">
+                        <div class="flex justify-between items-start mb-6">
+                            <div>
+                                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">${t.id}</span>
+                                <h4 class="text-sm font-bold text-slate-700 mt-1 uppercase leading-tight">${t.name}</h4>
+                            </div>
+                            <div class="text-2xl font-black text-${tColor}-500">${t.compliance}%</div>
                         </div>
-                        <div class="w-full bg-white/5 h-2 rounded-full overflow-hidden mb-4">
-                            <div class="h-full bg-${cardColor}-500 transition-all duration-1000" style="width: ${t.compliance}%"></div>
+                        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden mb-6">
+                            <div class="h-full bg-${tColor}-500 transition-all duration-1000" style="width: ${t.compliance}%"></div>
                         </div>
-                        <div class="flex justify-between items-center text-[10px] font-black uppercase">
-                            <span class="text-gray-500">Success: ${t.success.toLocaleString()}</span>
-                            <span class="text-gray-500">Total: ${t.total.toLocaleString()}</span>
+                        <div class="flex justify-between text-[10px] font-bold uppercase text-slate-500">
+                            <span>Success: ${t.success.toLocaleString()}</span>
+                            <span>Total: ${t.total.toLocaleString()}</span>
                         </div>
-                    </div>
-                `;
-                grid.innerHTML += card;
+                    </div>`;
             });
         }
 
