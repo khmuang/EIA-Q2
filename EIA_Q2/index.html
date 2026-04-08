@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EIA Performance Report Dashboard © 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Sarabun:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Sarabun', sans-serif; background: #0f172a; color: white; overflow-x: hidden; }
+        .font-montserrat { font-family: 'Montserrat', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .shimmer { position: relative; overflow: hidden; }
+        .shimmer::after {
+            content: ""; position: absolute; top: 0; left: -150%; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: skewX(-25deg); animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer { 100% { left: 150%; } }
+        .pulse-emerald { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); animation: pulse-emerald 2s infinite; }
+        @keyframes pulse-emerald { 70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
+        .bar-hover:hover { border-width: 6px; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <!-- Header & Stats -->
+    <header class="max-w-7xl mx-auto mb-10 text-center md:text-left flex flex-col md:flex-row justify-between items-end gap-6">
+        <div>
+            <h1 class="font-montserrat font-black text-4xl md:text-5xl tracking-tighter uppercase text-emerald-400">EIA Performance</h1>
+            <p class="text-gray-400 mt-2 font-bold uppercase tracking-widest text-xs">Endpoint Management Team Dashboard © 2026</p>
+        </div>
+        <div class="flex gap-4 items-center">
+             <a href="#" class="px-4 py-2 glass rounded-full text-xs font-black hover:bg-white/10 transition-all uppercase shimmer">SharePoint Link</a>
+             <div class="text-right">
+                <p class="text-[10px] font-black uppercase text-rose-400">Deadline: 20 May 2026</p>
+                <p class="text-[10px] font-black uppercase text-gray-400" id="last-refresh">Data Last Refresh: --:--</p>
+             </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto space-y-10" id="app">
+        
+        <!-- Overall Stats Section -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="md:col-span-2 glass p-10 rounded-3xl shimmer relative flex flex-col justify-center items-center">
+                <div id="health-ring" class="absolute -z-10 w-48 h-48 rounded-full blur-3xl opacity-20 transition-all duration-1000"></div>
+                <p class="text-[10px] font-black uppercase tracking-widest text-emerald-400 mb-2">Overall Compliance Performance Score</p>
+                <h2 class="font-montserrat font-black text-8xl md:text-9xl tracking-tighter" id="overall-score">0.0%</h2>
+            </div>
+            <div class="glass p-8 rounded-3xl flex flex-col justify-between">
+                <div>
+                    <p class="text-[10px] font-black uppercase text-gray-400">Total Audited Units</p>
+                    <p class="text-4xl md:text-5xl font-black font-montserrat" id="total-units">0</p>
+                </div>
+                <div>
+                    <p class="text-[10px] font-black uppercase text-gray-400 mb-2">View by Service Team</p>
+                    <select id="team-filter" class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-sm font-bold focus:outline-none">
+                        <option value="all">ALL TEAMS</option>
+                    </select>
+                </div>
+                <button class="w-full py-4 bg-emerald-600 rounded-2xl font-black uppercase text-xs hover:bg-emerald-500 transition-all shimmer">Export CSV Summary</button>
+            </div>
+        </section>
+
+        <!-- Topic Cards Grid -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6" id="topic-grid">
+            <!-- Cards will be injected here -->
+        </section>
+
+    </main>
+
+    <footer class="max-w-7xl mx-auto mt-20 pt-10 border-t border-white/5 text-center text-[10px] font-black uppercase tracking-widest text-gray-500">
+        <p>EIA Performance Report Dashboard © 2026 | Visitor Counter: 1,248</p>
+        <p class="mt-2">Prepared by Endpoint Management Team</p>
+        <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="mt-8 text-emerald-400 hover:text-white transition-all underline">Go to Top</button>
+    </footer>
+
+    <script>
+        async function loadDashboard() {
+            try {
+                const response = await fetch('dashboard_data.json');
+                const data = await response.json();
+                render(data, 'all');
+
+                // Fill team filter
+                const select = document.getElementById('team-filter');
+                Object.keys(data.teams).sort().forEach(team => {
+                    const opt = document.createElement('option');
+                    opt.value = team;
+                    opt.textContent = team;
+                    select.appendChild(opt);
+                });
+
+                select.addEventListener('change', (e) => render(data, e.target.value));
+            } catch (err) {
+                console.error("Failed to load dashboard data", err);
+            }
+        }
+
+        function render(data, filter) {
+            let score, units, topics;
+
+            if (filter === 'all') {
+                score = data.overall_score;
+                units = data.total_units;
+                topics = data.topics;
+            } else {
+                const team = data.teams[filter];
+                score = team.overall;
+                units = Object.values(team.topics).reduce((a, b) => a + b.total, 0);
+                topics = data.topics.map(t => ({
+                    ...t,
+                    ...team.topics[t.id]
+                }));
+            }
+
+            // Update UI
+            document.getElementById('overall-score').textContent = score.toFixed(1) + '%';
+            document.getElementById('total-units').textContent = units.toLocaleString();
+            document.getElementById('last-refresh').textContent = 'Data Last Refresh: ' + data.last_refresh;
+
+            // Health Dynamic Color
+            const scoreNum = parseFloat(score);
+            let color = 'rose';
+            if (scoreNum >= 90) color = 'emerald';
+            else if (scoreNum >= 70) color = 'blue';
+            else if (scoreNum >= 50) color = 'amber';
+
+            const scoreEl = document.getElementById('overall-score');
+            scoreEl.className = `font-montserrat font-black text-8xl md:text-9xl tracking-tighter text-${color}-400`;
+            document.getElementById('health-ring').className = `absolute -z-10 w-64 h-64 rounded-full blur-3xl opacity-30 transition-all duration-1000 bg-${color}-500`;
+
+            // Render Topic Cards
+            const grid = document.getElementById('topic-grid');
+            grid.innerHTML = '';
+            
+            topics.forEach(t => {
+                const cardColor = t.compliance >= 90 ? 'emerald' : t.compliance >= 50 ? 'amber' : 'rose';
+                const card = `
+                    <div class="glass p-6 rounded-3xl shimmer group transition-all duration-500 hover:-translate-y-2">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xs font-black uppercase text-gray-400 tracking-tighter leading-tight w-2/3">${t.id} ${t.name}</h3>
+                            <span class="text-2xl font-black font-montserrat text-${cardColor}-400">${t.compliance}%</span>
+                        </div>
+                        <div class="w-full bg-white/5 h-2 rounded-full overflow-hidden mb-4">
+                            <div class="h-full bg-${cardColor}-500 transition-all duration-1000" style="width: ${t.compliance}%"></div>
+                        </div>
+                        <div class="flex justify-between items-center text-[10px] font-black uppercase">
+                            <span class="text-gray-500">Success: ${t.success.toLocaleString()}</span>
+                            <span class="text-gray-500">Total: ${t.total.toLocaleString()}</span>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            });
+        }
+
+        loadDashboard();
+    </script>
+</body>
+</html>
