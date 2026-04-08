@@ -131,6 +131,35 @@
             scoreEl.className = `font-montserrat font-black text-8xl md:text-9xl tracking-tighter text-${color}-400`;
             document.getElementById('health-ring').className = `absolute -z-10 w-64 h-64 rounded-full blur-3xl opacity-30 transition-all duration-1000 bg-${color}-500`;
 
+            // Render Service Team Summary Table
+            const tableBody = document.getElementById('team-summary-body');
+            tableBody.innerHTML = '';
+            
+            const grandTotal = Object.values(data.teams).reduce((sum, team) => {
+                return sum + Object.values(team.topics).reduce((tSum, t) => tSum + t.total, 0);
+            }, 0);
+
+            Object.entries(data.teams).sort((a, b) => b[1].overall - a[1].overall).forEach(([teamName, teamInfo]) => {
+                const teamTotal = Object.values(teamInfo.topics).reduce((sum, t) => sum + t.total, 0);
+                const teamSuccess = Object.values(teamInfo.topics).reduce((sum, t) => sum + t.success, 0);
+                const teamPending = teamTotal - teamSuccess;
+                const share = ((teamTotal / grandTotal) * 100).toFixed(1);
+                const tColor = teamInfo.overall >= 90 ? 'emerald' : teamInfo.overall >= 50 ? 'amber' : 'rose';
+
+                const row = `
+                    <tr class="border-b border-white/5 hover:bg-white/5 transition-all">
+                        <td class="py-4 text-xs font-black uppercase tracking-tighter">${teamName}</td>
+                        <td class="py-4 text-center font-montserrat text-emerald-400">${teamSuccess.toLocaleString()}</td>
+                        <td class="py-4 text-center font-montserrat text-rose-400">${teamPending.toLocaleString()}</td>
+                        <td class="py-4 text-center">
+                            <span class="px-3 py-1 rounded-full bg-${tColor}-500/10 text-${tColor}-400 font-montserrat">${teamInfo.overall.toFixed(1)}%</span>
+                        </td>
+                        <td class="py-4 text-right font-montserrat text-gray-400">${share}%</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+
             // Render Topic Cards
             const grid = document.getElementById('topic-grid');
             grid.innerHTML = '';
