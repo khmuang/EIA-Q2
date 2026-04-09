@@ -184,6 +184,17 @@
             50% { transform: translateY(-10px); }
         }
 
+        #go-to-top::after { content: "↑"; font-size: 24px; font-weight: 900; color: #fff; }
+        
+        /* Trend Badges */
+        .trend-badge {
+            font-size: 10px; font-weight: 900; padding: 2px 6px; border-radius: 4px;
+            margin-left: 8px; display: inline-flex; align-items: center; gap: 3px;
+        }
+        .trend-up { background: rgba(16, 185, 129, 0.2); color: var(--accent-emerald); }
+        .trend-down { background: rgba(244, 63, 94, 0.2); color: var(--accent-rose); }
+        .trend-stable { background: rgba(255, 255, 255, 0.1); color: var(--text-dim); }
+
         footer { text-align: center; margin-top: 40px; padding: 30px 0; color: var(--text-dim); font-size: 0.75rem; border-top: 1px solid var(--glass-border); }
     </style>
 </head>
@@ -349,6 +360,22 @@
             document.getElementById('view-label').innerText = `${currentTeam} (${currentPhase})`;
             document.getElementById('last-updated-text').innerText = (typeof LAST_UPDATED !== 'undefined') ? LAST_UPDATED : 'Unknown';
 
+            // Calculate Trend (Q1 vs Q2) for each topic
+            const trendData = {};
+            topicOrder.forEach(tid => {
+                let q1_s = 0, q1_t = 0, q2_s = 0, q2_t = 0;
+                Object.keys(DASHBOARD_DATA).forEach(team => {
+                    if (currentTeam !== 'OVERALL' && team !== currentTeam) return;
+                    const phases = DASHBOARD_DATA[team][tid] || {};
+                    if (phases['Q1']) { q1_s += phases['Q1'].success; q1_t += phases['Q1'].total; }
+                    if (phases['Q2']) { q2_s += phases['Q2'].success; q2_t += phases['Q2'].total; }
+                });
+                const q1_pct = q1_t > 0 ? Math.round((q1_s / q1_t) * 100) : 0;
+                const q2_pct = q2_t > 0 ? Math.round((q2_s / q2_t) * 100) : 0;
+                const delta = q2_pct - q1_pct;
+                trendData[tid] = { delta, q1_pct, q2_pct };
+            });
+
             // Update Podium (Calculate overall per team)
             const teamRanks = [];
             Object.keys(DASHBOARD_DATA).forEach(team => {
@@ -392,10 +419,24 @@
             list.innerHTML = '';
             topicOrder.forEach(tid => {
                 const item = filteredData[tid];
+                const trend = trendData[tid];
+                
+                let trendHtml = '';
+                if (trend.delta > 0) {
+                    trendHtml = `<span class="trend-badge trend-up">▲ ${trend.delta}%</span>`;
+                } else if (trend.delta < 0) {
+                    trendHtml = `<span class="trend-badge trend-down">▼ ${Math.abs(trend.delta)}%</span>`;
+                } else {
+                    trendHtml = `<span class="trend-badge trend-stable">● 0%</span>`;
+                }
+
                 const div = document.createElement('div');
                 div.className = 'topic-item';
                 div.innerHTML = `
-                    <div class="topic-info"><h4>${tid} ${topicsConfig[tid]}</h4><p>${item.success}/${item.total} Units</p></div>
+                    <div class="topic-info">
+                        <h4>${tid} ${topicsConfig[tid]}</h4>
+                        <p>${item.success}/${item.total} Units ${trendHtml}</p>
+                    </div>
                     <div class="topic-pct" style="color: ${item.compliance >= 81 ? 'var(--accent-emerald)' : 'var(--accent-rose)'}">${item.compliance}%</div>
                 `;
                 list.appendChild(div);
