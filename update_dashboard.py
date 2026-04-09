@@ -4,10 +4,23 @@ import json
 import datetime
 
 # --- CONFIGURATION ---
-# Script resides in root, Excel files are in EIAQ2/ subfolder
+# Script handles both Root and EIAQ2/ execution
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-FOLDER_PATH = os.path.join(BASE_DIR, 'EIAQ2')
-OUTPUT_FILE = os.path.join(BASE_DIR, 'data.js')
+
+# Auto-detect location
+if BASE_DIR.endswith('EIAQ2'):
+    # Running from INSIDE EIAQ2/ subfolder
+    FOLDER_PATH = BASE_DIR
+    OUTPUT_FILE = os.path.join(os.path.dirname(BASE_DIR), 'data.js')
+    PROJECT_ROOT = os.path.dirname(BASE_DIR)
+else:
+    # Running from ROOT
+    FOLDER_PATH = os.path.join(BASE_DIR, 'EIAQ2')
+    OUTPUT_FILE = os.path.join(BASE_DIR, 'data.js')
+    PROJECT_ROOT = BASE_DIR
+
+# Ensure a copy exists in EIAQ2 as well for consistency
+ALT_OUTPUT_FILE = os.path.join(PROJECT_ROOT, 'EIAQ2', 'data.js')
 
 TOPICS_CONFIG = {
     "1.1 IT Asset Management.xlsx": {"id": "1.1", "status_col": "Asset update status Y/N", "team_col": "Groups"},
@@ -22,7 +35,8 @@ TOPICS_CONFIG = {
 }
 
 def sync():
-    print("Starting Dashboard Data Sync...")
+    print(f"[START] Starting Dashboard Data Sync...")
+    print(f"[PATH] Looking for Excel files in: {FOLDER_PATH}")
     multi_matrix = {}
     
     for filename, mapping in TOPICS_CONFIG.items():
@@ -80,12 +94,21 @@ def sync():
 
     with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
         f.write(js_content)
+    
+    # Also update the companion file in EIAQ2 (for local consistency)
+    try:
+        with open(ALT_OUTPUT_FILE, 'w', encoding='utf-8') as f:
+            f.write(js_content)
+    except Exception as e:
+        print(f"[WARNING] Note: Could not update secondary data.js in EIAQ2: {e}")
 
-    print(f"Sync complete! Data saved to: {OUTPUT_FILE}")
+    print(f"[SUCCESS] Sync complete!")
+    print(f"ROOT data.js: {OUTPUT_FILE}")
+    print(f"EIAQ2 data.js: {ALT_OUTPUT_FILE}")
     print("\n--- NEXT STEPS FOR GITHUB ---")
-    print("1. git add data.js")
-    print("2. git commit -m \"Update dashboard data - {now}\"")
-    print("3. git push")
+    print(f"1. git add data.js")
+    print(f"2. git commit -m \"Update dashboard data - {now}\"")
+    print(f"3. git push")
     print("----------------------------\n")
 
 if __name__ == "__main__":

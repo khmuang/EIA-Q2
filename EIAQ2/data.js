@@ -1,86 +1,86 @@
-// Automatically generated at 2026-04-09 12:07:57
+// Automatically generated at 2026-04-09 14:05:01
 const DASHBOARD_DATA = {
     "Branch": {
         "1.1": {
             "Q1": {
                 "total": 10,
-                "success": 0
+                "success": 10
             },
             "Q2": {
                 "total": 145,
-                "success": 8
+                "success": 118
             }
         },
         "1.2": {
             "Q2": {
                 "total": 30,
-                "success": 0
+                "success": 30
             }
         },
         "2": {
             "Q1": {
                 "total": 3578,
-                "success": 0
+                "success": 3573
             },
             "Q2": {
                 "total": 60,
-                "success": 0
+                "success": 60
             }
         },
         "3": {
             "Q1": {
                 "total": 4,
-                "success": 0
+                "success": 4
             },
             "Q2": {
                 "total": 86,
-                "success": 0
+                "success": 86
             }
         },
         "4": {
             "Q1": {
                 "total": 117,
-                "success": 0
+                "success": 117
             },
             "Q2": {
                 "total": 71,
-                "success": 0
+                "success": 71
             }
         },
         "5": {
             "Q1": {
                 "total": 348,
-                "success": 0
+                "success": 281
             },
             "Q2": {
                 "total": 2894,
-                "success": 0
+                "success": 1907
             }
         },
         "6": {
             "Q1": {
                 "total": 21,
-                "success": 0
+                "success": 20
             },
             "Q2": {
                 "total": 145,
-                "success": 0
+                "success": 98
             }
         },
         "7": {
             "Q1": {
                 "total": 237,
-                "success": 0
+                "success": 12
             },
             "Q2": {
                 "total": 625,
-                "success": 0
+                "success": 18
             }
         },
         "8": {
             "Q2": {
                 "total": 3,
-                "success": 0
+                "success": 1
             }
         }
     },
@@ -88,43 +88,43 @@ const DASHBOARD_DATA = {
         "1.1": {
             "Q2": {
                 "total": 31,
-                "success": 5
+                "success": 31
             }
         },
         "1.2": {
             "Q2": {
                 "total": 5,
-                "success": 0
+                "success": 5
             }
         },
         "2": {
             "Q1": {
                 "total": 591,
-                "success": 0
+                "success": 591
             },
             "Q2": {
                 "total": 8,
-                "success": 0
+                "success": 8
             }
         },
         "3": {
             "Q1": {
                 "total": 1,
-                "success": 0
+                "success": 1
             },
             "Q2": {
                 "total": 35,
-                "success": 0
+                "success": 35
             }
         },
         "4": {
             "Q1": {
                 "total": 6,
-                "success": 0
+                "success": 6
             },
             "Q2": {
                 "total": 27,
-                "success": 0
+                "success": 27
             }
         },
         "5": {
@@ -168,39 +168,39 @@ const DASHBOARD_DATA = {
         "1.1": {
             "Q2": {
                 "total": 15,
-                "success": 4
+                "success": 15
             }
         },
         "1.2": {
             "Q2": {
                 "total": 14,
-                "success": 0
+                "success": 6
             }
         },
         "2": {
             "Q1": {
                 "total": 1432,
-                "success": 0
+                "success": 1426
             },
             "Q2": {
                 "total": 36,
-                "success": 0
+                "success": 33
             }
         },
         "3": {
             "Q1": {
                 "total": 15,
-                "success": 0
+                "success": 15
             },
             "Q2": {
                 "total": 182,
-                "success": 0
+                "success": 182
             }
         },
         "4": {
             "Q2": {
                 "total": 68,
-                "success": 0
+                "success": 43
             }
         },
         "5": {
@@ -236,9 +236,9 @@ const DASHBOARD_DATA = {
         "8": {
             "Q2": {
                 "total": 3,
-                "success": 0
+                "success": 1
             }
         }
     }
 };
-const LAST_UPDATED = '2026-04-09 12:07:57';
+const LAST_UPDATED = '2026-04-09 14:05:01';
