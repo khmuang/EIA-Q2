@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI Enhancement Demo V2 - EIA Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Sarabun', sans-serif; 
+            background: #0f172a; 
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* 1. Scroll Reveal Styles */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 2. Glassmorphism + Shimmer Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+            transform: skewX(-25deg);
+            transition: 0.5s;
+        }
+        .glass-card:hover::before {
+            left: 150%;
+        }
+        .glass-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .section-tag {
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #3b82f6;
+            margin-bottom: 8px;
+            display: block;
+        }
+    </style>
+</head>
+<body class="p-10 space-y-20">
+
+    <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-4xl font-black mb-4 tracking-tight">UI Enhancement Preview <span class="text-blue-500">V2</span></h1>
+        <p class="text-slate-400">เพิ่มเอฟเฟกต์การย่อ-ขยายแท่งกราฟเรียบร้อยครับ</p>
+    </div>
+
+    <!-- Example 1: Glassmorphism Shimmer -->
+    <section class="max-w-5xl mx-auto reveal">
+        <span class="section-tag text-center">Design Feature</span>
+        <h2 class="text-2xl font-bold mb-8 text-center">1. Glassmorphism with Shimmer Effect</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="glass-card p-8 text-center">
+                <div class="w-12 h-12 bg-blue-500 rounded-xl mb-4 mx-auto flex items-center justify-center">🚀</div>
+                <h3 class="font-bold text-lg">Premium Finish</h3>
+                <p class="text-xs text-slate-400 mt-2">กระจกฝ้าที่ดูสะอาดตาและทันสมัย</p>
+            </div>
+            <div class="glass-card p-8 text-center border-emerald-500/30">
+                <div class="w-12 h-12 bg-emerald-500 rounded-xl mb-4 mx-auto flex items-center justify-center">✨</div>
+                <h3 class="font-bold text-lg">Active Shimmer</h3>
+                <p class="text-xs text-slate-400 mt-2">เมาส์ชี้เพื่อดูแสงสะท้อนวิ่งผ่าน</p>
+            </div>
+            <div class="glass-card p-8 text-center">
+                <div class="w-12 h-12 bg-rose-500 rounded-xl mb-4 mx-auto flex items-center justify-center">🔥</div>
+                <h3 class="font-bold text-lg">Soft Response</h3>
+                <p class="text-xs text-slate-400 mt-2">ยกระดับด้วย Shadow และ Scale</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Example 2: Enhanced Chart Interactivity (WITH SCALE EFFECT) -->
+    <section class="max-w-5xl mx-auto reveal">
+        <span class="section-tag text-center">Chart Feature</span>
+        <h2 class="text-2xl font-bold mb-8 text-center">2. Lively Scaling Bar Chart</h2>
+        <div class="bg-slate-900/50 p-10 rounded-[2.5rem] border border-slate-800 shadow-2xl relative">
+            <div class="absolute top-6 right-10 text-[10px] font-black text-emerald-500 animate-pulse uppercase">● Interactive Mode Active</div>
+            <div class="h-72"><canvas id="demoChart"></canvas></div>
+            <p class="text-center text-xs text-slate-500 mt-8 font-medium">ลองนำเมาส์ไปชี้ที่แท่งกราฟ: <span class="text-emerald-400">แท่งกราฟจะ "ขยาย" และ "เน้นขอบ" ให้ดูเด่นขึ้นครับ</span></p>
+        </div>
+    </section>
+
+    <!-- Example 3: Scroll Reveal -->
+    <section class="max-w-5xl mx-auto reveal">
+        <span class="section-tag text-center">UX Feature</span>
+        <h2 class="text-2xl font-bold mb-8 text-center">3. Dynamic Scroll Reveal</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+            <div class="space-y-6">
+                <p class="text-slate-300 leading-relaxed text-lg">
+                    ลดความแข็งกระด้างของ Dashboard ด้วยการค่อยๆ แสดงเนื้อหาตามจังหวะการเลื่อนเมาส์ 
+                    ทำให้ User รู้สึกว่าระบบมีการตอบสนองอยู่ตลอดเวลา
+                </p>
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-black py-3 px-8 rounded-full transition-all text-xs uppercase tracking-widest">Explore System &darr;</button>
+            </div>
+            <div class="h-56 bg-gradient-to-br from-blue-600/20 to-indigo-600/20 border border-blue-500/30 rounded-[2.5rem] flex items-center justify-center text-6xl shadow-2xl backdrop-blur-md">
+                🌊
+            </div>
+        </div>
+    </section>
+
+    <div class="h-40"></div>
+
+    <script>
+        // --- Updated Chart Logic with Scaling/Popping Effect ---
+        const ctx = document.getElementById('demoChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Infrastructure', 'Security', 'Compliance'],
+                datasets: [{
+                    label: 'Compliance Rate %',
+                    data: [88, 62, 95],
+                    backgroundColor: ['#10b981', '#f59e0b', '#10b981'],
+                    borderRadius: 15,
+                    barThickness: 50,
+                    // Hover Effects (Scaling/Popping Simulation)
+                    hoverBackgroundColor: '#34d399',
+                    hoverBorderWidth: 4,
+                    hoverBorderColor: '#ffffff'
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                animation: {
+                    duration: 1000,
+                    easing: 'easeOutQuart'
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(15, 23, 42, 0.95)',
+                        titleFont: { size: 16, weight: 'bold' },
+                        bodyFont: { size: 13 },
+                        padding: 16,
+                        cornerRadius: 16,
+                        borderColor: 'rgba(255,255,255,0.1)',
+                        borderWidth: 1,
+                        displayColors: false,
+                        callbacks: {
+                            label: function(context) {
+                                return `Compliance: ${context.raw}%`;
+                            },
+                            afterLabel: function(context) {
+                                return `\nStatus: ${context.raw >= 80 ? '✨ Excellent' : '🚨 Action Required'}\nSuccess: 14,250\nPending: 1,120`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: { 
+                        beginAtZero: true, 
+                        max: 100, 
+                        grid: { color: 'rgba(255,255,255,0.05)', drawBorder: false },
+                        ticks: { color: '#64748b', font: { weight: 'bold' } }
+                    },
+                    x: { 
+                        grid: { display: false },
+                        ticks: { color: '#94a3b8', font: { weight: 'bold' } }
+                    }
+                }
+            }
+        });
+
+        // --- Scroll Reveal Logic ---
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal(); // Initial check
+    </script>
+</body>
+</html>

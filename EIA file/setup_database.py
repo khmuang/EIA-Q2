@@ -25,9 +25,11 @@ def setup_db():
         cnx.database = DB_NAME
         print(f"Using database '{DB_NAME}'.")
 
-        # 4. Create Table
-        TABLES = {}
-        TABLES['audit_data'] = (
+        # 4. Create/Upgrade Table
+        # We add 'quarter' and 'audit_year' for historical reporting
+        print("Checking/Updating table structure...")
+        
+        table_query = (
             "CREATE TABLE IF NOT EXISTS `audit_data` ("
             "  `id` int(11) NOT NULL AUTO_INCREMENT,"
             "  `topic_id` int(11) NOT NULL,"
@@ -35,26 +37,34 @@ def setup_db():
             "  `team_name` varchar(50) NOT NULL,"
             "  `success_y` int(11) DEFAULT 0,"
             "  `pending_n` int(11) DEFAULT 0,"
+            "  `quarter` varchar(2) DEFAULT 'Q1',"  # Added for Q1-Q4
+            "  `audit_year` int(4) DEFAULT 2026,"   # Added for Year tracking
             "  `last_updated` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,"
-            "  PRIMARY KEY (`id`)"
+            "  PRIMARY KEY (`id`),"
+            "  INDEX `idx_report` (`audit_year`, `quarter`, `topic_id`)" # For fast history lookup
             ") ENGINE=InnoDB")
 
-        for table_name in TABLES:
-            table_description = TABLES[table_name]
-            try:
-                print(f"Creating table {table_name}: ", end='')
-                cursor.execute(table_description)
-            except mysql.connector.Error as err:
-                if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
-                    print("already exists.")
-                else:
-                    print(err.msg)
-            else:
-                print("OK")
+        cursor.execute(table_query)
+        
+        # Ensure columns exist if table was created previously without them
+        columns_to_add = [
+            ("quarter", "varchar(2) DEFAULT 'Q1' AFTER `pending_n`"),
+            ("audit_year", "int(4) DEFAULT 2026 AFTER `quarter`"),
+        ]
 
-        print("\n--- Setup Complete! ---")
+        for col_name, col_def in columns_to_add:
+            try:
+                cursor.execute(f"ALTER TABLE `audit_data` ADD COLUMN {col_name} {col_def}")
+                print(f"Column '{col_name}' added successfully.")
+            except mysql.connector.Error as err:
+                if err.errno == 1060: # Column already exists
+                    pass
+                else:
+                    print(f"Error adding {col_name}: {err.msg}")
+
+        print("\n--- Setup & Upgrade Complete! ---")
         print(f"Database: {DB_NAME}")
-        print("Table: audit_data (Ready for data injection)")
+        print("Table: audit_data (Now supports Quarterly & Yearly reporting)")
         
         cursor.close()
         cnx.close()

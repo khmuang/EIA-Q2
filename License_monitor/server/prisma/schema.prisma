@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model License {
+  id         Int        @id @default(autoincrement())
+  name       String
+  licenseKey String?
+  totalSeats Int        @default(1)
+  startDate  DateTime?
+  expiryDate DateTime?
+  status     String     @default("Active")
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  usageLogs  UsageLog[]
+}
+
+model UsageLog {
+  id          Int       @id @default(autoincrement())
+  licenseId   Int
+  userName    String
+  machineName String?
+  startedAt   DateTime  @default(now())
+  endedAt     DateTime?
+  license     License   @relation(fields: [licenseId], references: [id])
+}

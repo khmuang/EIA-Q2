@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floating Menu Demo | Premium UI V2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Sarabun', sans-serif; background: #f1f5f9; min-height: 200vh; }
+        .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.4); }
+        .shimmer { position: relative; overflow: hidden; }
+        .shimmer::after {
+            content: ''; position: absolute; top: -100%; left: -100%; width: 50%; height: 300%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.5), transparent);
+            transform: rotate(25deg); animation: shimmer 4s infinite;
+        }
+        @keyframes shimmer { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
+    </style>
+</head>
+<body class="p-10">
+
+    <h1 class="text-4xl font-black text-slate-800 mb-4" style="font-family: Montserrat;">Floating Menu Styles</h1>
+    <p class="text-slate-500 mb-10">เลื่อนเมาส์ชี้ที่เมนูแต่ละจุดเพื่อดูเอฟเฟกต์ (Scroll down to see floating effects)</p>
+
+    <!-- STYLE 1: The Glass Sidebar (Right) -->
+    <div class="fixed right-0 top-1/2 -translate-y-1/2 z-[500] group flex items-center">
+        <div class="w-1.5 h-20 bg-blue-600 rounded-l-full group-hover:h-40 transition-all duration-500"></div>
+        <div class="glass shadow-2xl rounded-l-3xl p-3 flex flex-col gap-4 translate-x-[75%] group-hover:translate-x-0 transition-all duration-500 ease-out py-6">
+            <div class="flex items-center gap-4 px-2 hover:text-blue-600 cursor-pointer transition-colors group/item">
+                <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 shadow-sm group-hover/item:bg-blue-600 group-hover/item:text-white transition-all">D</div>
+                <span class="text-xs font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-700 whitespace-nowrap">Domain</span>
+            </div>
+            <div class="flex items-center gap-4 px-2 hover:text-blue-600 cursor-pointer transition-colors group/item">
+                <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 shadow-sm group-hover/item:bg-blue-600 group-hover/item:text-white transition-all">P</div>
+                <span class="text-xs font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-700 whitespace-nowrap">Patching</span>
+            </div>
+            <div class="flex items-center gap-4 px-2 hover:text-blue-600 cursor-pointer transition-colors group/item">
+                <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 shadow-sm group-hover/item:bg-blue-600 group-hover/item:text-white transition-all">A</div>
+                <span class="text-xs font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-700 whitespace-nowrap">Antivirus</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- STYLE 2: The Floating Dock (Bottom Center) -->
+    <div class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[500] group">
+        <div class="glass shadow-2xl rounded-full px-4 py-3 flex items-center gap-2 border-blue-200/50 hover:px-8 transition-all duration-500 shimmer">
+            <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse mr-2 group-hover:hidden"></div>
+            <div class="flex items-center gap-1 group-hover:gap-6 transition-all">
+                <div class="w-10 h-10 bg-slate-800 text-white rounded-full flex items-center justify-center shadow-lg cursor-pointer hover:scale-125 transition-transform" title="Home">H</div>
+                <div class="hidden group-hover:flex items-center gap-4 animate-in fade-in slide-in-from-bottom-2 duration-500">
+                    <div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 hover:bg-blue-600 hover:text-white transition-all shadow-sm">1</div>
+                    <div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 hover:bg-blue-600 hover:text-white transition-all shadow-sm">2</div>
+                    <div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 hover:bg-blue-600 hover:text-white transition-all shadow-sm">3</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STYLE 3: The Circular Fan (Bottom Right) -->
+    <div class="fixed bottom-10 right-10 z-[500] group">
+        <!-- Fan Items -->
+        <div class="absolute bottom-0 right-0 w-12 h-12 bg-indigo-600 text-white rounded-full flex items-center justify-center shadow-2xl z-20 group-hover:rotate-45 transition-transform duration-500 cursor-pointer">
+            <span class="text-2xl font-black">+</span>
+        </div>
+        <div class="absolute bottom-16 right-0 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-xl opacity-0 group-hover:opacity-100 group-hover:-translate-y-2 transition-all duration-300 delay-[0ms] border border-indigo-100 text-indigo-600 font-bold">T1</div>
+        <div class="absolute bottom-12 right-12 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-xl opacity-0 group-hover:opacity-100 group-hover:-translate-x-2 group-hover:-translate-y-2 transition-all duration-300 delay-[100ms] border border-indigo-100 text-indigo-600 font-bold">T2</div>
+        <div class="absolute bottom-0 right-16 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-xl opacity-0 group-hover:opacity-100 group-hover:-translate-x-2 transition-all duration-300 delay-[200ms] border border-indigo-100 text-indigo-600 font-bold">T3</div>
+    </div>
+
+    <!-- STYLE 4: The Smart Island (Top Center) -->
+    <div class="fixed top-5 left-1/2 -translate-x-1/2 z-[500] group">
+        <div class="glass shadow-lg rounded-2xl px-6 py-2 border-white/80 group-hover:py-4 transition-all duration-500 overflow-hidden flex flex-col items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                <span class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Quick Navigation</span>
+            </div>
+            <div class="h-0 group-hover:h-12 group-hover:mt-4 transition-all duration-500 flex items-center gap-6">
+                <a href="#" class="text-[11px] font-black text-slate-700 hover:text-blue-600 transition-colors uppercase">Summary</a>
+                <a href="#" class="text-[11px] font-black text-slate-700 hover:text-blue-600 transition-colors uppercase">Roadmap</a>
+                <a href="#" class="text-[11px] font-black text-slate-700 hover:text-blue-600 transition-colors uppercase">Urgent</a>
+                <a href="#" class="text-[11px] font-black text-slate-700 hover:text-blue-600 transition-colors uppercase">Teams</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- STYLE 5: The Vertical Tab (Left Edge) -->
+    <div class="fixed left-0 top-1/2 -translate-y-1/2 z-[500] group">
+        <div class="glass rounded-r-2xl shadow-xl p-4 -translate-x-full group-hover:translate-x-0 transition-all duration-700 ease-in-out relative border-l-0">
+            <div class="absolute right-[-30px] top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-md p-2 rounded-r-lg shadow-md cursor-pointer border border-l-0 border-white/50 group-hover:opacity-0 transition-opacity">
+                <div class="[writing-mode:vertical-lr] text-[9px] font-black uppercase tracking-widest text-slate-400">Navigation</div>
+            </div>
+            <div class="space-y-4">
+                <p class="text-[10px] font-black text-blue-600 border-b pb-2 uppercase tracking-widest">EIA Topics</p>
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="w-12 h-12 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-center text-[10px] font-black hover:bg-blue-600 hover:text-white transition-all cursor-pointer">T1</div>
+                    <div class="w-12 h-12 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-center text-[10px] font-black hover:bg-blue-600 hover:text-white transition-all cursor-pointer">T2</div>
+                    <div class="w-12 h-12 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-center text-[10px] font-black hover:bg-blue-600 hover:text-white transition-all cursor-pointer">T3</div>
+                    <div class="w-12 h-12 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-center text-[10px] font-black hover:bg-blue-600 hover:text-white transition-all cursor-pointer">T4</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Placeholder Content to show scrolling -->
+    <div class="mt-20 space-y-20 opacity-20">
+        <div class="h-64 bg-slate-300 rounded-3xl"></div>
+        <div class="h-64 bg-slate-300 rounded-3xl"></div>
+        <div class="h-64 bg-slate-300 rounded-3xl"></div>
+    </div>
+
+</body>
+</html>

@@ -19,7 +19,7 @@ Topic Q2	support group	Action status	EIA Phase
 4.1 Overall Compliance Performance Score
 4.2 Total Audited Units
 4.3 Data Last Refresh
-4.4 Audit Deadline (20 May 2026)
+4.4 Audit Deadline Coundown date (20 May 2026)
 4.5 Export CSV Summary
 4.6 View by Service Team
 4.7 EIA Performance Report Dashboard © 2026
@@ -28,3 +28,7 @@ Visitor Counter
 Prepared by Endpoint Management Team
 4.8 Go to top
 4.9 Floating Action menu by topic
+4.10 แยกราย Topic ที่มีข้อมูล Service Team	Y (Success)	N (Pending)	Compliance Rate	Responsibility Share
+4.11 สร้างกราฟแท่ง Compliance Rate Comparison by Topic (%) โดยมี target 81 % ทุกหัวข้อจึงจะผ่าน
+4.12 สามารถ filter เป็นรายทีมได้
+4.13 สามารถ filter EIA Phase ได้ โดย Q1,Q2 ให้แสดงเป็น Q1

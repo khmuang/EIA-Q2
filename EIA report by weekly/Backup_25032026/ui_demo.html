@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EIA Dashboard UI Concept - V25 Premium</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2334d399' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z'></path></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Sarabun', sans-serif; 
+            background: radial-gradient(circle at top right, #1e293b, #0f172a);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        /* Glassmorphism Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        /* Pulsing Health Ring */
+        .pulse-ring {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #10b981; /* Emerald-500 */
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            animation: pulse 2s infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        /* Shimmer Loading Effect (Static Example) */
+        .shimmer {
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite linear;
+        }
+        @keyframes shimmer {
+            from { background-position: 200% 0; }
+            to { background-position: -200% 0; }
+        }
+    </style>
+</head>
+<body class="p-10">
+
+    <div class="max-w-6xl mx-auto">
+        <header class="mb-12 flex justify-between items-center">
+            <div>
+                <h1 class="text-5xl font-black tracking-tight text-white mb-2 flex items-center gap-4">
+                    <svg class="w-12 h-12 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    EIA <span class="text-emerald-400">Premium</span>
+                </h1>
+                <p class="text-slate-400 font-bold uppercase tracking-[0.3em] text-xs">V25 Design Concept Showcase</p>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="text-right">
+                    <p class="text-[10px] font-black text-slate-500 uppercase">System Status</p>
+                    <p class="text-emerald-400 font-bold">Stable & Secure</p>
+                </div>
+                <div class="pulse-ring">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+            </div>
+        </header>
+
+        <!-- KPI Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            
+            <!-- Radial Chart Card -->
+            <div class="glass-card p-8 flex flex-col items-center justify-center">
+                <div id="radialChart"></div>
+                <h3 class="text-xl font-bold mt-4">Overall Compliance</h3>
+                <p class="text-slate-400 text-sm">Real-time status across all BUs</p>
+            </div>
+
+            <!-- Total Devices Card -->
+            <div class="glass-card p-8 flex flex-col justify-between overflow-hidden relative">
+                <div class="shimmer absolute inset-0 pointer-events-none"></div>
+                <div>
+                    <div class="bg-blue-500/20 w-12 h-12 rounded-2xl flex items-center justify-center text-blue-400 mb-6">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <p class="text-slate-400 font-bold uppercase text-[10px] tracking-widest">Total Inventory</p>
+                    <h2 class="text-5xl font-black mt-2">17,122</h2>
+                </div>
+                <div class="mt-6 flex items-center gap-2 text-emerald-400 text-sm font-bold">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                    +12% Since last week
+                </div>
+            </div>
+
+            <!-- Antivirus Health -->
+            <div class="glass-card p-8 border-l-4 border-emerald-500">
+                <p class="text-slate-400 font-bold uppercase text-[10px] tracking-widest mb-4">Security Feature</p>
+                <h3 class="text-2xl font-bold mb-6">Antivirus Compliant</h3>
+                <div class="w-full bg-slate-800 rounded-full h-3 mb-2">
+                    <div class="bg-emerald-500 h-3 rounded-full shadow-[0_0_15px_rgba(16,185,129,0.5)]" style="width: 89%"></div>
+                </div>
+                <div class="flex justify-between text-xs font-bold uppercase tracking-tight">
+                    <span class="text-emerald-400">15,238 Success</span>
+                    <span class="text-slate-500">1,884 Pending</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Section Title -->
+        <div class="flex items-center gap-4 mb-8">
+            <h2 class="text-2xl font-bold">Recent In-depth Reports</h2>
+            <div class="h-px bg-slate-800 flex-1"></div>
+            <button class="px-6 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-sm font-bold transition-all">View All Data</button>
+        </div>
+
+        <div class="glass-card p-4 overflow-hidden">
+            <table class="w-full text-left text-sm">
+                <thead>
+                    <tr class="text-slate-500 uppercase text-[10px] tracking-[0.2em]">
+                        <th class="p-4 border-b border-white/5">BU Name</th>
+                        <th class="p-4 border-b border-white/5">Device Type</th>
+                        <th class="p-4 border-b border-white/5">OS Status</th>
+                        <th class="p-4 border-b border-white/5">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="font-bold">
+                    <tr class="hover:bg-white/5 transition-all">
+                        <td class="p-4 border-b border-white/5">CFR (Central Food)</td>
+                        <td class="p-4 border-b border-white/5">Desktop</td>
+                        <td class="p-4 border-b border-white/5"><span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 rounded-full text-[10px]">Healthy</span></td>
+                        <td class="p-4 border-b border-white/5"><a href="#" class="text-blue-400 hover:text-blue-300">Detail</a></td>
+                    </tr>
+                    <tr class="hover:bg-white/5 transition-all">
+                        <td class="p-4 border-b border-white/5">CDS (Central Dept)</td>
+                        <td class="p-4 border-b border-white/5">Laptop</td>
+                        <td class="p-4 border-b border-white/5"><span class="px-3 py-1 bg-rose-500/20 text-rose-400 rounded-full text-[10px]">EOS Soon</span></td>
+                        <td class="p-4 border-b border-white/5"><a href="#" class="text-blue-400 hover:text-blue-300">Detail</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Initialize ApexCharts Radial Bar
+        var options = {
+            series: [84],
+            chart: {
+                height: 250,
+                type: 'radialBar',
+                toolbar: { show: false }
+            },
+            plotOptions: {
+                radialBar: {
+                    startAngle: -135,
+                    endAngle: 225,
+                    hollow: {
+                        margin: 0,
+                        size: '70%',
+                        background: 'transparent',
+                        image: undefined,
+                    },
+                    track: {
+                        background: 'rgba(255,255,255,0.05)',
+                        strokeWidth: '67%',
+                        margin: 0,
+                    },
+                    dataLabels: {
+                        show: true,
+                        name: {
+                            show: false,
+                        },
+                        value: {
+                            offsetY: 10,
+                            color: '#fff',
+                            fontSize: '36px',
+                            fontWeight: '900',
+                            show: true,
+                        }
+                    }
+                }
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shade: 'dark',
+                    type: 'horizontal',
+                    shadeIntensity: 0.5,
+                    gradientToColors: ['#10b981'],
+                    inverseColors: true,
+                    opacityFrom: 1,
+                    opacityTo: 1,
+                    stops: [0, 100]
+                }
+            },
+            stroke: {
+                lineCap: 'round'
+            },
+            labels: ['Compliance'],
+        };
+
+        var chart = new ApexCharts(document.querySelector("#radialChart"), options);
+        chart.render();
+    </script>
+</body>
+</html>

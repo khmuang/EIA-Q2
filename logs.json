@@ -1,0 +1,128 @@
+[
+  {
+    "sessionId": "6bf94b8b-c40c-4f8d-9b29-a0cb2825317f",
+    "messageId": 0,
+    "type": "user",
+    "message": "Write a blog post about Claude Cowork, its features, pricing and use cases. Max 300 words, then saved as cowork_blog.txt",
+    "timestamp": "2026-02-27T09:52:48.896Z"
+  },
+  {
+    "sessionId": "6bf94b8b-c40c-4f8d-9b29-a0cb2825317f",
+    "messageId": 1,
+    "type": "user",
+    "message": "ช่วยอธิบายเป็นภาษาไทย",
+    "timestamp": "2026-02-27T09:58:10.541Z"
+  },
+  {
+    "sessionId": "6bf94b8b-c40c-4f8d-9b29-a0cb2825317f",
+    "messageId": 2,
+    "type": "user",
+    "message": "ทำการส่งออกเป็นภาษาไทย",
+    "timestamp": "2026-02-27T09:59:51.946Z"
+  },
+  {
+    "sessionId": "6bf94b8b-c40c-4f8d-9b29-a0cb2825317f",
+    "messageId": 3,
+    "type": "user",
+    "message": "สามารถประมวลผลลัพท์จากไฟล์ excel ได้หรือไม่",
+    "timestamp": "2026-02-27T10:01:24.036Z"
+  },
+  {
+    "sessionId": "6bf94b8b-c40c-4f8d-9b29-a0cb2825317f",
+    "messageId": 4,
+    "type": "user",
+    "message": "ต้องการให้คุณเเข้าไปที่ D:\\Users\\Djmanny\\OneDrive - Central Group\\Desktop\\GLPI export\\2. Feb\\EIA Report_update2.csv   แล้วทำการสรุปข้อมูลแสดงเป็นภาพรวม",
+    "timestamp": "2026-02-27T10:03:53.882Z"
+  },
+  {
+    "sessionId": "6bf94b8b-c40c-4f8d-9b29-a0cb2825317f",
+    "messageId": 5,
+    "type": "user",
+    "message": "ต้องการให้คุณเเข้าไปที D:\\Users\\Djmanny\\.gemini\\tmp\\project\\EIA Report_update2.csv แล้วทำการสรุปข้อมูลแสดงเป็นภาพรวม",
+    "timestamp": "2026-02-27T10:06:48.395Z"
+  },
+  {
+    "sessionId": "6bf94b8b-c40c-4f8d-9b29-a0cb2825317f",
+    "messageId": 6,
+    "type": "user",
+    "message": "ตรวจสอบเครื่องคอมพิวเตอร์ของฉันว่าเป็น version ปัจจุบันแล้วหรือไม่",
+    "timestamp": "2026-02-27T10:09:28.977Z"
+  },
+  {
+    "sessionId": "6bf94b8b-c40c-4f8d-9b29-a0cb2825317f",
+    "messageId": 7,
+    "type": "user",
+    "message": "ช่วยตรวจสอบหมายเลข Anydesk ที่อยู่ในเครื่องของฉัน",
+    "timestamp": "2026-02-27T10:25:49.118Z"
+  },
+  {
+    "sessionId": "6bf94b8b-c40c-4f8d-9b29-a0cb2825317f",
+    "messageId": 8,
+    "type": "user",
+    "message": "Anvirus เครื่องนี้ชื่ออะไร",
+    "timestamp": "2026-02-27T10:27:26.229Z"
+  },
+  {
+    "sessionId": "6bf94b8b-c40c-4f8d-9b29-a0cb2825317f",
+    "messageId": 9,
+    "type": "user",
+    "message": "จากไฟล์ EIA Report_update2.csv นี้ ทำการสรุปเป็นข้อมูลสำคัญถูกต้องชัดเจน เพื่อนำเสนอในมุมผู้บริหารระดับสูง",
+    "timestamp": "2026-02-27T10:30:00.253Z"
+  },
+  {
+    "sessionId": "6bf94b8b-c40c-4f8d-9b29-a0cb2825317f",
+    "messageId": 10,
+    "type": "user",
+    "message": "ช่วยจัดทำมาในรูปแบบตารางได้ไหม",
+    "timestamp": "2026-02-27T10:35:48.788Z"
+  },
+  {
+    "sessionId": "6bf94b8b-c40c-4f8d-9b29-a0cb2825317f",
+    "messageId": 11,
+    "type": "user",
+    "message": "หากต้องการเริ่มคุยเรื่องอื่น ๆ ต้องทำอย่างไร",
+    "timestamp": "2026-02-27T10:44:35.715Z"
+  },
+  {
+    "sessionId": "6bf94b8b-c40c-4f8d-9b29-a0cb2825317f",
+    "messageId": 12,
+    "type": "user",
+    "message": "ที่ folder เดิมทำการสรุปไฟล์ EIA Document",
+    "timestamp": "2026-02-27T10:47:15.987Z"
+  },
+  {
+    "sessionId": "6bf94b8b-c40c-4f8d-9b29-a0cb2825317f",
+    "messageId": 13,
+    "type": "user",
+    "message": "ทำการอ่าน sheet summary",
+    "timestamp": "2026-02-27T10:50:23.017Z"
+  },
+  {
+    "sessionId": "6bf94b8b-c40c-4f8d-9b29-a0cb2825317f",
+    "messageId": 14,
+    "type": "user",
+    "message": "หากฉันต้องปิดเครื่องจะสามารถกลับมาคุยกันใหม่เรื่องเดิมนี้ได้อย่างไร",
+    "timestamp": "2026-02-27T10:53:59.869Z"
+  },
+  {
+    "sessionId": "6bf94b8b-c40c-4f8d-9b29-a0cb2825317f",
+    "messageId": 15,
+    "type": "user",
+    "message": "ช่วยทำการปิด application ต่าง ๆที่ยังเปิดอยู่หลังจากนั้นทำการ Shutdown เครื่อง",
+    "timestamp": "2026-02-27T10:56:12.809Z"
+  },
+  {
+    "sessionId": "a641be1b-ef3e-4546-b863-5af855ddaf13",
+    "messageId": 0,
+    "type": "user",
+    "message": "ฉันต้องการเขียน Website API CRUD update ข้อมูลใน Mysql",
+    "timestamp": "2026-02-27T12:35:34.916Z"
+  },
+  {
+    "sessionId": "a641be1b-ef3e-4546-b863-5af855ddaf13",
+    "messageId": 1,
+    "type": "user",
+    "message": "จากข้อความนี้ต้องแก้ไขอย่างไร Warning: You are running Gemini CLI in the root directory. Your entire folder structure will be used for context. It is strongly   │\n│ recommended to run in a project-specific directory.",
+    "timestamp": "2026-02-27T12:36:33.729Z"
+  }
+]

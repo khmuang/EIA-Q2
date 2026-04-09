@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EIA Q2 Performance Dashboard 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Sarabun:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-blur: blur(20px);
+            --accent-emerald: #10b981;
+            --accent-rose: #f43f5e;
+            --accent-amber: #f59e0b;
+            --accent-blue: #3b82f6;
+            --text-main: #ffffff;
+            --text-dim: rgba(255, 255, 255, 0.6);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', 'Sarabun', sans-serif; }
+
+        body {
+            background: radial-gradient(circle at top left, #0f172a, #020617);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding-bottom: 50px;
+        }
+
+        .ambient-orb { position: fixed; width: 600px; height: 600px; border-radius: 50%; z-index: -1; filter: blur(80px); }
+        .orb-1 { top: -10%; left: -10%; background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%); }
+        .orb-2 { bottom: -10%; right: -10%; background: radial-gradient(circle, rgba(244, 63, 94, 0.05) 0%, transparent 70%); }
+
+        .container { max-width: 1400px; margin: 0 auto; padding: 40px 20px; }
+
+        header {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            margin-bottom: 30px; border-bottom: 1px solid var(--glass-border); padding-bottom: 20px;
+        }
+
+        .header-left h1 {
+            font-size: 2.2rem; font-weight: 900; letter-spacing: -1px;
+            background: linear-gradient(90deg, #fff, #94a3b8);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .header-left p { color: var(--text-dim); font-size: 0.85rem; margin-top: 5px; }
+
+        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .kpi-card {
+            background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: var(--glass-blur);
+            padding: 25px; border-radius: 20px; position: relative; overflow: hidden;
+        }
+        .kpi-label { font-size: 10px; font-weight: 900; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; }
+        .kpi-value { font-size: 3rem; font-weight: 900; line-height: 1; }
+        .shimmer {
+            position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer { 100% { left: 150%; } }
+
+        /* Filter Section Styling */
+        .filter-section { margin-bottom: 30px; }
+        
+        .team-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px; margin-bottom: 20px;
+        }
+        .team-card {
+            background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: var(--glass-blur);
+            padding: 20px; border-radius: 18px; cursor: pointer; transition: all 0.3s ease;
+        }
+        .team-card:hover { transform: translateY(-3px); background: rgba(255, 255, 255, 0.08); }
+        .team-card.active { border-color: var(--accent-emerald); background: rgba(16, 185, 129, 0.1); }
+        .team-name { font-size: 1.1rem; font-weight: 900; margin-bottom: 5px; }
+        .team-pct { font-size: 1.4rem; font-weight: 900; color: var(--accent-rose); }
+        .team-pct.pass { color: var(--accent-emerald); }
+        
+        .phase-tabs {
+            display: flex; gap: 10px; background: rgba(0,0,0,0.2); padding: 5px; border-radius: 12px; display: inline-flex;
+        }
+        .phase-tab {
+            padding: 8px 20px; border-radius: 8px; font-size: 12px; font-weight: 900; cursor: pointer;
+            color: var(--text-dim); transition: all 0.2s;
+        }
+        .phase-tab:hover { color: #fff; }
+        .phase-tab.active { background: var(--accent-blue); color: #fff; }
+
+        /* Main Analysis Section */
+        .main-content { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+        .chart-container {
+            background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: var(--glass-blur);
+            padding: 25px; border-radius: 24px; min-height: 480px;
+        }
+        .chart-wrapper { position: relative; height: 380px; width: 100%; margin-top: 15px; }
+
+        .summary-list {
+            background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: var(--glass-blur);
+            padding: 25px; border-radius: 24px;
+        }
+        .topic-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .topic-info h4 { font-size: 0.85rem; font-weight: 700; }
+        .topic-info p { font-size: 0.7rem; color: var(--text-dim); }
+        .topic-pct { font-size: 1rem; font-weight: 900; }
+
+        /* Detailed Table */
+        .analysis-table-container {
+            background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: var(--glass-blur);
+            padding: 25px; border-radius: 24px; margin-top: 30px; overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 1rem;
+        }
+
+        th {
+            text-align: left;
+            padding: 15px 12px;
+            border-bottom: 2px solid var(--glass-border);
+            color: var(--text-dim);
+            font-size: 12px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+        td { padding: 15px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .status-badge { padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 700; }
+        .badge-pass { background: rgba(16, 185, 129, 0.2); color: var(--accent-emerald); }
+        .badge-fail { background: rgba(244, 63, 94, 0.2); color: var(--accent-rose); }
+
+        .filter-badge {
+            display: inline-block; padding: 4px 12px; background: var(--accent-blue); border-radius: 20px;
+            font-size: 10px; font-weight: 900; margin-bottom: 15px; text-transform: uppercase;
+        }
+
+        /* Go to Top Button */
+        #go-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: var(--glass-blur);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        #go-to-top:hover { transform: translateY(-5px); background: rgba(255,255,255,0.1); border-color: var(--accent-emerald); }
+        #go-to-top.visible { opacity: 1; visibility: visible; }
+        #go-to-top::after {
+            content: "↑";
+            font-size: 24px;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        footer { text-align: center; margin-top: 40px; padding: 30px 0; color: var(--text-dim); font-size: 0.75rem; border-top: 1px solid var(--glass-border); }
+    </style>
+</head>
+<body>
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <h1>EIA Q2 PERFORMANCE</h1>
+                <p>Interactive Security Audit & Compliance Tracking</p>
+            </div>
+            <div class="deadline-badge" style="background: rgba(244, 63, 94, 0.2); padding: 8px 15px; border-radius: 10px; border: 1px solid var(--accent-rose);">
+                <span style="font-size: 10px; font-weight: 900; color: var(--accent-rose); display: block;">DEADLINE</span>
+                <span style="font-weight: 700;">20 May 2026</span>
+            </div>
+        </header>
+
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="shimmer"></div>
+                <div class="kpi-label">Compliance score</div>
+                <div class="kpi-value" id="top-kpi-score">--%</div>
+            </div>
+            <div class="kpi-card">
+                <div class="shimmer"></div>
+                <div class="kpi-label">units audited</div>
+                <div class="kpi-value" id="top-kpi-units">0</div>
+            </div>
+            <div class="kpi-card">
+                <div class="shimmer"></div>
+                <div class="kpi-label">Applied Filters</div>
+                <div class="kpi-value" id="top-kpi-filter" style="font-size: 1.5rem; padding-top: 15px; color: var(--accent-blue);">OVERALL | ALL PHASES</div>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <div class="kpi-label">1. Select Service Team</div>
+            <div class="team-grid" id="team-grid"></div>
+
+            <div class="kpi-label">2. Select EIA Phase</div>
+            <div class="phase-tabs" id="phase-tabs">
+                <div class="phase-tab active" data-phase="ALL">ALL PHASES</div>
+                <div class="phase-tab" data-phase="Q1">PHASE Q1</div>
+                <div class="phase-tab" data-phase="Q2">PHASE Q2</div>
+            </div>
+        </div>
+
+        <!-- Main Chart & Stats -->
+        <div class="main-content">
+            <div class="chart-container">
+                <div class="filter-badge">Current View: <span id="view-label">Overall</span></div>
+                <div class="kpi-label">Compliance Comparison by Topic (%)</div>
+                <div class="chart-wrapper"><canvas id="complianceChart"></canvas></div>
+            </div>
+            <div class="summary-list">
+                <div class="kpi-label" style="margin-bottom: 15px;">Topic Execution</div>
+                <div id="topic-list"></div>
+            </div>
+        </div>
+
+        <!-- Detailed Table -->
+        <div class="analysis-table-container">
+            <div class="kpi-label">Execution Breakdown Table</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Topic ID & Description</th>
+                        <th>Y (Success)</th>
+                        <th>N (Pending)</th>
+                        <th>Compliance Rate</th>
+                        <th>Responsibility Share</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="analysis-tbody"></tbody>
+            </table>
+        </div>
+
+        <footer>
+            <p>EIA Performance Report Dashboard © 2026 • Endpoint Management Team</p>
+            <div style="margin-top: 15px;">
+                <img src="https://api.visitorbadge.io/api/visitors?path=eia.dashboard.q2.demo&label=VISITORS&labelColor=%23697689&countColor=%2310b981&style=flat-square" alt="Visitors">
+            </div>
+        </footer>
+
+        <div id="go-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});"></div>
+    </div>
+    </div>
+
+    <script>
+        const topicsConfig = {
+            "1.1": "IT Asset Management", "1.2": "Install GLPI agent", "2": "Update OS",
+            "3": "Require Restart", "4": "Antivirus Installation", "5": "Firewall Enablement",
+            "6": "Client join domain", "7": "Privileged User Mgmt", "8": "Document Request"
+        };
+        const topicOrder = ["1.1", "1.2", "2", "3", "4", "5", "6", "7", "8"];
+
+        const multiMatrix = {
+            "Branch": {
+                "1.1": { "Q1": {"total": 10, "success": 10}, "Q2": {"total": 145, "success": 137} },
+                "1.2": { "Q2": {"total": 30, "success": 0} },
+                "2": { "Q1": {"total": 3578, "success": 0}, "Q2": {"total": 60, "success": 0} },
+                "3": { "Q1": {"total": 4, "success": 0}, "Q2": {"total": 86, "success": 0} },
+                "4": { "Q1": {"total": 117, "success": 0}, "Q2": {"total": 71, "success": 0} },
+                "5": { "Q1": {"total": 348, "success": 0}, "Q2": {"total": 2894, "success": 0} },
+                "6": { "Q1": {"total": 21, "success": 0}, "Q2": {"total": 145, "success": 0} },
+                "7": { "Q1": {"total": 237, "success": 0}, "Q2": {"total": 625, "success": 0} },
+                "8": { "Q2": {"total": 3, "success": 0} }
+            },
+            "DC": {
+                "1.1": { "Q2": {"total": 31, "success": 31} },
+                "1.2": { "Q2": {"total": 5, "success": 0} },
+                "2": { "Q1": {"total": 591, "success": 0}, "Q2": {"total": 8, "success": 0} },
+                "3": { "Q1": {"total": 1, "success": 0}, "Q2": {"total": 35, "success": 0} },
+                "4": { "Q1": {"total": 6, "success": 0}, "Q2": {"total": 27, "success": 0} },
+                "5": { "Q1": {"total": 21, "success": 0}, "Q2": {"total": 22, "success": 0} },
+                "6": { "Q1": {"total": 2, "success": 0}, "Q2": {"total": 1, "success": 0} },
+                "7": { "Q1": {"total": 127, "success": 0}, "Q2": {"total": 106, "success": 0} },
+                "8": { "Q2": {"total": 3, "success": 0} }
+            },
+            "HO": {
+                "1.1": { "Q2": {"total": 15, "success": 15} },
+                "1.2": { "Q2": {"total": 14, "success": 0} },
+                "2": { "Q1": {"total": 1432, "success": 0}, "Q2": {"total": 36, "success": 0} },
+                "3": { "Q1": {"total": 15, "success": 0}, "Q2": {"total": 182, "success": 0} },
+                "4": { "Q2": {"total": 68, "success": 0} },
+                "5": { "Q1": {"total": 19, "success": 0}, "Q2": {"total": 59, "success": 0} },
+                "6": { "Q1": {"total": 10, "success": 0}, "Q2": {"total": 21, "success": 0} },
+                "7": { "Q1": {"total": 78, "success": 0}, "Q2": {"total": 509, "success": 0} },
+                "8": { "Q2": {"total": 3, "success": 0} }
+            }
+        };
+
+        let currentTeam = 'OVERALL';
+        let currentPhase = 'ALL';
+        let currentChart = null;
+
+        function updateDashboard() {
+            // Aggregate data based on currentTeam and currentPhase
+            const filteredData = {};
+            let totalSuccess = 0, totalUnits = 0;
+            let topicsFound = 0;
+
+            topicOrder.forEach(tid => {
+                let t = 0, s = 0;
+                Object.keys(multiMatrix).forEach(team => {
+                    if (currentTeam !== 'OVERALL' && team !== currentTeam) return;
+                    const phases = multiMatrix[team][tid] || {};
+                    Object.keys(phases).forEach(phase => {
+                        if (currentPhase !== 'ALL' && phase !== currentPhase) return;
+                        t += phases[phase].total;
+                        s += phases[phase].success;
+                    });
+                });
+                const compliance = t > 0 ? Math.round((s/t)*100) : 0;
+                filteredData[tid] = { total: t, success: s, compliance: compliance };
+                totalUnits += t; totalSuccess += s;
+                if (t > 0) topicsFound++;
+            });
+
+            // Calculate Overall Score (Average of topic compliances)
+            const overallScore = Math.round(Object.values(filteredData).reduce((a, b) => a + b.compliance, 0) / 9);
+
+            // 1. Update Top KPIs
+            document.getElementById('top-kpi-score').innerText = overallScore + '%';
+            document.getElementById('top-kpi-units').innerText = totalUnits.toLocaleString();
+            document.getElementById('top-kpi-filter').innerText = `${currentTeam} | ${currentPhase === 'ALL' ? 'ALL PHASES' : 'PHASE ' + currentPhase}`;
+            document.getElementById('view-label').innerText = `${currentTeam} (${currentPhase})`;
+
+            // 2. Update Topic List
+            const list = document.getElementById('topic-list');
+            list.innerHTML = '';
+            topicOrder.forEach(tid => {
+                const item = filteredData[tid];
+                const div = document.createElement('div');
+                div.className = 'topic-item';
+                div.innerHTML = `
+                    <div class="topic-info"><h4>${tid} ${topicsConfig[tid]}</h4><p>${item.success}/${item.total} Units</p></div>
+                    <div class="topic-pct" style="color: ${item.compliance >= 81 ? 'var(--accent-emerald)' : 'var(--accent-rose)'}">${item.compliance}%</div>
+                `;
+                list.appendChild(div);
+            });
+
+            // 3. Update Chart
+            if (currentChart) currentChart.destroy();
+            const ctx = document.getElementById('complianceChart').getContext('2d');
+            currentChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: topicOrder,
+                    datasets: [{
+                        label: 'Compliance %',
+                        data: topicOrder.map(tid => filteredData[tid].compliance),
+                        backgroundColor: topicOrder.map(tid => filteredData[tid].compliance >= 81 ? 'rgba(16, 185, 129, 0.4)' : 'rgba(244, 63, 94, 0.4)'),
+                        borderColor: topicOrder.map(tid => filteredData[tid].compliance >= 81 ? '#10b981' : '#f43f5e'),
+                        borderWidth: 2, borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.5)' } },
+                        x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.8)' } }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            // 4. Update Detailed Table
+            const tbody = document.getElementById('analysis-tbody');
+            tbody.innerHTML = '';
+            topicOrder.forEach(tid => {
+                const item = filteredData[tid];
+                const pending = item.total - item.success;
+                const share = totalUnits > 0 ? Math.round((item.total / totalUnits) * 100) : 0;
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td style="font-weight: 700;">${tid} ${topicsConfig[tid]}</td>
+                    <td style="color: var(--accent-emerald); font-weight: 700;">${item.success.toLocaleString()}</td>
+                    <td style="color: var(--accent-rose);">${pending.toLocaleString()}</td>
+                    <td><span style="font-weight: 900;">${item.compliance}%</span></td>
+                    <td><span style="color: var(--text-dim);">${share}%</span></td>
+                    <td><span class="status-badge ${item.compliance >= 81 ? 'badge-pass' : 'badge-fail'}">${item.compliance >= 81 ? 'PASS' : 'FAIL'}</span></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Initialize Team Cards
+        const teamGrid = document.getElementById('team-grid');
+        const teams = ['OVERALL', 'DC', 'Branch', 'HO'];
+        teams.forEach(t => {
+            const card = document.createElement('div');
+            card.className = 'team-card' + (t === 'OVERALL' ? ' active' : '');
+            card.dataset.team = t;
+            card.innerHTML = `<div class="team-name">${t}</div><div class="kpi-label" style="margin:0;">Select Team</div>`;
+            card.onclick = () => {
+                currentTeam = t;
+                document.querySelectorAll('.team-card').forEach(c => c.classList.toggle('active', c.dataset.team === t));
+                updateDashboard();
+            };
+            teamGrid.appendChild(card);
+        });
+
+        // Initialize Phase Tabs
+        document.querySelectorAll('.phase-tab').forEach(tab => {
+            tab.onclick = () => {
+                currentPhase = tab.dataset.phase;
+                document.querySelectorAll('.phase-tab').forEach(t => t.classList.toggle('active', t.dataset.phase === currentPhase));
+                updateDashboard();
+            };
+        });
+
+        updateDashboard();
+
+        // Scroll Logic for Go to Top
+        window.onscroll = () => {
+            const btn = document.getElementById('go-to-top');
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                btn.classList.add('visible');
+            } else {
+                btn.classList.remove('visible');
+            }
+        };
+    </script>
+</body>
+</html>
