@@ -151,6 +151,39 @@
         #go-to-top.visible { opacity: 1; visibility: visible; }
         #go-to-top::after { content: "↑"; font-size: 24px; font-weight: 900; color: #fff; }
 
+        /* Podium Styling */
+        .podium-section { margin-bottom: 40px; }
+        .podium-container {
+            display: flex; justify-content: center; align-items: flex-end;
+            gap: 20px; padding: 20px 0; min-height: 250px;
+        }
+        .podium-card {
+            background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: var(--glass-blur);
+            padding: 20px; border-radius: 20px; text-align: center; position: relative;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 180px;
+        }
+        .rank-badge {
+            position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+            width: 30px; height: 30px; border-radius: 50%; font-size: 12px; font-weight: 900;
+            display: flex; justify-content: center; align-items: center; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+        .podium-rank-1 { height: 220px; order: 2; z-index: 3; animation: float 4s ease-in-out infinite; border-color: #ffd700; background: rgba(255, 215, 0, 0.1); }
+        .podium-rank-2 { height: 180px; order: 1; z-index: 2; border-color: #c0c0c0; background: rgba(192, 192, 192, 0.1); }
+        .podium-rank-3 { height: 160px; order: 3; z-index: 1; border-color: #cd7f32; background: rgba(205, 127, 50, 0.1); }
+
+        .podium-rank-1 .rank-badge { background: linear-gradient(135deg, #ffd700, #b8860b); color: #000; }
+        .podium-rank-2 .rank-badge { background: linear-gradient(135deg, #e5e5e5, #777); color: #000; }
+        .podium-rank-3 .rank-badge { background: linear-gradient(135deg, #cd7f32, #8b4513); color: #fff; }
+
+        .podium-name { font-weight: 900; font-size: 0.9rem; margin-top: 15px; text-transform: uppercase; color: #fff; }
+        .podium-score { font-weight: 900; font-size: 2.2rem; margin-top: 5px; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
         footer { text-align: center; margin-top: 40px; padding: 30px 0; color: var(--text-dim); font-size: 0.75rem; border-top: 1px solid var(--glass-border); }
     </style>
 </head>
@@ -193,6 +226,31 @@
         </div>
 
         <div class="filter-section">
+            <div class="podium-section">
+                <div class="kpi-label">🏆 Top Performance Podium</div>
+                <div class="podium-container" id="podium-container">
+                    <!-- Rank 1 (Gold) -->
+                    <div class="podium-card podium-rank-1" id="rank-1-card">
+                        <div class="rank-badge">1</div>
+                        <div class="podium-name" id="rank-1-name">--</div>
+                        <div class="podium-score" id="rank-1-score" style="color: #ffd700;">--%</div>
+                        <div class="kpi-label" style="font-size: 8px; margin-top: 5px;">Excellent</div>
+                    </div>
+                    <!-- Rank 2 (Silver) -->
+                    <div class="podium-card podium-rank-2" id="rank-2-card">
+                        <div class="rank-badge">2</div>
+                        <div class="podium-name" id="rank-2-name">--</div>
+                        <div class="podium-score" id="rank-2-score" style="color: #c0c0c0;">--%</div>
+                    </div>
+                    <!-- Rank 3 (Bronze) -->
+                    <div class="podium-card podium-rank-3" id="rank-3-card">
+                        <div class="rank-badge">3</div>
+                        <div class="podium-name" id="rank-3-name">--</div>
+                        <div class="podium-score" id="rank-3-score" style="color: #cd7f32;">--%</div>
+                    </div>
+                </div>
+            </div>
+
             <div class="kpi-label">Select Service Team</div>
             <div class="team-grid" id="team-grid"></div>
 
@@ -290,6 +348,44 @@
             document.getElementById('top-kpi-filter').innerText = `${currentTeam} | ${currentPhase === 'ALL' ? 'ALL PHASES' : 'PHASE ' + currentPhase}`;
             document.getElementById('view-label').innerText = `${currentTeam} (${currentPhase})`;
             document.getElementById('last-updated-text').innerText = (typeof LAST_UPDATED !== 'undefined') ? LAST_UPDATED : 'Unknown';
+
+            // Update Podium (Calculate overall per team)
+            const teamRanks = [];
+            Object.keys(DASHBOARD_DATA).forEach(team => {
+                if (team === 'Unknown') return;
+                let t_sum = 0, s_sum = 0;
+                let topicCount = 0;
+                
+                topicOrder.forEach(tid => {
+                    const phases = DASHBOARD_DATA[team][tid] || {};
+                    Object.keys(phases).forEach(phase => {
+                        if (currentPhase !== 'ALL' && phase !== currentPhase) return;
+                        t_sum += phases[phase].total;
+                        s_sum += phases[phase].success;
+                    });
+                });
+                
+                if (t_sum > 0) {
+                    const avg = Math.round((s_sum / t_sum) * 100);
+                    teamRanks.push({ name: team, score: avg });
+                }
+            });
+
+            teamRanks.sort((a, b) => b.score - a.score);
+
+            // Update Podium UI
+            if (teamRanks[0]) {
+                document.getElementById('rank-1-name').innerText = teamRanks[0].name;
+                document.getElementById('rank-1-score').innerText = teamRanks[0].score + '%';
+            }
+            if (teamRanks[1]) {
+                document.getElementById('rank-2-name').innerText = teamRanks[1].name;
+                document.getElementById('rank-2-score').innerText = teamRanks[1].score + '%';
+            }
+            if (teamRanks[2]) {
+                document.getElementById('rank-3-name').innerText = teamRanks[2].name;
+                document.getElementById('rank-3-score').innerText = teamRanks[2].score + '%';
+            }
 
             // Update Topic List
             const list = document.getElementById('topic-list');
