@@ -165,17 +165,17 @@
             display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
         }
         .rank-badge {
-            width: 50px; height: 50px; border-radius: 50%; font-size: 20px; font-weight: 900;
+            width: 70px; height: 70px; border-radius: 50%; 
             display: flex; justify-content: center; align-items: center; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5); margin: 0 auto 15px auto;
+            margin: 0 auto 10px auto; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
         }
         .podium-rank-1 { height: 180px; order: 2; z-index: 3; animation: float 4s ease-in-out infinite; border-color: #ffd700; background: rgba(255, 215, 0, 0.1); }
         .podium-rank-2 { height: 160px; order: 1; z-index: 2; border-color: #c0c0c0; background: rgba(192, 192, 192, 0.1); }
         .podium-rank-3 { height: 140px; order: 3; z-index: 1; border-color: #cd7f32; background: rgba(205, 127, 50, 0.1); }
 
-        .podium-rank-1 .rank-badge { background: linear-gradient(135deg, #ffd700, #b8860b); color: #000; }
-        .podium-rank-2 .rank-badge { background: linear-gradient(135deg, #e5e5e5, #777); color: #000; }
-        .podium-rank-3 .rank-badge { background: linear-gradient(135deg, #cd7f32, #8b4513); color: #fff; }
+        .podium-rank-1 .rank-badge { background: none; box-shadow: none; }
+        .podium-rank-2 .rank-badge { background: none; box-shadow: none; }
+        .podium-rank-3 .rank-badge { background: none; box-shadow: none; }
 
         .podium-name { 
             font-weight: 900; font-size: 0.85rem; margin-top: 15px; text-transform: uppercase; color: #fff;
@@ -316,20 +316,56 @@
                 <div class="podium-container" id="podium-container">
                     <!-- Rank 1 (Gold) -->
                     <div class="podium-card podium-rank-1" id="rank-1-card">
-                        <div class="rank-badge">1</div>
+                        <div class="rank-badge">
+                            <svg width="70" height="70" viewBox="0 0 100 100">
+                                <defs>
+                                    <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+                                        <stop offset="50%" style="stop-color:#FDB931;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#B8860B;stop-opacity:1" />
+                                    </linearGradient>
+                                </defs>
+                                <circle cx="50" cy="50" r="45" fill="url(#gold-grad)" stroke="#fff" stroke-width="2" />
+                                <circle cx="50" cy="50" r="38" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1" stroke-dasharray="2,2" />
+                                <text x="50" y="65" text-anchor="middle" font-size="45" font-weight="900" fill="#fff" style="filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5));">1</text>
+                                <polygon points="50,15 54,25 65,25 56,33 60,45 50,37 40,45 44,33 35,25 46,25" fill="#fff" opacity="0.8" />
+                            </svg>
+                        </div>
                         <div class="podium-name" id="rank-1-name">--</div>
                         <div class="podium-score" id="rank-1-score" style="color: #ffd700;">--%</div>
                         <div class="kpi-label" style="font-size: 8px; margin-top: 5px;">Excellent</div>
                     </div>
                     <!-- Rank 2 (Silver) -->
                     <div class="podium-card podium-rank-2" id="rank-2-card">
-                        <div class="rank-badge">2</div>
+                        <div class="rank-badge">
+                            <svg width="60" height="60" viewBox="0 0 100 100">
+                                <defs>
+                                    <linearGradient id="silver-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#E5E4E2;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#A9A9A9;stop-opacity:1" />
+                                    </linearGradient>
+                                </defs>
+                                <circle cx="50" cy="50" r="45" fill="url(#silver-grad)" stroke="#fff" stroke-width="2" />
+                                <text x="50" y="65" text-anchor="middle" font-size="45" font-weight="900" fill="#fff" style="filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3));">2</text>
+                            </svg>
+                        </div>
                         <div class="podium-name" id="rank-2-name">--</div>
                         <div class="podium-score" id="rank-2-score" style="color: #c0c0c0;">--%</div>
                     </div>
                     <!-- Rank 3 (Bronze) -->
                     <div class="podium-card podium-rank-3" id="rank-3-card">
-                        <div class="rank-badge">3</div>
+                        <div class="rank-badge">
+                            <svg width="55" height="55" viewBox="0 0 100 100">
+                                <defs>
+                                    <linearGradient id="bronze-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#CD7F32;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#8B4513;stop-opacity:1" />
+                                    </linearGradient>
+                                </defs>
+                                <circle cx="50" cy="50" r="45" fill="url(#bronze-grad)" stroke="#fff" stroke-width="2" />
+                                <text x="50" y="65" text-anchor="middle" font-size="45" font-weight="900" fill="#fff" style="filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3));">3</text>
+                            </svg>
+                        </div>
                         <div class="podium-name" id="rank-3-name">--</div>
                         <div class="podium-score" id="rank-3-score" style="color: #cd7f32;">--%</div>
                     </div>
