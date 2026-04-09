@@ -237,9 +237,9 @@
                 <h1>EIA Q2 PERFORMANCE</h1>
                 <p>Interactive Security Audit & Compliance Tracking</p>
             </div>
-            <div class="deadline-badge" style="background: rgba(244, 63, 94, 0.2); padding: 8px 15px; border-radius: 10px; border: 1px solid var(--accent-rose);">
-                <span style="font-size: 10px; font-weight: 900; color: var(--accent-rose); display: block;">DEADLINE</span>
-                <span style="font-weight: 700;">20 May 2026</span>
+            <div class="deadline-badge" style="background: rgba(244, 63, 94, 0.2); padding: 8px 15px; border-radius: 10px; border: 1px solid var(--accent-rose); min-width: 140px; text-align: center;">
+                <span style="font-size: 10px; font-weight: 900; color: var(--accent-rose); display: block;">TIME REMAINING</span>
+                <span id="deadline-timer" style="font-weight: 700; font-variant-numeric: tabular-nums;">--d --h --m --s</span>
             </div>
         </header>
 
@@ -590,6 +590,28 @@
                 btn.classList.remove('visible');
             }
         };
+
+        // Deadline Countdown Logic
+        const deadlineDate = new Date("May 20, 2026 23:59:59").getTime();
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = deadlineDate - now;
+            
+            if (distance < 0) {
+                document.getElementById("deadline-timer").innerHTML = "DEADLINE EXPIRED";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("deadline-timer").innerHTML = 
+                `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
     </script>
 </body>
 </html>
