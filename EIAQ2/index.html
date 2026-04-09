@@ -180,9 +180,18 @@
         .podium-score { font-weight: 900; font-size: 2.2rem; margin-top: 5px; }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
         }
+
+        .trophy-icon {
+            width: 60px; height: 60px; object-fit: contain; margin-bottom: 10px;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+            animation: float 4s ease-in-out infinite;
+        }
+        .podium-rank-1 .trophy-icon { width: 80px; height: 80px; filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.4)); }
+        .podium-rank-2 .trophy-icon { filter: drop-shadow(0 0 12px rgba(192, 192, 192, 0.3)); }
+        .podium-rank-3 .trophy-icon { filter: drop-shadow(0 0 10px rgba(205, 127, 50, 0.3)); }
 
         #go-to-top::after { content: "↑"; font-size: 24px; font-weight: 900; color: #fff; }
         
@@ -313,6 +322,7 @@
                     <!-- Rank 1 (Gold) -->
                     <div class="podium-card podium-rank-1" id="rank-1-card">
                         <div class="rank-badge">1</div>
+                        <img src="assets/gold_trophy.png" class="trophy-icon" alt="Gold Trophy">
                         <div class="podium-name" id="rank-1-name">--</div>
                         <div class="podium-score" id="rank-1-score" style="color: #ffd700;">--%</div>
                         <div class="kpi-label" style="font-size: 8px; margin-top: 5px;">Excellent</div>
@@ -320,12 +330,14 @@
                     <!-- Rank 2 (Silver) -->
                     <div class="podium-card podium-rank-2" id="rank-2-card">
                         <div class="rank-badge">2</div>
+                        <img src="assets/silver_trophy.png" class="trophy-icon" alt="Silver Trophy">
                         <div class="podium-name" id="rank-2-name">--</div>
                         <div class="podium-score" id="rank-2-score" style="color: #c0c0c0;">--%</div>
                     </div>
                     <!-- Rank 3 (Bronze) -->
                     <div class="podium-card podium-rank-3" id="rank-3-card">
                         <div class="rank-badge">3</div>
+                        <img src="assets/bronze_trophy.png" class="trophy-icon" alt="Bronze Trophy">
                         <div class="podium-name" id="rank-3-name">--</div>
                         <div class="podium-score" id="rank-3-score" style="color: #cd7f32;">--%</div>
                     </div>
