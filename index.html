@@ -159,9 +159,10 @@
         }
         .podium-card {
             background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: var(--glass-blur);
-            padding: 20px; border-radius: 20px; text-align: center; position: relative;
+            padding: 20px 15px; border-radius: 20px; text-align: center; position: relative;
             transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            width: 180px;
+            width: 190px;
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
         }
         .rank-badge {
             position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
@@ -176,7 +177,10 @@
         .podium-rank-2 .rank-badge { background: linear-gradient(135deg, #e5e5e5, #777); color: #000; }
         .podium-rank-3 .rank-badge { background: linear-gradient(135deg, #cd7f32, #8b4513); color: #fff; }
 
-        .podium-name { font-weight: 900; font-size: 0.9rem; margin-top: 15px; text-transform: uppercase; color: #fff; }
+        .podium-name { 
+            font-weight: 900; font-size: 0.85rem; margin-top: 15px; text-transform: uppercase; color: #fff;
+            width: 100%; word-break: break-word; line-height: 1.2;
+        }
         .podium-score { font-weight: 900; font-size: 2.2rem; margin-top: 5px; }
 
         @keyframes float {
