@@ -195,6 +195,32 @@
         .trend-down { background: rgba(244, 63, 94, 0.2); color: var(--accent-rose); }
         .trend-stable { background: rgba(255, 255, 255, 0.1); color: var(--text-dim); }
 
+        /* Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Search Input Styling */
+        .table-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+        .search-box {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 8px 15px;
+            color: #fff;
+            font-size: 12px;
+            outline: none;
+            width: 250px;
+            transition: all 0.3s;
+        }
+        .search-box:focus { border-color: var(--accent-blue); background: rgba(255,255,255,0.1); width: 300px; }
+
         footer { text-align: center; margin-top: 40px; padding: 30px 0; color: var(--text-dim); font-size: 0.75rem; border-top: 1px solid var(--glass-border); }
     </style>
 </head>
@@ -219,24 +245,24 @@
 
         <!-- KPI Cards -->
         <div class="kpi-grid">
-            <div class="kpi-card">
+            <div class="kpi-card reveal">
                 <div class="shimmer"></div>
                 <div class="kpi-label">Compliance score</div>
                 <div class="kpi-value" id="top-kpi-score">--%</div>
             </div>
-            <div class="kpi-card">
+            <div class="kpi-card reveal">
                 <div class="shimmer"></div>
                 <div class="kpi-label">units audited</div>
                 <div class="kpi-value" id="top-kpi-units">0</div>
             </div>
-            <div class="kpi-card">
+            <div class="kpi-card reveal">
                 <div class="shimmer"></div>
                 <div class="kpi-label">Applied Filters</div>
                 <div class="kpi-value" id="top-kpi-filter" style="font-size: 1.5rem; padding-top: 15px; color: var(--accent-blue);">OVERALL | ALL PHASES</div>
             </div>
         </div>
 
-        <div class="filter-section">
+        <div class="filter-section reveal">
             <div class="podium-section">
                 <div class="kpi-label">🏆 Top Performance Podium</div>
                 <div class="podium-container" id="podium-container">
@@ -275,20 +301,23 @@
 
         <!-- Main Chart & Stats -->
         <div class="main-content">
-            <div class="chart-container">
+            <div class="chart-container reveal">
                 <div class="filter-badge">Current View: <span id="view-label">Overall</span></div>
                 <div class="kpi-label">Compliance Comparison by Topic (%)</div>
                 <div class="chart-wrapper"><canvas id="complianceChart"></canvas></div>
             </div>
-            <div class="summary-list">
+            <div class="summary-list reveal">
                 <div class="kpi-label" style="margin-bottom: 15px;">Topic Execution</div>
                 <div id="topic-list"></div>
             </div>
         </div>
 
         <!-- Detailed Table -->
-        <div class="analysis-table-container">
-            <div class="kpi-label">Execution Breakdown Table</div>
+        <div class="analysis-table-container reveal">
+            <div class="table-header-flex">
+                <div class="kpi-label">Execution Breakdown Table</div>
+                <input type="text" id="table-search" class="search-box" placeholder="Search Topics (e.g. 1.2, Asset, Pass)...">
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -513,6 +542,29 @@
         });
 
         updateDashboard();
+
+        // Scroll Reveal Logic (Topic 3)
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Live Search Logic (Topic 4)
+        document.getElementById('table-search').addEventListener('input', function(e) {
+            const term = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('#analysis-tbody tr');
+            
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                row.style.display = text.includes(term) ? '' : 'none';
+            });
+        });
 
         // Scroll Logic for Go to Top
         window.onscroll = () => {
