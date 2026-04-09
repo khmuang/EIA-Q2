@@ -221,6 +221,13 @@
         }
         .search-box:focus { border-color: var(--accent-blue); background: rgba(255,255,255,0.1); width: 300px; }
 
+        .reset-btn {
+            background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: #fff;
+            padding: 6px 15px; border-radius: 8px; font-size: 11px; font-weight: 900;
+            cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: all 0.3s;
+        }
+        .reset-btn:hover { background: rgba(244, 63, 94, 0.2); border-color: var(--accent-rose); color: #fff; }
+
         footer { text-align: center; margin-top: 40px; padding: 30px 0; color: var(--text-dim); font-size: 0.75rem; border-top: 1px solid var(--glass-border); }
     </style>
 </head>
@@ -269,6 +276,10 @@
         </div>
 
         <div class="filter-section reveal">
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
+                <div class="kpi-label" style="margin: 0;">Filter Dashboard View</div>
+                <button class="reset-btn" onclick="resetFilters()">↺ Reset All Filters</button>
+            </div>
             <div class="podium-section">
                 <div class="kpi-label">🏆 Top Performance Podium</div>
                 <div class="podium-container" id="podium-container">
@@ -579,6 +590,17 @@
                 updateDashboard();
             };
         });
+
+        function resetFilters() {
+            currentTeam = 'OVERALL';
+            currentPhase = 'ALL';
+            
+            // Update UI Active States
+            document.querySelectorAll('.team-card').forEach(c => c.classList.toggle('active', c.dataset.team === 'OVERALL'));
+            document.querySelectorAll('.phase-tab').forEach(t => t.classList.toggle('active', t.dataset.phase === 'ALL'));
+            
+            updateDashboard();
+        }
 
         updateDashboard();
 
