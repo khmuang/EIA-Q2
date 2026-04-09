@@ -238,11 +238,22 @@
             letter-spacing: 1px;
             box-shadow: 0 0 15px rgba(244, 63, 94, 0.4);
         }
-        .reset-btn:hover { 
-            background: var(--accent-rose); 
-            box-shadow: 0 0 25px rgba(244, 63, 94, 0.7);
-            transform: scale(1.05) translateY(-2px);
+        .reset-btn:hover { background: var(--accent-rose); color: #fff; transform: scale(1.05); }
+
+        .dashboard-link {
+            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); color: #fff;
+            padding: 8px 18px; border-radius: 12px; font-size: 11px; font-weight: 900;
+            text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-bottom: 15px; border-color: var(--accent-blue);
         }
+        .dashboard-link:hover { 
+            background: rgba(30, 64, 175, 0.2); 
+            border-color: var(--accent-blue); 
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+            transform: translateY(-2px);
+        }
+        .dashboard-link i { font-size: 14px; position: relative; top: -1px; }
 
         footer { text-align: center; margin-top: 40px; padding: 30px 0; color: var(--text-dim); font-size: 0.75rem; border-top: 1px solid var(--glass-border); }
     </style>
@@ -257,6 +268,9 @@
     <div class="container">
         <header>
             <div class="header-left">
+                <a href="https://rscsassetsrv02.central.co.th/eia/login.php" target="_blank" class="dashboard-link">
+                    📊 EIA Dashboard Monitoring
+                </a>
                 <h1>EIA Q2 PERFORMANCE</h1>
                 <p>Interactive Security Audit & Compliance Tracking</p>
             </div>
