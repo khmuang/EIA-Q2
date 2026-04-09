@@ -383,7 +383,15 @@
 
             const overallScore = Math.round(Object.values(filteredData).reduce((a, b) => a + b.compliance, 0) / 9);
 
-            document.getElementById('top-kpi-score').innerText = overallScore + '%';
+            const scoreEl = document.getElementById('top-kpi-score');
+            scoreEl.innerText = overallScore + '%';
+            
+            // Apply Dynamic Color and Health Pulse (Topic 5 Refinement)
+            if (overallScore >= 90) scoreEl.style.color = 'var(--accent-emerald)';
+            else if (overallScore >= 70) scoreEl.style.color = 'var(--accent-blue)';
+            else if (overallScore >= 50) scoreEl.style.color = 'var(--accent-amber)';
+            else scoreEl.style.color = 'var(--accent-rose)';
+
             document.getElementById('top-kpi-units').innerText = totalUnits.toLocaleString();
             document.getElementById('top-kpi-filter').innerText = `${currentTeam} | ${currentPhase === 'ALL' ? 'ALL PHASES' : 'PHASE ' + currentPhase}`;
             document.getElementById('view-label').innerText = `${currentTeam} (${currentPhase})`;
