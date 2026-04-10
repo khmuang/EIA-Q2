@@ -1,4 +1,4 @@
-// Automatically generated at 2026-04-10 11:20:08
+// Automatically generated at 2026-04-10 11:35:55
 const DASHBOARD_DATA = {
     "Branch": {
         "1.1": {
@@ -167,8 +167,8 @@ const DASHBOARD_DATA = {
     "HO": {
         "1.1": {
             "Q2": {
-                "total": 14,
-                "success": 14
+                "total": 15,
+                "success": 15
             }
         },
         "1.2": {
@@ -239,14 +239,6 @@ const DASHBOARD_DATA = {
                 "success": 0
             }
         }
-    },
-    "RIS NO Service": {
-        "1.1": {
-            "Q2": {
-                "total": 1,
-                "success": 1
-            }
-        }
     }
 };
-const LAST_UPDATED = '2026-04-10 11:20:08';
+const LAST_UPDATED = '2026-04-10 11:35:55';
