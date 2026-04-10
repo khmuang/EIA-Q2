@@ -3,46 +3,43 @@ import os
 import json
 import datetime
 
-# --- CONFIGURATION ---
-# Script handles both Root and EIAQ2/ execution
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# --- CONFIGURATION (SharePoint Integration) ---
+SHAREPOINT_ROOT = r"D:\Users\Djmanny\Central Group\RIS Endpoint support - Q2"
 
-# Auto-detect location
+# Auto-detect location for output
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 if BASE_DIR.endswith('EIAQ2'):
-    # Running from INSIDE EIAQ2/ subfolder
-    FOLDER_PATH = BASE_DIR
-    OUTPUT_FILE = os.path.join(os.path.dirname(BASE_DIR), 'data.js')
     PROJECT_ROOT = os.path.dirname(BASE_DIR)
 else:
-    # Running from ROOT
-    FOLDER_PATH = os.path.join(BASE_DIR, 'EIAQ2')
-    OUTPUT_FILE = os.path.join(BASE_DIR, 'data.js')
     PROJECT_ROOT = BASE_DIR
+
+OUTPUT_FILE = os.path.join(PROJECT_ROOT, 'data.js')
+ALT_OUTPUT_FILE = os.path.join(PROJECT_ROOT, 'EIAQ2', 'data.js')
 
 # Ensure a copy exists in EIAQ2 as well for consistency
 ALT_OUTPUT_FILE = os.path.join(PROJECT_ROOT, 'EIAQ2', 'data.js')
 
 TOPICS_CONFIG = {
-    "1.1 IT Asset Management.xlsx": {"id": "1.1", "status_col": "Asset update status Y/N", "team_col": "Groups"},
-    "1.2 Install GLPI agent.xlsx": {"id": "1.2", "status_col": "GLPI setup status Y/N", "team_col": "Serviced By"},
-    "2. Update OS.xlsx": {"id": "2", "status_col": "OS update status Y/N", "team_col": "Serviced By"},
-    "3. Require Restart.xlsx": {"id": "3", "status_col": "Restart update Y/N", "team_col": "Serviced By"},
-    "4. Antivirus Installation.xlsx": {"id": "4", "status_col": "AV update Y/N", "team_col": "Serviced By"},
-    "5. Built-in Firewall Enablement.xlsx": {"id": "5", "status_col": "Firewall update Y/N", "team_col": "Serviced By"},
-    "6. Client join domain.xlsx": {"id": "6", "status_col": "Join domain update Y/N", "team_col": "Serviced By"},
-    "7. Privileged User management.xlsx": {"id": "7", "status_col": "Std admin update Y/N", "team_col": "Serviced By"},
-    "8. Document Request.xlsx": {"id": "8", "status_col": "Document request update Y/N", "team_col": "Serviced By"}
+    "1.1 IT Asset Management.xlsx": {"id": "1.1", "subfolder": "1.1 IT Asset Management", "status_col": "Asset update status Y/N", "team_col": "Groups"},
+    "1.2 Install GLPI agent.xlsx": {"id": "1.2", "subfolder": "1.2 Install GLPI agent", "status_col": "GLPI setup status Y/N", "team_col": "Serviced By"},
+    "2. Update OS.xlsx": {"id": "2", "subfolder": "2. Update OS", "status_col": "OS update status Y/N", "team_col": "Serviced By"},
+    "3. Require Restart.xlsx": {"id": "3", "subfolder": "3. Require Restart", "status_col": "Restart update Y/N", "team_col": "Serviced By"},
+    "4. Antivirus Installation.xlsx": {"id": "4", "subfolder": "4. Antivirus Installation", "status_col": "AV update Y/N", "team_col": "Serviced By"},
+    "5. Built-in Firewall Enablement.xlsx": {"id": "5", "subfolder": "5. Built-in Firewall Enablement", "status_col": "Firewall update Y/N", "team_col": "Serviced By"},
+    "6. Client join domain.xlsx": {"id": "6", "subfolder": "6. Client join domain", "status_col": "Join domain update Y/N", "team_col": "Serviced By"},
+    "7. Privileged User management.xlsx": {"id": "7", "subfolder": "7. Privileged User management", "status_col": "Std admin update Y/N", "team_col": "Serviced By"},
+    "8. Document Request.xlsx": {"id": "8", "subfolder": "8. Document Request", "status_col": "Document request update Y/N", "team_col": "Serviced By"}
 }
 
 def sync():
     print(f"[START] Starting Dashboard Data Sync...")
-    print(f"[PATH] Looking for Excel files in: {FOLDER_PATH}")
+    print(f"[PATH] Looking for Excel files in SharePoint: {SHAREPOINT_ROOT}")
     multi_matrix = {}
     
     for filename, mapping in TOPICS_CONFIG.items():
-        file_path = os.path.join(FOLDER_PATH, filename)
+        file_path = os.path.join(SHAREPOINT_ROOT, mapping['subfolder'], filename)
         if not os.path.exists(file_path):
-            print(f"⚠️  Skipping missing file: {filename}")
+            print(f"⚠️  Skipping missing file (SharePoint): {file_path}")
             continue
         
         try:
