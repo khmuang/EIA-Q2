@@ -1,20 +1,46 @@
-# Security & PDPA
-.env
+# Security: Block sensitive data formats
 *.xlsx
-prepared_data.json
-extract_data.py
-local_sync.py
-setup_db.sql
-update_dashboard.bat
+*.xls
+*.csv
+*.sql
+*.db
+*.json
+!data.js
+!logs.json
+!bu_ranking_cache.json
 
-# Python
+# Security: Block developer/server files
+*.php
+*.pyc
 __pycache__/
-*.py[cod]
-*$py.class
-venv/
-.venv/
+node_modules/
 .env
 
-# OS
-.DS_Store
-Thumbs.db
+# Workspace Isolation: Block legacy/unauthorized folders
+APIupdate/
+EIA dashboard/
+EIA report by weekly/
+EIA file/
+EIA_Q2/
+EPM_Com/
+Executive_Summary_V25_Mar2026/
+License_monitor/
+backup/
+chats/
+tests/
+
+# Exceptions: Allow Dashboard files
+!index.html
+!data.js
+!assets/
+!run_sync.bat
+!update_dashboard.py
+!EIAQ2/
+!EIAQ2/**
+!Q2readme.md
+!README.md
+!.gitignore
+
+# Block Excel inside EIAQ2 too (redundant but safe)
+EIAQ2/*.xlsx
+EIAQ2/*.xls
