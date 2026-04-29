@@ -1,4 +1,4 @@
-// Automatically generated at 2026-04-29 13:30:04
+// Automatically generated at 2026-04-29 16:05:13
 const DASHBOARD_DATA = {
     "Branch": {
         "1.1": {
@@ -40,11 +40,11 @@ const DASHBOARD_DATA = {
         "4": {
             "Q1": {
                 "total": 117,
-                "success": 1
+                "success": 4
             },
             "Q2": {
                 "total": 72,
-                "success": 14
+                "success": 29
             }
         },
         "5": {
@@ -194,33 +194,33 @@ const DASHBOARD_DATA = {
             },
             "Q2": {
                 "total": 182,
-                "success": 3
+                "success": 4
             }
         },
         "4": {
             "Q2": {
                 "total": 67,
-                "success": 62
+                "success": 63
             }
         },
         "5": {
             "Q1": {
                 "total": 18,
-                "success": 10
+                "success": 14
             },
             "Q2": {
                 "total": 58,
-                "success": 51
+                "success": 55
             }
         },
         "6": {
             "Q1": {
                 "total": 10,
-                "success": 7
+                "success": 8
             },
             "Q2": {
                 "total": 21,
-                "success": 16
+                "success": 18
             }
         },
         "7": {
@@ -241,4 +241,4 @@ const DASHBOARD_DATA = {
         }
     }
 };
-const LAST_UPDATED = '2026-04-29 13:30:04';
+const LAST_UPDATED = '2026-04-29 16:05:13';
