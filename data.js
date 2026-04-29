@@ -1,4 +1,4 @@
-// Automatically generated at 2026-04-29 16:30:04
+// Automatically generated at 2026-04-29 16:46:07
 const DASHBOARD_DATA = {
     "Branch": {
         "1.1": {
@@ -37,34 +37,44 @@ const DASHBOARD_DATA = {
                 "success": 60
             }
         },
+        "4": {
+            "Q1": {
+                "total": 117,
+                "success": 9
+            },
+            "Q2": {
+                "total": 72,
+                "success": 37
+            }
+        },
         "5": {
             "Q1": {
                 "total": 320,
-                "success": 0
+                "success": 3
             },
             "Q2": {
                 "total": 739,
-                "success": 28
+                "success": 38
             }
         },
         "6": {
             "Q1": {
                 "total": 21,
-                "success": 0
+                "success": 1
             },
             "Q2": {
                 "total": 145,
-                "success": 2
+                "success": 8
             }
         },
         "7": {
             "Q1": {
                 "total": 237,
-                "success": 1
+                "success": 7
             },
             "Q2": {
                 "total": 625,
-                "success": 14
+                "success": 74
             }
         },
         "8": {
@@ -107,14 +117,24 @@ const DASHBOARD_DATA = {
                 "success": 24
             }
         },
-        "5": {
+        "4": {
             "Q1": {
-                "total": 21,
+                "total": 6,
                 "success": 0
             },
             "Q2": {
+                "total": 27,
+                "success": 13
+            }
+        },
+        "5": {
+            "Q1": {
+                "total": 21,
+                "success": 1
+            },
+            "Q2": {
                 "total": 22,
-                "success": 0
+                "success": 4
             }
         },
         "6": {
@@ -130,11 +150,11 @@ const DASHBOARD_DATA = {
         "7": {
             "Q1": {
                 "total": 127,
-                "success": 0
+                "success": 2
             },
             "Q2": {
                 "total": 106,
-                "success": 0
+                "success": 6
             }
         },
         "8": {
@@ -177,6 +197,12 @@ const DASHBOARD_DATA = {
                 "success": 119
             }
         },
+        "4": {
+            "Q2": {
+                "total": 67,
+                "success": 63
+            }
+        },
         "5": {
             "Q1": {
                 "total": 18,
@@ -200,11 +226,11 @@ const DASHBOARD_DATA = {
         "7": {
             "Q1": {
                 "total": 78,
-                "success": 27
+                "success": 34
             },
             "Q2": {
                 "total": 509,
-                "success": 221
+                "success": 258
             }
         },
         "8": {
@@ -215,4 +241,4 @@ const DASHBOARD_DATA = {
         }
     }
 };
-const LAST_UPDATED = '2026-04-29 16:30:04';
+const LAST_UPDATED = '2026-04-29 16:46:07';
