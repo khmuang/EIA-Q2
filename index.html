@@ -585,6 +585,16 @@
             // Update Chart
             if (currentChart) currentChart.destroy();
             const ctx = document.getElementById('complianceChart').getContext('2d');
+            
+            // Create Gradients
+            const emeraldGrad = ctx.createLinearGradient(0, 0, 0, 400);
+            emeraldGrad.addColorStop(0, 'rgba(16, 185, 129, 0.8)');
+            emeraldGrad.addColorStop(1, 'rgba(16, 185, 129, 0.05)');
+
+            const roseGrad = ctx.createLinearGradient(0, 0, 0, 400);
+            roseGrad.addColorStop(0, 'rgba(244, 63, 94, 0.8)');
+            roseGrad.addColorStop(1, 'rgba(244, 63, 94, 0.05)');
+
             currentChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -592,18 +602,39 @@
                     datasets: [{
                         label: 'Compliance %',
                         data: topicOrder.map(tid => filteredData[tid].compliance),
-                        backgroundColor: topicOrder.map(tid => filteredData[tid].compliance >= 81 ? 'rgba(16, 185, 129, 0.4)' : 'rgba(244, 63, 94, 0.4)'),
+                        backgroundColor: topicOrder.map(tid => filteredData[tid].compliance >= 81 ? emeraldGrad : roseGrad),
                         borderColor: topicOrder.map(tid => filteredData[tid].compliance >= 81 ? '#10b981' : '#f43f5e'),
-                        borderWidth: 2, borderRadius: 8
+                        borderWidth: 2, 
+                        borderRadius: 12,
+                        hoverBorderWidth: 6,
+                        hoverBorderColor: topicOrder.map(tid => filteredData[tid].compliance >= 81 ? '#064e3b' : '#7f1d1d'),
                     }]
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false,
+                    animation: { duration: 2000, easing: 'easeOutQuart' },
                     scales: {
-                        y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.5)' } },
-                        x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.8)' } }
+                        y: { 
+                            beginAtZero: true, max: 100, 
+                            grid: { color: 'rgba(255,255,255,0.05)', drawBorder: false }, 
+                            ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 10, weight: 'bold' } } 
+                        },
+                        x: { 
+                            grid: { display: false }, 
+                            ticks: { color: 'rgba(255,255,255,0.8)', font: { size: 11, weight: '900' } } 
+                        }
                     },
-                    plugins: { legend: { display: false } }
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                            titleFont: { size: 14, weight: 'bold' },
+                            bodyFont: { size: 13 },
+                            padding: 12,
+                            cornerRadius: 10,
+                            displayColors: false
+                        }
+                    }
                 }
             });
 
