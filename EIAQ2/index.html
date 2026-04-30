@@ -259,6 +259,59 @@
         }
         .dashboard-link i { font-size: 14px; position: relative; top: -1px; }
 
+        /* Timeline Styling */
+        .timeline-section {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: var(--glass-blur);
+            padding: 30px;
+            border-radius: 24px;
+            margin-top: 30px;
+        }
+        .timeline-header { margin-bottom: 25px; }
+        .timeline-container {
+            position: relative;
+            padding-left: 40px;
+            margin-top: 20px;
+        }
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 5px;
+            bottom: 5px;
+            width: 2px;
+            background: var(--glass-border);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 35px;
+            transition: all 0.3s ease;
+        }
+        .timeline-item:hover { transform: translateX(10px); }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -40px;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--accent-blue);
+            border: 3px solid #0f172a;
+            z-index: 1;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+        }
+        .timeline-item.past::before { background: var(--accent-emerald); box-shadow: 0 0 10px rgba(16, 185, 129, 0.5); }
+        .timeline-item:last-child { margin-bottom: 0; }
+        .timeline-item h3 { font-size: 1.1rem; font-weight: 700; color: #fff; }
+        .timeline-item time {
+            font-size: 0.75rem; font-weight: 900; color: var(--accent-blue);
+            text-transform: uppercase; display: block; margin-bottom: 8px; letter-spacing: 1px;
+        }
+        .timeline-item.past time { color: var(--accent-emerald); }
+        .timeline-item p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; }
+
         footer { text-align: center; margin-top: 40px; padding: 30px 0; color: var(--text-dim); font-size: 0.75rem; border-top: 1px solid var(--glass-border); }
     </style>
 </head>
@@ -416,6 +469,58 @@
                 </thead>
                 <tbody id="analysis-tbody"></tbody>
             </table>
+        </div>
+
+        <!-- Timeline Section -->
+        <div class="timeline-section reveal">
+            <div class="timeline-header">
+                <div class="kpi-label">📅 Implementation Roadmap</div>
+                <h2 style="font-size: 1.8rem; font-weight: 900; margin-top: 5px;">EIA Q2 Tracking Schedule</h2>
+            </div>
+            
+            <div class="timeline-container">
+                <!-- Event 1 -->
+                <div class="timeline-item past">
+                    <time>April 8, 2026</time>
+                    <h3>EIA Q2 Launch Announcement</h3>
+                    <p>Announce the start of EIA Q2 and distribute relevant information to all concerned teams.</p>
+                </div>
+                
+                <!-- Event 2 -->
+                <div class="timeline-item past">
+                    <time>April 14, 2026</time>
+                    <h3>Q2 Tracking Dashboard Setup</h3>
+                    <p>Develop a tracking dashboard to monitor EIA Q2 progress and track issue resolution status for each topic.</p>
+                </div>
+                
+                <!-- Event 3 -->
+                <div class="timeline-item">
+                    <time>April 30, 2026</time>
+                    <h3>1st Issue Resolution Summary</h3>
+                    <p>Prepare and summarize the first round of issue resolution results.</p>
+                </div>
+                
+                <!-- Event 4 -->
+                <div class="timeline-item">
+                    <time>May 15, 2026</time>
+                    <h3>2nd Issue Resolution Summary</h3>
+                    <p>Prepare and summarize the second round of issue resolution results.</p>
+                </div>
+                
+                <!-- Event 5 -->
+                <div class="timeline-item">
+                    <time>May 25, 2026</time>
+                    <h3>Final EIA Q2 Issue Resolution Summary</h3>
+                    <p>Compile the final summary of all issue resolutions for EIA Q2.</p>
+                </div>
+                
+                <!-- Event 6 -->
+                <div class="timeline-item">
+                    <time>June 1, 2026</time>
+                    <h3>Final Report Submission</h3>
+                    <p>Submit the complete EIA Q2 issue resolution report to all relevant teams.</p>
+                </div>
+            </div>
         </div>
 
         <footer>
