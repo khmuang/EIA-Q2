@@ -314,6 +314,50 @@
         .timeline-item.past p { color: rgba(16, 185, 129, 0.7); }
         .timeline-item p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; }
 
+        /* Spotlight & Summary Styling */
+        .summary-report-section { margin-top: 50px; padding-top: 30px; border-top: 1px dashed var(--glass-border); }
+        .summary-card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 25px 0; }
+        .summary-info-card { 
+            background: var(--glass-bg); border: 1px solid var(--glass-border); 
+            padding: 25px; border-radius: 20px; backdrop-filter: var(--glass-blur);
+        }
+        .summary-info-card h4 { color: var(--accent-blue); margin-bottom: 15px; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; }
+        .summary-info-card ul { list-style: none; padding: 0; margin-top: 10px; }
+        .summary-info-card li { 
+            margin-bottom: 15px; font-size: 0.92rem; color: #fff; 
+            line-height: 1.6; position: relative; padding-left: 20px;
+        }
+        .summary-info-card li::before { 
+            content: '•'; color: var(--accent-blue); font-weight: bold; 
+            position: absolute; left: 0; top: 0;
+        }
+        
+        .ranking-item { background: rgba(255,255,255,0.03); padding: 12px; border-radius: 12px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.05); }
+        .ranking-item.gold { border-color: #ffd70033; background: rgba(255, 215, 0, 0.05); }
+        .rank-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+        .rank-name { font-weight: 700; font-size: 0.95rem; }
+        .rank-val { font-weight: 900; color: var(--accent-emerald); }
+        .rank-desc { font-size: 0.8rem; color: var(--text-dim); }
+
+        .critical-box { 
+            background: rgba(244, 63, 94, 0.1); border: 1px solid rgba(244, 63, 94, 0.2); 
+            padding: 20px; border-radius: 15px; margin-top: 20px;
+        }
+        .critical-box h4 { color: var(--accent-rose); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+
+        /* Spotlight Styling (from preview) */
+        .spotlight-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .spotlight-card { 
+            background: var(--glass-bg); border: 1px solid var(--glass-border); 
+            backdrop-filter: var(--glass-blur); padding: 25px; border-radius: 20px; 
+            text-align: center; transition: all 0.3s ease; position: relative; overflow: hidden;
+        }
+        .spotlight-card:hover { transform: translateY(-5px); border-color: var(--accent-blue); background: rgba(255,255,255,0.08); }
+        .spotlight-icon { font-size: 2.5rem; margin-bottom: 15px; }
+        .spotlight-val { font-size: 2.8rem; font-weight: 900; color: #fff; line-height: 1; margin-bottom: 5px; }
+        .spotlight-title { font-size: 0.8rem; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 1px; }
+        .spotlight-trend { font-size: 0.75rem; color: var(--accent-emerald); font-weight: 700; margin-top: 10px; display: inline-block; background: rgba(16, 185, 129, 0.1); padding: 2px 10px; border-radius: 10px; }
+
         footer { text-align: center; margin-top: 40px; padding: 30px 0; color: var(--text-dim); font-size: 0.75rem; border-top: 1px solid var(--glass-border); }
     </style>
 </head>
@@ -503,7 +547,7 @@
                 </div>
                 
                 <!-- Event 4 -->
-                <div class="timeline-item">
+                <div class="timeline-item past">
                     <time>May 15, 2026</time>
                     <h3>2nd Issue Resolution Summary</h3>
                     <p>Prepare and summarize the second round of issue resolution results.</p>
@@ -521,6 +565,87 @@
                     <time>June 1, 2026</time>
                     <h3>Final Report Submission</h3>
                     <p>Submit the complete EIA Q2 issue resolution report to all relevant teams.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Latest Summary Report Section -->
+        <div class="summary-report-section reveal">
+            <div class="kpi-label" style="margin-bottom: 10px; color: var(--accent-blue);">📢 Latest Update</div>
+            <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 25px;">สรุปไฮไลท์รายงาน EIA Q2 - ครั้งที่ 2 <span style="font-size: 1rem; opacity: 0.6; font-weight: 400;">(15 พฤษภาคม 2026)</span></h2>
+
+            <!-- Visual Spotlight Cards -->
+            <div class="spotlight-grid">
+                <div class="spotlight-card">
+                    <div class="shimmer"></div>
+                    <div class="spotlight-icon">🚀</div>
+                    <div class="spotlight-val">48.0%</div>
+                    <div class="spotlight-title">Global Compliance</div>
+                    <div class="spotlight-trend">📈 +17.8% since Round 1</div>
+                </div>
+                <div class="spotlight-card">
+                    <div class="shimmer"></div>
+                    <div class="spotlight-icon">🌟</div>
+                    <div class="spotlight-val">82%</div>
+                    <div class="spotlight-title">Topic 3: Restart</div>
+                    <div class="spotlight-trend">✅ New Green Achievement</div>
+                </div>
+                <div class="spotlight-card">
+                    <div class="shimmer"></div>
+                    <div class="spotlight-icon">🏆</div>
+                    <div class="spotlight-val">+12%</div>
+                    <div class="spotlight-title">HO Team Growth</div>
+                    <div class="spotlight-trend">🥇 Leading Progress</div>
+                </div>
+            </div>
+
+            <div class="summary-card-grid">
+                <!-- Executive Overview -->
+                <div class="summary-info-card">
+                    <h4>ภาพรวม (Executive Overview)</h4>
+                    <ul>
+                        <li>คะแนนเฉลี่ยรวม (Global Compliance) ขยับขึ้นจาก 30.2% เป็น <b>48%</b> (เพิ่มขึ้นถึง 17.8%)</li>
+                        <li>Topic 3 (Require Restart) พุ่งสูงขึ้นเป็น <b>82%</b> กลายเป็นหัวข้อสีเขียวลำดับที่ 3 ต่อจาก Asset และ Agent</li>
+                    </ul>
+                </div>
+
+                <!-- Team Ranking -->
+                <div class="summary-info-card">
+                    <h4>ความคืบหน้าแยกตามทีม (Ranking)</h4>
+                    <div class="ranking-item gold">
+                        <div class="rank-header">
+                            <span class="rank-name">🥇 อันดับ 1: ทีม HO</span>
+                            <span class="rank-val">42%</span>
+                        </div>
+                        <div class="rank-desc">ก้าวกระโดดจาก 30% โดยเฉพาะ Topic 7 ที่ทำได้ถึง 94%</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-header">
+                            <span class="rank-name">🥈 อันดับ 2: ทีม DC</span>
+                            <span class="rank-val">15%</span>
+                        </div>
+                        <div class="rank-desc">พุ่งขึ้นจาก 8% เคลียร์งาน Antivirus และ Restart ได้ดีมาก</div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="rank-header">
+                            <span class="rank-name">🥉 อันดับ 3: ทีม Branch</span>
+                            <span class="rank-val">8.6%</span>
+                        </div>
+                        <div class="rank-desc">ขยับขึ้นจาก 8% ยังมีความท้าทายเรื่องปริมาณเครื่องจำนวนมาก</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Critical Focus Box -->
+            <div class="critical-box">
+                <h4>⚠️ หัวข้อที่ต้องเร่งมือ (Critical Focus)</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div style="font-size: 0.9rem; color: #fff;">
+                        <b style="color: var(--accent-rose);">Topic 2 (Update OS):</b> ยังคงอยู่ที่ 4% เนื่องจากเป็นงานที่ต้องใช้เวลาและทรัพยากรสูง
+                    </div>
+                    <div style="font-size: 0.9rem; color: #fff;">
+                        <b style="color: var(--accent-amber);">Topic 5 (Firewall):</b> ขยับขึ้นเล็กน้อยมาอยู่ที่ 10%
+                    </div>
                 </div>
             </div>
         </div>
